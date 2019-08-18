@@ -15,6 +15,9 @@ from datetime import datetime
 import logging
 import logging.config
 
+##Frequency analysis packages
+from scipy.signal import periodogram
+
 logger = logging.getLogger('MainLogger')
 logging.config.fileConfig('conf/logging.conf')
 
@@ -37,7 +40,9 @@ def extract_residuos(L):
     return radio(x,y)
 
 def extract_features_of(L,ts=None):
+    f, Pxx = periodogram(L, fs=100.0) 
     return [
+# Time features
     samp_ent(L)
     ,mean_abs_val(L)
     ,L.var()
@@ -52,10 +57,11 @@ def extract_features_of(L,ts=None):
     ,iemg(L)
     ,ssi(L)
     ,zc(L)
-#    ,ssc(L)
-#    ,wamp(L)
-#    ,p_max(L)
-#    ,f_max(L)
+    ,ssc(L)
+    ,wamp(L)
+# Frequency features
+    ,p_max(Pxx,L)
+    ,f_max(Pxx)
 #    ,mp(L)
 #    ,tp(L)
 #    ,meanfreq(L)
