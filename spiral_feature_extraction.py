@@ -49,7 +49,7 @@ def extract_features_of(L,ts=None):
     ,higuchi(L)
     ,mfl(L)
     ,myo(L,ts)
-#    ,iemg(L)
+    ,iemg(L)
 #    ,ssi(L)
 #    ,zc(L)
 #    ,ssc(L)

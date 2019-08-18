@@ -87,6 +87,7 @@ def myo(L,ts):
 
 ### Integrated EMG (IEMG)
 def iemg(L):
+    logger.info("Calculation of Integrated EMG (IEMG)")
     return abs(L).sum()
 
 ### Simple square EMG (SSI)
