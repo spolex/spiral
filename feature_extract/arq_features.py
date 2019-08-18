@@ -125,6 +125,24 @@ def ssc(L):
     to_vert_mask, from_vert_mask = masks(L)
     return sum(to_vert_mask)+sum(from_vert_mask)
     
+### Main peak amplitude (Pmax)
+def p_max(psd,L):
+    """
+    Maximum peak of frequency
+    """
+    logger.info("Main peak amplitude (Pmax)")
+    peaks, _ = find_peaks(psd)
+    p_max = max(L[peaks])
+    return p_max
+
+### Main peak frequency (Fmax)
+def f_max(PSD):
+    """
+    Frequency of the max peak
+    """
+    peaks, _ = find_peaks(PSD)
+    return max(PSD[peaks])
+
 ### Mean Frequency (MNF)
 def meanfreq(x, fs=100.0, secs=4):
     """
@@ -141,21 +159,6 @@ def meanfreq(x, fs=100.0, secs=4):
     pwr = np.sum(P)
     mnfreq = np.dot(P, f.T)/pwr
     return mnfreq
-
-### Main peak amplitude (Pmax)
-def p_max(L):
-    peaks, _ = find_peaks(L)
-    return max(L[peaks])
-
-### Main peak frequency (Fmax)
-def f_max(L, fs=100.0):
-    """
-    //TODO implementar numpy
-    Frequency of the max peak
-    """
-    f, Pxx_den = periodogram(L, fs) 
-    peaks, _ = find_peaks(Pxx_den)
-    return Pxx_den[np.where(L == max(L[peaks]))][0]
 
 ### Mean Power
 def mp(L,fs=100.0):
