@@ -57,13 +57,18 @@ def root_mean_square(L):
 
 ### higuchi fractal dimension
 def higuchi(L):
-    logger.info("Fractal Dimension")
+    logger.info("higuchi Fractal Dimension")
     return higuchi_fd(L, kmax=5)
 
 ### Wilson amplitude (WAMP)    
 def wamp(L):
+    logger.info("Wilson amplitude (WAMP)")
     epsilon=L.mean()
-    return np.array(abs(L[:-1] - L [1:])>epsilon,dtype=int).sum()  
+    a=L[:-1].values
+    b=L[1:].values
+    diff=abs(a-b)
+    amp=diff>epsilon
+    return amp.sum()  
 
 ### Maximum fractal length (MFL)
 def mfl(L):
@@ -116,6 +121,7 @@ def masks(L):
 
 ### Slope sign change (SSC)
 def ssc(L):
+    logger.info("Slope sign change (SSC)")
     to_vert_mask, from_vert_mask = masks(L)
     return sum(to_vert_mask)+sum(from_vert_mask)
     
