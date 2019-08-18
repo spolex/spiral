@@ -16,6 +16,7 @@ def main():
     if os.path.exists(filename):
         df = load(filename,dataset,mode)
         print(df.shape)
+        print(df[:,-4])
     else: print(os.path.exists(filename))
         
 

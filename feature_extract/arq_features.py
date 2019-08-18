@@ -57,7 +57,7 @@ def root_mean_square(L):
 
 ### higuchi fractal dimension
 def higuchi(L):
-    logger.info("Calculation of Fractal Dimension")
+    logger.info("Fractal Dimension")
     return higuchi_fd(L, kmax=5)
 
 ### Wilson amplitude (WAMP)    
@@ -67,7 +67,7 @@ def wamp(L):
 
 ### Maximum fractal length (MFL)
 def mfl(L):
-    logger.info("Calculation of Maximum fractal length (MFL)")
+    logger.info("Maximum fractal length (MFL)")
     return log(wl(L)) 
 
 ### Myopulse percentage rate (MYO)
@@ -76,7 +76,7 @@ def myo(L,ts):
     Description: Percentage of time where the signal is bigger than two times the mean
     """
     assert len(ts) > 0 ,"Myopulse percentage rate needs timestamp"
-    logger.info("Calculation of Myopulse percentage rate (MYO)")
+    logger.info("Myopulse percentage rate (MYO)")
     N = len(L)
     dos_epsilon = 2*L.mean()
     biggers =L[ L>dos_epsilon ]
@@ -87,11 +87,12 @@ def myo(L,ts):
 
 ### Integrated EMG (IEMG)
 def iemg(L):
-    logger.info("Calculation of Integrated EMG (IEMG)")
+    logger.info("Integrated EMG (IEMG)")
     return abs(L).sum()
 
 ### Simple square EMG (SSI)
 def ssi(L):
+    logger.info("Simple square EMG (SSI)")
     return (L**2).sum()
 
 ### Zero crossing (ZC)
@@ -99,6 +100,7 @@ def zc(L, epsilon=None):
     """
     Description: The number of times in which the signal crosses its mean
     """
+    logger.info("Zero crossing (ZC)")
     if(epsilon == None):
         epsilon = L.mean()
     return len(L[L>epsilon])
