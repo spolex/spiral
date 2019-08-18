@@ -1,4 +1,7 @@
+# spyder and python local directories
 .spyproject/
 __pycache__/
+
+# exclude everything
 log/*
 output/*
