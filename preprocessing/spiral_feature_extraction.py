@@ -19,7 +19,8 @@ from scipy.signal import periodogram
 logger = logging.getLogger('MainLogger')
 
 def extract_radio(L):
-    return radio(L['x'],L['y'])
+    rho, phi = cart2pol(L['x'],L['y'])
+    return radio(rho, phi)
 
 def extract_residuos(L):
     x =  residuos(L['x'])
@@ -27,16 +28,17 @@ def extract_residuos(L):
     return radio(x,y)
 
 def extract_features_of(L,ts=None):
-    f, Pxx = periodogram(L, fs=100.0) 
+    f, Pxx = periodogram(L, fs=1.0) 
+    L = L.values
     return [
 # Time features
     samp_ent(L)
     ,mean_abs_val(L)
-    ,L.var()
+    ,np.var(L)
     ,root_mean_square(L)
     ,log_detector(L)
     ,wl(L)
-    ,L.std()
+    ,np.nanstd(L)
     ,diff_abs_std(L)
     ,higuchi(L)
     ,mfl(L)
@@ -83,7 +85,7 @@ def extract_features(filenames_file,root_ct,root_et,h5file):
     logger.debug("Saving CT's residual feature extraction in "+h5file)
     save(h5file,'rd_ct_fe',rd_ct_fe)
     
-#   radio calculation
+#   polar radio calculation
     r_ct = list(map(extract_radio,ct))
     logger.debug("CT's radio calculation %d",len(r_ct))
 

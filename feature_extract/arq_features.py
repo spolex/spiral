@@ -93,10 +93,20 @@ def dct(X):
 def radio(x,y):
     return (x**2+y**2)**(1/2)
 
-def residuos(x,l=17):
+def residuos(x,l=30):
     # TODO https://inst.eecs.berkeley.edu/~ee123/sp16/Sections/JPEG_DCT_Demo.html 
     idct_x = idct(dct(x), l=l)
     return x-idct_x
+
+def cart2pol(x, y):
+    rho = np.sqrt(x**2 + y**2)
+    phi = np.arctan2(y, x)
+    return(rho, phi)
+
+def pol2cart(rho, phi):
+    x = rho * np.cos(phi)
+    y = rho * np.sin(phi)
+    return(x, y)
 
 # sample entropy
 def samp_ent(r):
@@ -120,7 +130,7 @@ def diff_abs_std(L):
 
 ## log detector
 def log_detector(L):
-    return L.std()**(mean_abs_val(L))
+    return np.nanstd(L)**(mean_abs_val(L))
 
 ### Waveform length (WL)
 def wl(L):
@@ -140,8 +150,8 @@ def higuchi(L):
 def wamp(L):
     logger.info("Wilson amplitude (WAMP)")
     epsilon=L.mean()
-    a=L[:-1].values
-    b=L[1:].values
+    a=L[:-1]
+    b=L[1:]
     diff=abs(a-b)
     amp=diff>epsilon
     return amp.sum()  
