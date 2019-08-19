@@ -27,9 +27,10 @@ def extract_residuos(L):
     y =  residuos(L['y'])
     return radio(x,y)
 
-def extract_features_of(L,ts=None):
+def extract_features_of(L,ts):
     f, Pxx = periodogram(L, fs=1.0) 
     L = L.values
+    ts = ts.values
     return [
 # Time features
     samp_ent(L)

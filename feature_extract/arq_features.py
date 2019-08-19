@@ -93,7 +93,10 @@ def dct(X):
 def radio(x,y):
     return (x**2+y**2)**(1/2)
 
-def residuos(x,l=30):
+def residuos(x,l=17):
+    """
+    l: int number of coefficients to reconstruct original ts
+    """
     # TODO https://inst.eecs.berkeley.edu/~ee123/sp16/Sections/JPEG_DCT_Demo.html 
     idct_x = idct(dct(x), l=l)
     return x-idct_x
@@ -130,7 +133,9 @@ def diff_abs_std(L):
 
 ## log detector
 def log_detector(L):
-    return np.nanstd(L)**(mean_abs_val(L))
+    N = len(L)
+    f = (1/N)*np.log(np.abs(L)).sum()
+    return np.nanstd(L)**(f)
 
 ### Waveform length (WL)
 def wl(L):
