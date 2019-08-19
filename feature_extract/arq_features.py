@@ -9,16 +9,57 @@ from entropy import sample_entropy,higuchi_fd
 import numpy as np
 from scipy.signal import find_peaks,periodogram,welch
 from scipy.stats import moment,kurtosis,skew
-from math import log
+from math import log,cos,pi
 
 import logging
 
 logger = logging.getLogger('MainLogger')
 
+def idct(Xk,l=None):
+    N = len(Xk)
+    if l != None:
+        assert N > l, "l can not be bigger than len of Xk"
+    l = l if l != None else N
+    
+    Xk = Xk[:l]
+    X = np.zeros(N)
+    for n in range(N):
+        k = np.arange(l)
+        c = np.zeros(k.shape)
+        c[0] = (1/N)**(1/2)
+        c[1:] = (2/N)**(1/2)
+        f = (pi/N)*(n+(1/2))*k
+        logger.debug("Length of array function is %s",len(f))
+        cs = np.cos(f)
+        logger.debug("Length of array cosin is %s",len(cs))
+        xn = c*Xk*cs
+        logger.debug("Length of xn is %s",len(xn))
+        rdo = xn.sum()
+        logger.debug("Value %s is %s", n, rdo)
+        X[n]=rdo
+    return X
+
+def dct(X):
+    N = len(X)
+    
+    Xk = np.zeros(X.shape)
+    for k in range(N):
+        n = np.arange(N)
+        c = (1/N)**(1/2) if k == 0 else (2/N)**(1/2)
+        f = (pi/N)*(n+(1/2))*k
+        logger.debug("Length of array function is %s",len(f))
+        cs = np.cos(f)
+        logger.debug("Length of array cosin is %s",len(cs))
+        xk = c*X*cs
+        logger.debug("Length of xk is %s",len(xk))
+        Xk[k]=xk.sum()
+    return Xk
+    
+
 def radio(x,y):
     return (x**2+y**2)**(1/2)
 
-def residuos(x):
+def residuos(x,coef=17):
     # TODO https://inst.eecs.berkeley.edu/~ee123/sp16/Sections/JPEG_DCT_Demo.html 
     idct_x = idct(dct(x, norm='ortho'), norm='ortho')
     return x-idct_x
