@@ -19,6 +19,7 @@ def radio(x,y):
     return (x**2+y**2)**(1/2)
 
 def residuos(x):
+    # TODO https://inst.eecs.berkeley.edu/~ee123/sp16/Sections/JPEG_DCT_Demo.html 
     idct_x = idct(dct(x, norm='ortho'), norm='ortho')
     return x-idct_x
 
@@ -140,8 +141,20 @@ def f_max(PSD):
     """
     Frequency of the max peak
     """
+    logger.info("Main peak frequency (Fmax)")
     peaks, _ = find_peaks(PSD)
     return max(PSD[peaks])
+
+### Mean Power
+def mp(PSD):
+    logger.info("Mean Power (MP)")
+#    f, Pxx_den = periodogram(L, fs) 
+    return PSD.mean()
+
+### Total Power
+def tp(PSD):
+    logger.info("Total Power (TP)")
+    return PSD.sum()
 
 ### Mean Frequency (MNF)
 def meanfreq(x, fs=100.0, secs=4):
@@ -150,6 +163,7 @@ def meanfreq(x, fs=100.0, secs=4):
         Sampling frequency of the x time series in units of Hz. Defaults to 100.0.
         Estimates the mean normalized frequency of the power spectrum
     """
+    logger.info("Mean Frequency (MNF)")
     win = secs * fs
     f, Pxx_den = welch(x, fs, nperseg=win)                                                    
     Pxx_den = np.reshape(Pxx_den, (1,-1) ) 
@@ -158,19 +172,9 @@ def meanfreq(x, fs=100.0, secs=4):
     P = Pxx_den * width
     pwr = np.sum(P)
     mnfreq = np.dot(P, f.T)/pwr
-    return mnfreq
+    return mnfreq[0,0]
 
-### Mean Power
-def mp(L,fs=100.0):
-    f, Pxx_den = periodogram(L, fs) 
-    return Pxx_den.mean()
-
-### Total Power
-def tp(L,fs=100.0):
-    f, Pxx_den = periodogram(L, fs) 
-    return Pxx_den.sum()
-
-### Meadian frequency (MDF)
+### Median frequency (MDF)
 #Estimates the median normalized frequency of the power spectrum
 def medfreq(x, fs=100.0, secs=4):
     """
@@ -178,31 +182,32 @@ def medfreq(x, fs=100.0, secs=4):
         Sampling frequency of the x time series in units of Hz. Defaults to 100.0.
         Estimates the median normalized frequency of the power spectrum
     """
+    logger.info("Median Frequency (MDF)")
     win = secs * fs
     f, Pxx_den = welch(x, fs, nperseg=win)                                                    
     Pxx_den = np.reshape(Pxx_den, (1,-1) ) 
     width = np.tile(f[1]-f[0], (1, Pxx_den.shape[1]))
     f = np.reshape(f, (1, -1))
     P = Pxx_den * width
-    return P[int(len(P)/2)]
+    return np.median(P)
 
 ### Standard Sesviation of the power (std)
-def std_psd(L,fs=100.0):
-    f, Pxx_den = periodogram(L, fs) 
+def std_psd(Pxx_den):
+    logger.info("Standard Sesviation of the power (std)")
     return Pxx_den.std()
 
 ### 1st, 2nd, 3rd spectral moments (SM1, SM2, SM3)
-def mmnt(L,order=1,fs=100.0):
-    f, Pxx_den = periodogram(L, fs) 
+def mmnt(Pxx_den,order=1):
+    logger.info("1st, 2nd, 3rd spectral moments (SM1, SM2, SM3)")
     return moment(Pxx_den, moment=order)
 
-def kurt(L,fs=100.0):
-    f, Pxx_den = periodogram(L, fs) 
-    return kurtosis(Pxx_den)
+def kurt(Pxx_den):
+     logger.info("Kurtosis of the power spectrum")
+     return kurtosis(Pxx_den)
 
-def skw(L,fs=100.0):
-    f, Pxx_den = periodogram(L, fs) 
-    return skew(Pxx_den)
+def skw(Pxx_den):
+     logger.info("Skewness of the power spectrum")
+     return skew(Pxx_den)
 
 ### Autocorrelate
 def autocorr(L):

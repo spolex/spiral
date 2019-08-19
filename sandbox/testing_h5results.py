@@ -7,16 +7,18 @@ Created on Sun Aug 18 16:17:18 2019
 import os
 from interfaces.reader_and_writer import load
 
-filename="../output/archimedean.h5"
-
-dataset='rd_ct_fe'
+filename="../output/archimedean_ds.h5"
 mode='r'
 
 def main():
     if os.path.exists(filename):
-        df = load(filename,dataset,mode)
-        print(df.shape)
-        print(df[:,-1])
+        train_rd = load(filename,'train_rd',mode)
+        train_r = load(filename,'train_r',mode)
+        labels = load(filename,'labels',mode)
+        print(train_rd[:,-1])
+        print(train_r[:,-1])
+        print(labels)
+        print(train_rd.shape,train_r.shape,labels.shape)
     else: print(os.path.exists(filename))
         
 
