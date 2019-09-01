@@ -12,3 +12,4 @@ output/*
 
 # exclude resources for now
 resources/
+sandbox/
