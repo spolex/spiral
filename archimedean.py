@@ -11,6 +11,7 @@ from datetime import datetime
 import time
 
 from preprocessing.spiral_feature_extraction import extract_features
+from preprocessing.datasets_preparation import dataset_prep
 
 #TODO extract properties to properties file
 logger = logging.getLogger('MainLogger')
@@ -30,6 +31,7 @@ def main():
     start_time = time.time()
     extract_features(filenames_file,root_ct,root_et,h5file)
     elapsed_time = time.time() - start_time
+    dataset_prep()
     logger.info("Elapsed time extracting features %s",elapsed_time)
     
 if __name__ == "__main__":
