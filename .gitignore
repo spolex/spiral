@@ -11,5 +11,5 @@ log/*
 output/*
 
 # exclude resources for now
-resources/
+resources/envs/.*
 sandbox/
