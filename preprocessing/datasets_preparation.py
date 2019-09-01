@@ -14,17 +14,16 @@ filename_ds="../output/archimedean_ds.h5"
 ##filename_labels="../output/archimedean.h5"
 
 
-controls=27
-et=23
-ct_rd='rd_ct_fe'
-ct_r='r_ct_fe'
-ct_labels = np.ones(27).astype(np.dtype('>i4') )
-et_rd='rd_et_fe'
-et_r='r_et_fe'
-et_labels = np.full(23,2).astype(np.dtype('>i4') )
-mode= 'r'
-
 def dataset_prep():
+    controls=27
+    et=23
+    ct_rd='rd_ct_fe'
+    ct_r='r_ct_fe'
+    ct_labels = np.ones(controls).astype(np.dtype('>i4') )
+    et_rd='rd_et_fe'
+    et_r='r_et_fe'
+    et_labels = np.full(et,2).astype(np.dtype('>i4') )
+    mode= 'r'
     if os.path.exists(filename):
         df_rd = load(filename,ct_rd,mode)
         df_rd_et = load(filename,et_rd,mode)
@@ -36,5 +35,3 @@ def dataset_prep():
         save(filename_ds, 'train_r', train_r)
         labels = np.hstack((ct_labels,et_labels))
         save(filename_ds, 'labels', labels)
-        
-dataset_prep()

@@ -7,13 +7,9 @@ Created on Sun Aug 18 19:29:40 2019
 [LDA](https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html)
 
 """
-
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from interfaces.reader_and_writer import load
 
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import f_regression,f_classif,chi2,mutual_info_classif,SelectFpr
-from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 
 from sklearn.metrics import confusion_matrix
@@ -22,7 +18,6 @@ from sklearn.model_selection import cross_val_score
 
 from sklearn.neighbors import KNeighborsClassifier
 
-import numpy as np
 filename="../output/archimedean_ds.h5"
 mode='r'
 
