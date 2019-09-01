@@ -1,1 +1,1 @@
-name = "arq_test_suite"
+name = "test"
