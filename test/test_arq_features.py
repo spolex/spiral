@@ -7,9 +7,10 @@ Created on Mon Aug 19 08:25:59 2019
 
 from feature_extract.arq_features import log_detector
 import numpy as np
+import unittest
 
 
-class TestStringMethods(unittest.TestCase):
+class TestFeatureExtraction(unittest.TestCase):
 
     def test_len(self):
         l = np.arange(1, 11)
@@ -27,5 +28,5 @@ class TestStringMethods(unittest.TestCase):
         self.assertFalse(log_detector(l) > 7.)
         l[-1] = -11
         # 20.763409211116233
-        assertTrue(log_detector(l) > 20.)
+        self.assertTrue(log_detector(l) > 20.)
         self.assertFalse(log_detector(l) > 21.)

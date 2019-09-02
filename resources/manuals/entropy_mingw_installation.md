@@ -8,6 +8,12 @@ Python: 3.7.2
 
 Package: [entropy](https://pypi.org/project/entropy/) 0.11 
 
+https://github.com/raphaelvallat/entropy
+https://raphaelvallat.com/entropy/build/html/index.html
+https://pypi.org/project/EntroPy-Package/
+
+
+
 Operating System: __Win10__ x64.
 
 ### Step by step guide

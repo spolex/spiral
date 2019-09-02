@@ -1,8 +1,6 @@
 Vagrant.configure(2) do |config|
   
-  config.vm.box = "bento/ubuntu-19.04"
-  config.vm.box_version = "201906.18.0"
-  config.vm.box_check_update  = false
+  config.vm.box = "continuumio/miniconda3"
   config.vm.synced_folder ".", "/home/vagrant/workspace"
   
   #config.vm.network "public_network"
@@ -38,34 +36,20 @@ Vagrant.configure(2) do |config|
     echo "instalando CURL..."
     sudo apt-get install -y curl
 	
-    #conda
-    echo "conda, python 3, jupyter, numpy, pandas, scikit-learn, matplotlib and tensorflow..."
-    curl -sO https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
-    sudo sh Anaconda3-5.0.1-Linux-x86_64.sh -b -p /home/vagrant/anaconda3
-    export PATH="/home/vagrant/anaconda3/bin:$PATH"
-    echo 'export PATH="/home/vagrant/anaconda3/bin:$PATH"' >> /home/vagrant/.bashrc
+    # conda
+    #echo "conda, python 3, jupyter, numpy, pandas, scikit-learn, matplotlib and tensorflow..."
+    #curl -sO https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
+    #sudo sh Anaconda3-5.0.1-Linux-x86_64.sh -b -p /home/vagrant/anaconda3
+    #export PATH="/home/vagrant/anaconda3/bin:$PATH"
+    #echo 'export PATH="/home/vagrant/anaconda3/bin:$PATH"' >> /home/vagrant/.bashrc
 
-    conda create -n elekin --clone="/home/vagrant/anaconda3" tensorflow
-
-    conda activate elekin
-	
-    conda update conda -y
-    conda install spyder -y
-    conda install jupyter -y
-    conda install numpy -y
-    conda install pandas -y
-    conda install scikit-learn -y
-    conda install matplotlib -y
-	
-	  pip install --upgrade pip
-	  pip install entropy
-
-    conda deactivate
+    # create elekin environment
+    conda create --name elekin -f "/home/vagrant/workspace/env.yml"
 
   SHELL
   config.vm.provider :virtualbox do |vb|
         # Don't boot with headless mode
-        vb.gui = true
+        #vb.gui = true
         # Customize VM name
         vb.name = "vagrant-elekin"
 
