@@ -40,7 +40,7 @@ filter = ReliefF(n_features_to_select=5, n_neighbors=3)
 # Dimension reduction https://stackabuse.com/implementing-lda-in-python-with-scikit-learn/
 
 # predictive model
-clf = SVC(kernel='rbf', gamma='auto', C=10-1)
+clf = SVC(kernel='rbf', gamma=0.2, C=10**4)
 
 # make pipeline
 pipe = make_pipeline(filter, clf)

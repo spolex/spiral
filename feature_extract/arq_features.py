@@ -15,7 +15,6 @@ from math import log, pi
 from functools import partial
 import time
 
-
 import logging
 
 logger = logging.getLogger('MainLogger')
@@ -23,11 +22,11 @@ logger = logging.getLogger('MainLogger')
 
 def idct_vec(n, Xk, l, N):
     """
-
-    :param n:
-    :param Xk:
-    :param l:
-    :param N:
+    idct auxiliar function
+    :param n: scalar
+    :param Xk: 1-N dimensional array
+    :param l: 1-N dimensional array
+    :param N: scalar
     :return:
     """
     start_time = time.time()
@@ -49,10 +48,10 @@ def idct_vec(n, Xk, l, N):
 
 def idct(Xk, l=None):
     """
-
-    :param Xk:
-    :param l:
-    :return:
+    Inverse Discrete Cosine Transformation
+    :param Xk: 1-N dimensional array
+    :param l: scalar number of coefficients
+    :return: 1-N dimensional array
     """
     start_time = time.time()
     N = len(Xk)
@@ -70,11 +69,11 @@ def idct(Xk, l=None):
 
 def dct_vect(k, N, X):
     """
-
-    :param k:
-    :param N:
-    :param X:
-    :return:
+    Discrete Cosine Transformation auxiliar function
+    :param k: scalar
+    :param N: scalar
+    :param X: 1-N dimensional array
+    :return: 1-N dimensional array
     """
     start_time = time.time()
     n = np.arange(N)
@@ -95,9 +94,9 @@ def dct_vect(k, N, X):
 
 def dct(X):
     """
-
-    :param X:
-    :return:
+    Discrete Cosine Transformation
+    :param X: 1N dimensional array
+    :return: 1N dimensional array
     """
     start_time = time.time()
     N = len(X)
@@ -123,24 +122,24 @@ def dct(X):
 
 def radio(x, y):
     """
-
-    :param x:
-    :param y:
+    Radius (euclidean distance)
+    :param x: x coordinate
+    :param y: y coordinate
     :return:
     """
     start_time = time.time()
     r = (x ** 2 + y ** 2) ** (1 / 2)
     elapsed_time = time.time() - start_time
-    logger.debug("Elapsed time to calculate radio(x,y) is %s", elapsed_time)
+    logger.debug("Elapsed time to calculate radius(x,y) is %s", elapsed_time)
     return r
 
 
 def residuos(x, l=17):
     """
     # TODO https://inst.eecs.berkeley.edu/~ee123/sp16/Sections/JPEG_DCT_Demo.html
-    :param x:
-    :param l:
-    :return:
+    :param x: 1-N dimensional array
+    :param l: number of coefficients to reconstruct origonal array
+    :return: 1-N dimensional array
     """
     start_time = time.time()
     idct_x = idct(dct(x), l=l)
@@ -160,8 +159,8 @@ def cart2pol(x, y):
     rho = np.sqrt(x ** 2 + y ** 2)
     phi = np.arctan2(y, x)
     elapsed_time = time.time() - start_time
-    logger.debug("Elapsed time to transformate from cartesian coordinates to polar coordinates is %s", elapsed_time)
-    return (rho, phi)
+    logger.debug("Elapsed time to transform from cartesian coordinates to polar coordinates is %s", elapsed_time)
+    return rho, phi
 
 
 def pol2cart(rho, phi):
@@ -179,7 +178,6 @@ def pol2cart(rho, phi):
     return (x, y)
 
 
-# sample entropy
 def samp_ent(r):
     """
     https://sampen.readthedocs.io/en/stable/#documentation
@@ -194,11 +192,11 @@ def samp_ent(r):
     return se[len(se) - 1][1]
 
 
-# mean absolute value
 def mean_abs_val(L):
     """
-    :param L:
-    :return:
+    Mean Absolute Value (MAV)
+    :param L: 1-N dimensional array
+    :return: scalar
     """
     logger.info("mean absolute value")
     start_time = time.time()
@@ -209,12 +207,11 @@ def mean_abs_val(L):
     return mav
 
 
-### Difference Absolute standard deviation (AAC)
 def diff_abs_std(L):
     """
-
-    :param L:
-    :return:
+    Difference Absolute standard deviation (AAC)
+    :param L: 1-N dimensional array
+    :return: scalar
     """
     start_time = time.time()
     N = len(L)
@@ -230,144 +227,167 @@ def diff_abs_std(L):
     return aac
 
 
-## log detector
 def log_detector(L):
     """
-
-    :param L:
-    :return:
+    Log Detector (LD)
+    :param L: 1-N dimesional array
+    :return: scalar
     """
+    start = time.time()
     N = len(L)
     f = (1 / N) * np.log(np.abs(L)).sum()
-    return np.nanstd(L) ** (f)
+    ld = np.nanstd(L) ** (f)
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculateLog Detector (LD) is %s", elapsed_time)
+    return ld
 
 
-### Waveform length (WL)
 def wl(L):
     """
-
+    Waveform length (WL)
     :param L:
     :return:
     """
-    return sum(abs(np.diff(L)))
+    start = time.time()
+    w = sum(abs(np.diff(L)))
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Waveform length (WL) is %s", elapsed_time)
+    return w
 
 
-### Root mean square
 def root_mean_square(L):
     """
-
-    :param L:
-    :return:
+    Root Mean Square
+    :param L: 1-N dimensional array
+    :return: scalar
     """
+    start = time.time()
     N = len(L)
-    return ((1 / N) * L ** 2).sum()
+    rme = ((1 / N) * L ** 2).sum()
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Root Mean Square is %s", elapsed_time)
+    return rme
 
 
-### higuchi fractal dimension
 def higuchi(L):
     """
-
+    Higuchi's Fractal Dimension (hfd)
     :param L:
     :return:
     """
-    if logger.getEffectiveLevel() == logging.DEBUG:
-        start_time = time.time()
-        h = hfda.measure(L, 5)
-        elapsed_time = time.time() - start_time
-        logger.info("Elapsed time to calculate higuchi fractal dimension is %s", elapsed_time)
-        return h
-    else:
-        logger.info("higuchi Fractal Dimension")
-        return hfda.measure(L, 5)
+    start_time = time.time()
+    h = hfda.measure(L, 5)
+    elapsed_time = time.time() - start_time
+    logger.info("Elapsed time to calculate higuchi fractal dimension is %s", elapsed_time)
+    logger.info("Higuchi's Fractal Dimension")
+    return h
 
 
-### Wilson amplitude (WAMP)
-def wamp(L):
+def wamp(l):
     """
-
-    :param L:
-    :return:
+    Wilson amplitude (WAMP)
+    :param l: 1-N dimensional array
+    :return: scalar
     """
+    start = time.time()
     logger.info("Wilson amplitude (WAMP)")
-    epsilon = L.mean()
-    a = L[:-1]
-    b = L[1:]
+    epsilon = l.mean()
+    a = l[:-1]
+    b = l[1:]
     diff = abs(a - b)
     amp = diff > epsilon
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Wilson amplitude (WAMP) value is %s", elapsed_time)
     return amp.sum()
 
 
-### Maximum fractal length (MFL)
-def mfl(L):
+def mfl(l):
     """
-
-    :param L:
-    :return:
+    Maximum fractal length (MFL)
+    :param l: 1N dimensional array
+    :return: scalar
     """
+    start = time.time()
     logger.info("Maximum fractal length (MFL)")
-    return log(wl(L))
+    mxfl = log(wl(l))
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Maximum fractal length (MFL) value is %s", elapsed_time)
+    return mxfl
 
 
-### Myopulse percentage rate (MYO)
 def myo(L, ts):
     """
-    Percentage of time where the signal is bigger than two times the mean
+    Myopulse percentage rate (MYO) Percentage of time where the signal is bigger than two times the mean
     :param L:
     :param ts:
     :return:
     """
+    start = time.time()
     assert len(ts) > 0, "Myopulse percentage rate needs timestamp"
     logger.info("Myopulse percentage rate (MYO)")
     N = len(L)
     dos_epsilon = 2 * L.mean()
     biggers = L[L > dos_epsilon]
     logger.debug("Myopulse times rate (MYO) %s", len(biggers))
-    myo = len(biggers) / N
-    logger.debug("Myopulse percentage rate (MYO) %s", myo)
-    return myo
+    my = len(biggers) / N
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Myopulse percentage rate (MYO) value is %s", elapsed_time)
+    logger.debug("Myopulse percentage rate (MYO) %s", my)
+    return my
 
 
-### Integrated EMG (IEMG)
 def iemg(L):
     """
 
     :param L:
     :return:
     """
+    start = time.time()
     logger.info("Integrated EMG (IEMG)")
-    return abs(L).sum()
+    mg = abs(L).sum()
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Integrated EMG (IEMG) value is %s", elapsed_time)
+    return mg
 
 
-### Simple square EMG (SSI)
 def ssi(L):
     """
-
+    Simple square EMG (SSI)
     :param L:
     :return:
     """
+    start = time.time()
     logger.info("Simple square EMG (SSI)")
-    return (L ** 2).sum()
+    rdo = (L ** 2).sum()
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Simple square EMG (SSI) value is %s", elapsed_time)
+    return rdo
 
 
-### Zero crossing (ZC)
-def zc(L, epsilon=None):
+def zc(l, epsilon=None):
+    """
+    Zero crossing (ZC): The number of times in which the signal crosses its mean
+    :param l: 1-N dimensional array
+    :param epsilon: crossing barrier, if None the mean of l is being calculated
+    :return: scalar Zero crossing (ZC)
+    """
+    start = time.time()
+    logger.info("Zero crossing (ZC)")
+    if epsilon is None:
+        epsilon = l.mean()
+    c = len(l[l > epsilon])
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Zero crossing (ZC) value is %s", elapsed_time)
+    return c
+
+
+def masks(l):
     """
 
-    :param L:
-    :param epsilon:
+    :param l: 1-N dimensional array
     :return:
     """
-    """
-    Description: The number of times in which the signal crosses its mean
-    """
-    logger.info("Zero crossing (ZC)")
-    if (epsilon == None):
-        epsilon = L.mean()
-    return len(L[L > epsilon])
-
-
-def masks(L):
-    d = np.diff(L)
+    d = np.diff(l)
     dd = np.diff(d)
     # Mask of locations where graph goes to vertical or horizontal, depending on vec
     to_mask = ((d[:-1] != 0) & (d[:-1] == -dd))
@@ -376,58 +396,81 @@ def masks(L):
     return to_mask, from_mask
 
 
-### Slope sign change (SSC)
-def ssc(L):
+def ssc(l):
+    """
+    Slope sign change (SSC)
+    :param l: 1-N dimensional array
+    :return: scalar representing Slope Sign Change (SSC)
+    """
+    start = time.time()
     logger.info("Slope sign change (SSC)")
-    to_vert_mask, from_vert_mask = masks(L)
-    return sum(to_vert_mask) + sum(from_vert_mask)
+    to_vert_mask, from_vert_mask = masks(l)
+    ss = sum(to_vert_mask) + sum(from_vert_mask)
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Slope sign change (SSC) value is %s", elapsed_time)
+    return ss
 
 
-### Main peak amplitude (Pmax)
-def p_max(psd, L):
+def p_max(psd, l):
     """
-    Maximum peak of frequency
+    Maximum peak of frequency (Pmax)
+    :param psd: Estimate power spectral density
+    :param l: Origin data of psd
+    :return:
     """
+    start = time.time()
     logger.info("Main peak amplitude (Pmax)")
     peaks, _ = find_peaks(psd)
-    p_max = max(L[peaks])
-    return p_max
+    pmx = max(l[peaks])
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Maximum peak of frequency (Pmax) value is %s", elapsed_time)
+    return pmx
 
 
-### Main peak frequency (Fmax)
-def f_max(PSD):
+def f_max(psd):
     """
     Frequency of the max peak
-    """
-    logger.info("Main peak frequency (Fmax)")
-    peaks, _ = find_peaks(PSD)
-    return max(PSD[peaks])
-
-
-### Mean Power
-def mp(PSD):
-    """
-
-    :param PSD:
+    :param psd:
     :return:
     """
+    start = time.time()
+    logger.info("Main peak frequency (Fmax)")
+    peaks, _ = find_peaks(psd)
+    fmx = max(psd[peaks])
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Main peak frequency (Fmax) value is %s", elapsed_time)
+    return fmx
+
+
+def mp(psd):
+    """
+    Mean Power (MP)
+    :param psd:
+    :return:
+    """
+    start = time.time()
     logger.info("Mean Power (MP)")
     #    f, Pxx_den = periodogram(L, fs)
-    return PSD.mean()
+    mp = psd.mean()
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Mean Power (MP) value is %s", elapsed_time)
+    return mp
 
 
-### Total Power
-def tp(PSD):
+def tp(psd):
     """
-
-    :param PSD:
+    Total Power (TP)
+    :param psd:
     :return:
     """
+    start = time.time()
     logger.info("Total Power (TP)")
-    return PSD.sum()
+    s = psd.sum()
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Total Power (TP) value is %s", elapsed_time)
+    return s
 
 
-### Mean Frequency (MNF)
 def meanfreq(x, fs=100.0, secs=4):
     """
     Sampling frequency of the x time series in units of Hz. Defaults to 100.0.
@@ -438,20 +481,21 @@ def meanfreq(x, fs=100.0, secs=4):
     :param secs:
     :return:
     """
+    start = time.time()
     logger.info("Mean Frequency (MNF)")
     win = secs * fs
-    f, Pxx_den = welch(x, fs, nperseg=win)
-    Pxx_den = np.reshape(Pxx_den, (1, -1))
-    width = np.tile(f[1] - f[0], (1, Pxx_den.shape[1]))
+    f, pxx_den = welch(x, fs, nperseg=win)
+    pxx_den = np.reshape(pxx_den, (1, -1))
+    width = np.tile(f[1] - f[0], (1, pxx_den.shape[1]))
     f = np.reshape(f, (1, -1))
-    P = Pxx_den * width
+    P = pxx_den * width
     pwr = np.sum(P)
     mnfreq = np.dot(P, f.T) / pwr
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Mean Frequency (MNF) value is %s", elapsed_time)
     return mnfreq[0, 0]
 
 
-### Median frequency (MDF)
-# Estimates the median normalized frequency of the power spectrum
 def medfreq(x, fs=100.0, secs=4):
     """
     Sampling frequency of the x time series in units of Hz. Defaults to 100.0.
@@ -461,60 +505,76 @@ def medfreq(x, fs=100.0, secs=4):
     :param secs:
     :return:
     """
+    start = time.time()
     logger.info("Median Frequency (MDF)")
     win = secs * fs
-    f, Pxx_den = welch(x, fs, nperseg=win)
-    Pxx_den = np.reshape(Pxx_den, (1, -1))
-    width = np.tile(f[1] - f[0], (1, Pxx_den.shape[1]))
-    f = np.reshape(f, (1, -1))
-    P = Pxx_den * width
-    return np.median(P)
+    f, pxx_den = welch(x, fs, nperseg=win)
+    pxx_den = np.reshape(pxx_den, (1, -1))
+    width = np.tile(f[1] - f[0], (1, pxx_den.shape[1]))
+    P = pxx_den * width
+    median = np.median(P)
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Median Frequency (MDF) value is %s", elapsed_time)
+    return median
 
 
-### Standard Sesviation of the power (std)
-def std_psd(Pxx_den):
+def std_psd(pxx_den):
     """
-
+    Standard Sesviation of the power (std)
     :param Pxx_den:
     :return:
     """
+    start = time.time()
     logger.info("Standard Sesviation of the power (std)")
-    return Pxx_den.std()
+    s = pxx_den.std()
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Standard Sesviation of the power (std) value is %s", elapsed_time)
+    return s
 
 
-### 1st, 2nd, 3rd spectral moments (SM1, SM2, SM3)
 def mmnt(Pxx_den, order=1):
     """
-
+    1st, 2nd, 3rd spectral moments (SM1, SM2, SM3)
     :param Pxx_den:
     :param order:
     :return:
     """
+    start = time.time()
     logger.info("1st, 2nd, 3rd spectral moments (SM1, SM2, SM3)")
-    return moment(Pxx_den, moment=order)
+    mm = moment(Pxx_den, moment=order)
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate moment value is %s", elapsed_time)
+    return mm
 
 
 def kurt(Pxx_den):
     """
-
+    Kurtosis of the power spectrum
     :param Pxx_den:
     :return:
     """
+    start = time.time()
     logger.info("Kurtosis of the power spectrum")
-    return kurtosis(Pxx_den)
+    kt = kurtosis(Pxx_den)
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate kurtosis value is %s", elapsed_time)
+    return kt
 
 
 def skw(Pxx_den):
     """
-
+    Skewness of the power spectrum
     :param Pxx_den:
     :return:
     """
+    start = time.time()
     logger.info("Skewness of the power spectrum")
-    return skew(Pxx_den)
+    sk = skew(Pxx_den)
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate skewness value is %s", elapsed_time)
+    return sk
 
 
-### Autocorrelate
 def autocorr(L):
     """
     3 firsts coefficients of the autocorrelation
@@ -522,5 +582,25 @@ def autocorr(L):
     :param L:
     :return:
     """
+    start = time.time()
     result = np.correlate(L, L, mode='full')
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate autorrelation value is %s", elapsed_time)
     return result[result.size // 2:][:3]
+
+
+def derivative(l, order=1):
+    """
+    The gradient is computed using second order accurate central differences in the interior points and either first
+    or second order accurate one-sides (forward or backwards) differences at the boundaries.
+    The returned gradient hence has the same shape as the input array.
+    :param l:
+    :param order:
+    :return:
+    """
+    start = time.time()
+    logger.info("Derivative of order %s", order)
+    gr = np.gradient(l, edge_order=order)
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate derivative value is %s", elapsed_time)
+    return gr
