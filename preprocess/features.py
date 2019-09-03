@@ -14,6 +14,7 @@ from scipy.stats import moment, kurtosis, skew
 from math import log, pi
 from functools import partial
 import time
+from pyentrp import entropy as e
 
 import logging
 
@@ -338,7 +339,7 @@ def myo(L, ts):
 
 def iemg(L):
     """
-
+    Integrated EMG (IEMG)
     :param L:
     :return:
     """
@@ -450,7 +451,6 @@ def mp(psd):
     """
     start = time.time()
     logger.info("Mean Power (MP)")
-    #    f, Pxx_den = periodogram(L, fs)
     mp = psd.mean()
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Mean Power (MP) value is %s", elapsed_time)
@@ -604,3 +604,42 @@ def derivative(l, order=1):
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate derivative value is %s", elapsed_time)
     return gr
+
+
+def shannon_entrp(l):
+    """
+    Shannon entropy
+    :param l:
+    :return:
+    """
+    start = time.time()
+    se = e.shannon_entropy(l)
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Shannon entropy value is %s", elapsed_time)
+    return se
+
+
+def perm_entrp(l):
+    """
+    Permutation entropy
+    :param l:
+    :return:
+    """
+    start = time.time()
+    se = e.permutation_entropy(l)
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Permutation entropy value is %s", elapsed_time)
+    return se
+
+
+def multi_entrp(l):
+    """
+    Multiscale entropy
+    :param l:
+    :return:
+    """
+    start = time.time()
+    me = e.multiscale_entropy(l)
+    elapsed_time = time.time() - start
+    logger.debug("Elapsed time to calculate Multiscale entropy value is %s", elapsed_time)
+    return me

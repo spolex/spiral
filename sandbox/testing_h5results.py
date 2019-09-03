@@ -7,8 +7,8 @@ Created on Sun Aug 18 16:17:18 2019
 import os
 from interfaces.reader_and_writer import load
 
-filename="../output/archimedean_ds.h5"
-mode='r'
+filename = "../output/archimedean_ds.h5"
+mode = 'r'
 
 def main():
     if os.path.exists(filename):

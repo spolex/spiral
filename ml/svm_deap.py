@@ -7,52 +7,51 @@ Created on Sun Aug 18 19:29:40 2019
 [LDA](https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html)
 
 """
-from time import time
 from interfaces.reader_and_writer import load
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 from sklearn.pipeline import make_pipeline
 from skrebate import ReliefF
-from sklearn import preprocessing
-
+from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
+import numpy as np
 
 filename = "../output/archimedean_ds.h5"
 mode = 'r'
 
 # load data
 X = load(filename, 'train_rd', mode)
-X = preprocessing.scale(X)
 # X = np.delete(X,4,axis=1)
 # label preparation
 y = load(filename, 'labels', mode)
 
 # prepare datasets for training and test
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=38, shuffle=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=0, shuffle=True)
 
 # feature selection
 # matlab https://www.mathworks.com/help/stats/relieff.html
 # A sklearn-compatible Python implementation of ReBATE, a suite of Relief-based feature selection algorithms.
 # https://github.com/EpistasisLab/scikit-rebate
-filter = ReliefF(n_features_to_select=5, n_neighbors=3)
-#filter = SelectKBest(chi2, k=6)
+filter = ReliefF(n_features_to_select=8, n_neighbors=3)
 
+clf = SVC()
 
-
-# As was the case with PCA, we need to perform feature scaling for LDA too. Execute the following script to do so
-# Dimension reduction https://stackabuse.com/implementing-lda-in-python-with-scikit-learn/
-
-# predictive model
-clf = SVC(kernel='rbf', gamma=1000000000.0, C=31622.776601683792)
+paramgrid = {"svc__kernel": ["rbf"],
+             "svc__C": np.logspace(-5, 5, num=25, base=10),
+             "svc__gamma": np.logspace(-9, 0, num=25, base=10)}
 
 # make pipeline
 pipe = make_pipeline(filter, clf)
-pipe.fit(X_train, y_train)
 
+cv = GridSearchCV(pipe, paramgrid, cv=5)
+cv.fit(X_train, y_train)
+
+print(cv.best_params_)
+print(cv.best_score_)
 
 #make predictions
-y_pred = pipe.predict(X_test)
-y_train_pred = pipe.predict(X_train)
+y_pred = cv.predict(X_test)
+y_train_pred = cv.predict(X_train)
 
 print("Training report")
 print(classification_report(y_train_pred, y_train))

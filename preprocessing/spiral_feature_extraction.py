@@ -7,8 +7,9 @@ Created on Sat Aug 17 18:31:33 2019
 
 from interfaces.arq_loader import load_arquimedes_dataset
 from interfaces.reader_and_writer import save
-from feature_extract.arq_features import *
+from preprocess.features import *
 import numpy as np
+from scipy.signal import resample
 
 # Logging configuration
 import logging
@@ -19,15 +20,19 @@ from scipy.signal import periodogram
 logger = logging.getLogger('MainLogger')
 
 
-def extract_radio(L):
-    rho, phi = cart2pol(L['x'], L['y'])
+def extract_radio(L, n=None):
+    x = L['x'].values if n is None else resample(L['x'].values, n)
+    y = L['y'].values if n is None else resample(L['y'].values, n)
+    rho, phi = cart2pol(x, y)
     return radio(rho, phi)
 
 
-def extract_residuos(L):
-    x = residuos(L['x'])
-    y = residuos(L['y'])
-    return radio(x, y)
+def extract_residuos(L, n=None):
+    x = L['x'].values if n is None else resample(L['x'].values, n)
+    y = L['y'].values if n is None else resample(L['y'].values, n)
+    rs_x = residuos(x)
+    rs_y = residuos(y)
+    return radio(rs_x, rs_y)
 
 
 def extract_features_of(L, ts):
@@ -70,7 +75,7 @@ def extract_features_of(L, ts):
     ]
 
 
-def extract_features(filenames_file, root_ct, root_et, h5file):
+def extract_features(filenames_file, root_ct, root_et, h5file, samples=4096):
     logger.debug("Starting feature extraction from archimedean spirals")
     #   loadin files
     logger.debug("Loading control files")
@@ -81,7 +86,7 @@ def extract_features(filenames_file, root_ct, root_et, h5file):
     ##Controls##
 
     #    residual radio calculation
-    rd_ct = list(map(extract_residuos, ct))
+    rd_ct = np.array(list(map(lambda c: extract_residuos(c, samples), ct)))
     logger.debug("CT's residual radio calculation %d", len(rd_ct))
 
     #    rd feature extraction
@@ -91,7 +96,7 @@ def extract_features(filenames_file, root_ct, root_et, h5file):
     save(h5file, 'rd_ct_fe', rd_ct_fe)
 
     #   polar radio calculation
-    r_ct = list(map(extract_radio, ct))
+    r_ct = np.array(list(map(lambda c: extract_radio(c, samples), ct)))
     logger.debug("CT's radio calculation %d", len(r_ct))
 
     #   radio feature extraction
@@ -107,17 +112,17 @@ def extract_features(filenames_file, root_ct, root_et, h5file):
     et_ts = list(map(lambda df: df['timestamp'], et))
 
     #    residual radio calculation
-    rd_et = list(map(extract_residuos, et))
+    rd_et = np.array(list(map(lambda c: extract_residuos(c, samples), et)))
     logger.debug("ET's residual radio calculation %d", len(rd_et))
 
     #    rd feature extraction
     rd_et_fe = np.array(list(map(extract_features_of, rd_et, et_ts)))
-    logger.debug("TT's residual feature extraction %i", len(rd_et_fe[0]))
+    logger.debug("TT's residual feature extraction %i", len(rd_et_fe))
     logger.debug("Saving TT's residual feature extraction in " + h5file)
     save(h5file, 'rd_et_fe', rd_et_fe)
 
     #   radio calculation
-    r_et = list(map(extract_radio, et))
+    r_et = np.array(list(map(lambda c: extract_radio(c, samples), et)))
     logger.debug("ET's radio calculation %d", len(r_et))
 
     #   radio feature extraction

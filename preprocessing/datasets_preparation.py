@@ -15,15 +15,15 @@ filename_ds="../output/archimedean_ds.h5"
 
 
 def dataset_prep():
-    controls=27
-    et=23
-    ct_rd='rd_ct_fe'
-    ct_r='r_ct_fe'
+    controls = 27
+    et = 23
+    ct_rd = 'rd_ct_fe'
+    ct_r = 'r_ct_fe'
     ct_labels = np.ones(controls).astype(np.dtype('>i4') )
-    et_rd='rd_et_fe'
-    et_r='r_et_fe'
+    et_rd = 'rd_et_fe'
+    et_r = 'r_et_fe'
     et_labels = np.full(et,2).astype(np.dtype('>i4') )
-    mode= 'r'
+    mode = 'r'
     if os.path.exists(filename):
         df_rd = load(filename,ct_rd,mode)
         df_rd_et = load(filename,et_rd,mode)

@@ -5,7 +5,7 @@ Created on Mon Aug 19 08:25:59 2019
 @author: isancmen
 """
 
-from feature_extract.arq_features import log_detector
+from preprocess.features import log_detector
 import numpy as np
 import unittest
 
