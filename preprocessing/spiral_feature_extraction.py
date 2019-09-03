@@ -6,7 +6,7 @@ Created on Sat Aug 17 18:31:33 2019
 """
 
 from interfaces.arq_loader import load_arquimedes_dataset
-from interfaces.reader_and_writer import save
+from interfaces.reader_and_writer import save, load
 from preprocess.features import *
 import numpy as np
 from scipy.signal import resample
@@ -37,7 +37,6 @@ def extract_residuos(L, n=None):
 
 def extract_features_of(L, ts):
     f, Pxx = periodogram(L, fs=1.0)
-    L = L.values
     ts = ts.values
     return [
         # Time features
@@ -75,58 +74,74 @@ def extract_features_of(L, ts):
     ]
 
 
-def extract_features(filenames_file, root_ct, root_et, h5file, samples=4096):
-    logger.debug("Starting feature extraction from archimedean spirals")
-    #   loadin files
-    logger.debug("Loading control files")
-    ct = load_arquimedes_dataset(filenames_file, root_ct)
-    logger.debug("Loading CT files %d", len(ct))
-    ct_ts = list(map(lambda df: df['timestamp'], ct))
+def extract_rr(filenames, root_ct, root_et, h5file, samples=4096):
+    """
 
-    ##Controls##
+    :param filenames:
+    :param root_ct:
+    :param root_et:
+    :param h5file:
+    :param samples:
+    :return:
+    """
 
-    #    residual radio calculation
+    logger.debug("Starting radius and DCT calculations extraction from archimedean spirals")
+
+    start_time = time.time()
+    logger.debug("Loading Controls files")
+    ct = load_arquimedes_dataset(filenames, root_ct)
+    logger.debug("Loading ET files")
+    et = load_arquimedes_dataset(filenames, root_et)
+
+    logger.debug("Polar radius calculation")
+
+    r_ct = np.array(list(map(lambda c: extract_radio(c, samples), ct)))
+    logger.debug("CT's polar radius calculation %d", len(r_ct))
+    save(h5file, 'r_et', r_ct)
+
+    r_et = np.array(list(map(lambda c: extract_radio(c, samples), et)))
+    logger.debug("ET's polar radius calculation %d", len(r_et))
+    save(h5file, 'r_et', r_et)
+
+    logger.debug("Residual radius calculation")
+
     rd_ct = np.array(list(map(lambda c: extract_residuos(c, samples), ct)))
-    logger.debug("CT's residual radio calculation %d", len(rd_ct))
+    logger.debug("CT's residual radius calculation %d", len(rd_ct))
+    save(h5file, 'rd_ct', rd_ct)
 
-    #    rd feature extraction
-    rd_ct_fe = np.array(list(map(extract_features_of, rd_ct, ct_ts)))
+    rd_et = np.array(list(map(lambda c: extract_residuos(c, samples), et)))
+    logger.debug("ET's residual radius calculation %d", len(rd_et))
+    save(h5file, 'rd_et', rd_et)
+
+    elapsed_time = time.time() - start_time
+    logger.debug("Elapsed time to calculate polar and residual radius is %s", elapsed_time)
+
+
+def extract_features(h5file):
+
+    logger.debug("Starting feature extraction from archimedean spirals")
+    logger.debug("Extracting timeseries")
+
+    r_ct = load(h5file, 'r_ct', 'r')
+    r_ct_fe = list(map(extract_features_of, r_ct))
+    logger.debug("CT's radius feature extraction %i", len(r_ct_fe[0]))
+    logger.debug("Saving CT's radius feature extraction in " + h5file)
+    save(h5file, 'r_ct_fe', r_ct_fe)
+
+    r_et = load(h5file, 'r_et', 'r')
+    r_et_fe = list(map(extract_features_of, r_et))
+    logger.debug("ET's radius feature extraction %i", len(r_et_fe[0]))
+    logger.debug("Saving ET's radius feature extraction in " + h5file)
+    save(h5file, 'r_et_fe', r_et_fe)
+
+    rd_ct = load(h5file, 'rd_ct', 'r')
+    rd_ct_fe = np.array(list(map(extract_features_of, rd_ct)))
     logger.debug("CT's residual feature extraction %i", len(rd_ct_fe[0]))
     logger.debug("Saving CT's residual feature extraction in " + h5file)
     save(h5file, 'rd_ct_fe', rd_ct_fe)
 
-    #   polar radio calculation
-    r_ct = np.array(list(map(lambda c: extract_radio(c, samples), ct)))
-    logger.debug("CT's radio calculation %d", len(r_ct))
-
-    #   radio feature extraction
-    r_ct_fe = list(map(extract_features_of, r_ct, ct_ts))
-    logger.debug("CT's radio feature extraction %i", len(r_ct_fe[0]))
-    logger.debug("Saving CT's radio feature extraction in " + h5file)
-    save(h5file, 'r_ct_fe', r_ct_fe)
-
-    ##ET##
-    #   loadin files
-    logger.debug("Loading ET files")
-    et = load_arquimedes_dataset(filenames_file, root_et)
-    et_ts = list(map(lambda df: df['timestamp'], et))
-
-    #    residual radio calculation
-    rd_et = np.array(list(map(lambda c: extract_residuos(c, samples), et)))
-    logger.debug("ET's residual radio calculation %d", len(rd_et))
-
-    #    rd feature extraction
-    rd_et_fe = np.array(list(map(extract_features_of, rd_et, et_ts)))
+    rd_et = load(h5file, 'rd_et', 'r')
+    rd_et_fe = np.array(list(map(extract_features_of, rd_et)))
     logger.debug("TT's residual feature extraction %i", len(rd_et_fe))
     logger.debug("Saving TT's residual feature extraction in " + h5file)
     save(h5file, 'rd_et_fe', rd_et_fe)
-
-    #   radio calculation
-    r_et = np.array(list(map(lambda c: extract_radio(c, samples), et)))
-    logger.debug("ET's radio calculation %d", len(r_et))
-
-    #   radio feature extraction
-    r_et_fe = list(map(extract_features_of, r_et, et_ts))
-    logger.debug("ET's radio feature extraction %i", len(r_et_fe[0]))
-    logger.debug("Saving ET's radio feature extraction in " + h5file)
-    save(h5file, 'r_et_fe', r_et_fe)

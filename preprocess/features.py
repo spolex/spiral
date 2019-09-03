@@ -316,7 +316,7 @@ def mfl(l):
     return mxfl
 
 
-def myo(L, ts):
+def myo(L):
     """
     Myopulse percentage rate (MYO) Percentage of time where the signal is bigger than two times the mean
     :param L:
@@ -324,7 +324,6 @@ def myo(L, ts):
     :return:
     """
     start = time.time()
-    assert len(ts) > 0, "Myopulse percentage rate needs timestamp"
     logger.info("Myopulse percentage rate (MYO)")
     N = len(L)
     dos_epsilon = 2 * L.mean()
