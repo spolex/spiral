@@ -42,7 +42,7 @@ train_dataname = 'train_rd'
 #              "svc__C": np.logspace(-5, 5, num=25, base=10),
 #              "svc__gamma": np.logspace(-9, 9, num=25, base=10)}
 
-coefficients = range(10, 25, 1)
+coefficients = range(17, 18, 1)
 h5file = "output/archimedean-"
 extension = ".h5"
 filename_ds = "output/archimedean_ds-"

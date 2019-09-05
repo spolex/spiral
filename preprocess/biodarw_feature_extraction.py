@@ -10,6 +10,7 @@ from loaders.reader_and_writer import save, load
 from preprocess.features import *
 import numpy as np
 from scipy.signal import resample
+from properties.properties import Properties
 
 # Logging configuration
 import logging
@@ -96,21 +97,21 @@ def extract_rr(filenames, root_ct, root_et, h5file, coeff=None, samples=4096):
 
     r_ct = np.array(list(map(lambda c: extract_radio(c, samples), ct)))
     logger.debug("CT's polar radius calculation %d", len(r_ct))
-    save(h5file, 'r_ct', r_ct)
+    save(h5file, Properties.r_ct, r_ct)
 
     r_et = np.array(list(map(lambda c: extract_radio(c, samples), et)))
     logger.debug("ET's polar radius calculation %d", len(r_et))
-    save(h5file, 'r_et', r_et)
+    save(h5file, Properties.r_et, r_et)
 
     logger.debug("Residual radius calculation")
 
     rd_ct = np.array(list(map(lambda c: extract_residuos(c, samples, coeff), ct)))
     logger.debug("CT's residual radius calculation %d", len(rd_ct))
-    save(h5file, 'rd_ct', rd_ct)
+    save(h5file, Properties.rd_ct, rd_ct)
 
     rd_et = np.array(list(map(lambda c: extract_residuos(c, samples, coeff), et)))
     logger.debug("ET's residual radius calculation %d", len(rd_et))
-    save(h5file, 'rd_et', rd_et)
+    save(h5file, Properties.rd_et, rd_et)
 
     elapsed_time = time.time() - start_time
     logger.debug("Elapsed time to calculate polar and residual radius is %s", elapsed_time)
@@ -121,26 +122,26 @@ def extract_features(h5file):
     logger.debug("Starting feature extraction from archimedean spirals")
     logger.debug("Extracting timeseries")
 
-    r_ct = load(h5file, 'r_ct', 'r')
+    r_ct = load(h5file, Properties.r_ct, 'r')
     r_ct_fe = list(map(extract_features_of, r_ct))
     logger.debug("CT's radius feature extraction %i", len(r_ct_fe[0]))
     logger.debug("Saving CT's radius feature extraction in " + h5file)
-    save(h5file, 'r_ct_fe', r_ct_fe)
+    save(h5file, Properties.r_ct_fe, r_ct_fe)
 
-    r_et = load(h5file, 'r_et', 'r')
+    r_et = load(h5file, Properties.r_et, 'r')
     r_et_fe = list(map(extract_features_of, r_et))
     logger.debug("ET's radius feature extraction %i", len(r_et_fe[0]))
     logger.debug("Saving ET's radius feature extraction in " + h5file)
-    save(h5file, 'r_et_fe', r_et_fe)
+    save(h5file, Properties.r_et_fe, r_et_fe)
 
-    rd_ct = load(h5file, 'rd_ct', 'r')
+    rd_ct = load(h5file, Properties.rd_ct, 'r')
     rd_ct_fe = np.array(list(map(extract_features_of, rd_ct)))
     logger.debug("CT's residual feature extraction %i", len(rd_ct_fe[0]))
     logger.debug("Saving CT's residual feature extraction in " + h5file)
-    save(h5file, 'rd_ct_fe', rd_ct_fe)
+    save(h5file, Properties.rd_ct_fe, rd_ct_fe)
 
-    rd_et = load(h5file, 'rd_et', 'r')
+    rd_et = load(h5file, Properties.rd_et, 'r')
     rd_et_fe = np.array(list(map(extract_features_of, rd_et)))
     logger.debug("TT's residual feature extraction %i", len(rd_et_fe))
     logger.debug("Saving TT's residual feature extraction in " + h5file)
-    save(h5file, 'rd_et_fe', rd_et_fe)
+    save(h5file, Properties.rd_et_fe, rd_et_fe)

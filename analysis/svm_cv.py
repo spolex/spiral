@@ -32,7 +32,7 @@ def svm_cv(X, y, rfe=True, paramgrid=None):
     model = SVC()
 
     # make pipeline
-    pipe = make_pipeline(norm, fltr, model)
+    pipe = make_pipeline(norm, model)
 
     param_grid = {
         'svc__kernel': ['rbf'],
