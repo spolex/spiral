@@ -21,7 +21,7 @@ import logging
 logger = logging.getLogger('MainLogger')
 
 
-def idct_vec(n, Xk, l, N):
+def idct_vec(n, Xk, c, N):
     """
     idct auxiliar function
     :param n: scalar
@@ -31,7 +31,7 @@ def idct_vec(n, Xk, l, N):
     :return:
     """
     start_time = time.time()
-    k = np.arange(l)
+    k = np.arange(c)
     c = np.zeros(k.shape)
     c[0] = (1 / N) ** (1 / 2)
     c[1:] = (2 / N) ** (1 / 2)
@@ -47,7 +47,7 @@ def idct_vec(n, Xk, l, N):
     return rdo
 
 
-def idct(Xk, l=None):
+def idct(Xk, c=17):
     """
     Inverse Discrete Cosine Transformation
     :param Xk: 1-N dimensional array
@@ -56,13 +56,10 @@ def idct(Xk, l=None):
     """
     start_time = time.time()
     N = len(Xk)
-    if l != None:
-        assert N > l, "l can not be bigger than len of Xk"
-    l = l if l != None else N
 
-    Xk = Xk[:l]
+    Xk = Xk[:c]
     n = np.arange(N)
-    X = np.array(list(map(partial(idct_vec, Xk=Xk, l=l, N=N), n)))
+    X = np.array(list(map(partial(idct_vec, Xk=Xk, c=c, N=N), n)))
     elapsed_time = time.time() - start_time
     logger.debug("Elapsed time to calculate idct  is %s", elapsed_time)
     return X
@@ -135,7 +132,7 @@ def radio(x, y):
     return r
 
 
-def residuos(x, l=17):
+def residuos(x, c=None):
     """
     # TODO https://inst.eecs.berkeley.edu/~ee123/sp16/Sections/JPEG_DCT_Demo.html
     :param x: 1-N dimensional array
@@ -143,7 +140,7 @@ def residuos(x, l=17):
     :return: 1-N dimensional array
     """
     start_time = time.time()
-    idct_x = idct(dct(x), l=l)
+    idct_x = idct(dct(x), c=c)
     elapsed_time = time.time() - start_time
     logger.debug("Elapsed time to calculate residuos(x, l=17) is %s", elapsed_time)
     return x - idct_x

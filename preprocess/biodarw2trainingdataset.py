@@ -7,14 +7,10 @@ Created on Sun Aug 18 19:08:24 2019
 
 import os
 import numpy as np
-from interfaces.reader_and_writer import load,save
-
-filename="../output/archimedean.h5"
-filename_ds="../output/archimedean_ds.h5"
-##filename_labels="../output/archimedean.h5"
+from loaders.reader_and_writer import load,save
 
 
-def dataset_prep():
+def dataset_prep(filename, filename_ds):
     controls = 27
     et = 23
     ct_rd = 'rd_ct_fe'
@@ -24,6 +20,7 @@ def dataset_prep():
     et_r = 'r_et_fe'
     et_labels = np.full(et,2).astype(np.dtype('>i4') )
     mode = 'r'
+    print(os.path.exists(filename))
     if os.path.exists(filename):
         df_rd = load(filename,ct_rd,mode)
         df_rd_et = load(filename,et_rd,mode)
@@ -35,3 +32,5 @@ def dataset_prep():
         save(filename_ds, 'train_r', train_r)
         labels = np.hstack((ct_labels,et_labels))
         save(filename_ds, 'labels', labels)
+    else:
+        print(filename + " doesn't exist")

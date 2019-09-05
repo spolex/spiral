@@ -5,8 +5,8 @@ Created on Sat Aug 17 18:31:33 2019
 @author: isancmen
 """
 
-from interfaces.arq_loader import load_arquimedes_dataset
-from interfaces.reader_and_writer import save, load
+from loaders.biodarw_loader import load_arquimedes_dataset
+from loaders.reader_and_writer import save, load
 from preprocess.features import *
 import numpy as np
 from scipy.signal import resample
@@ -27,17 +27,16 @@ def extract_radio(L, n=None):
     return radio(rho, phi)
 
 
-def extract_residuos(L, n=None):
+def extract_residuos(L, n=None, c=None):
     x = L['x'].values if n is None else resample(L['x'].values, n)
     y = L['y'].values if n is None else resample(L['y'].values, n)
-    rs_x = residuos(x)
-    rs_y = residuos(y)
+    rs_x = residuos(x, c)
+    rs_y = residuos(y, c)
     return radio(rs_x, rs_y)
 
 
-def extract_features_of(L, ts):
+def extract_features_of(L):
     f, Pxx = periodogram(L, fs=1.0)
-    ts = ts.values
     return [
         # Time features
         samp_ent(L)
@@ -50,7 +49,7 @@ def extract_features_of(L, ts):
         , diff_abs_std(L)
         , higuchi(L)
         , mfl(L)
-        , myo(L, ts)
+        , myo(L)
         , iemg(L)
         , ssi(L)
         , zc(L)
@@ -74,7 +73,7 @@ def extract_features_of(L, ts):
     ]
 
 
-def extract_rr(filenames, root_ct, root_et, h5file, samples=4096):
+def extract_rr(filenames, root_ct, root_et, h5file, coeff=None, samples=4096):
     """
 
     :param filenames:
@@ -97,7 +96,7 @@ def extract_rr(filenames, root_ct, root_et, h5file, samples=4096):
 
     r_ct = np.array(list(map(lambda c: extract_radio(c, samples), ct)))
     logger.debug("CT's polar radius calculation %d", len(r_ct))
-    save(h5file, 'r_et', r_ct)
+    save(h5file, 'r_ct', r_ct)
 
     r_et = np.array(list(map(lambda c: extract_radio(c, samples), et)))
     logger.debug("ET's polar radius calculation %d", len(r_et))
@@ -105,11 +104,11 @@ def extract_rr(filenames, root_ct, root_et, h5file, samples=4096):
 
     logger.debug("Residual radius calculation")
 
-    rd_ct = np.array(list(map(lambda c: extract_residuos(c, samples), ct)))
+    rd_ct = np.array(list(map(lambda c: extract_residuos(c, samples, coeff), ct)))
     logger.debug("CT's residual radius calculation %d", len(rd_ct))
     save(h5file, 'rd_ct', rd_ct)
 
-    rd_et = np.array(list(map(lambda c: extract_residuos(c, samples), et)))
+    rd_et = np.array(list(map(lambda c: extract_residuos(c, samples, coeff), et)))
     logger.debug("ET's residual radius calculation %d", len(rd_et))
     save(h5file, 'rd_et', rd_et)
 
