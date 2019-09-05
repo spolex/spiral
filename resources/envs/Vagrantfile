@@ -1,0 +1,63 @@
+Vagrant.configure(2) do |config|
+  
+  config.vm.box = "continuumio/miniconda3"
+  config.vm.synced_folder ".", "/home/vagrant/workspace"
+  
+  #config.vm.network "public_network"
+  config.vm.hostname = "elekin.eastonlab.org"
+  #config.vm.define "vagrant-elekin"
+  config.vm.network "private_network", ip: "192.168.2.7"
+  config.vm.network :forwarded_port, host: 8080, guest: 8080
+  config.vm.network :forwarded_port, host: 8888, guest: 8888
+  config.vm.network :forwarded_port, host: 6006, guest: 6006
+
+  config.vm.boot_timeout = 600
+
+  config.ssh.insert_key = true
+  
+  config.vm.provision "shell", inline: <<-SHELL
+    
+    #ENVIRONMENT
+    sudo echo "LANG=en_US.UTF-8" >> /etc/environment
+    sudo echo "LANGUAGE=en_US.UTF-8" >> /etc/environment
+    sudo echo "LC_ALL=en_US.UTF-8" >> /etc/environment
+    sudo echo "LC_CTYPE=en_US.UTF-8" >> /etc/environment
+  
+    #REPOSITORIES
+    sudo apt-get update
+    sudo apt-get -y upgrade
+    sudo apt-get install --no-install-recommends lubuntu-desktop -y
+    
+    #g++, git, curl... 
+    echo "instalando g++..." 
+    sudo apt-get install -y g++
+    echo "instalando GIT..."
+    sudo apt-get install -y git
+    echo "instalando CURL..."
+    sudo apt-get install -y curl
+	
+    # conda
+    #echo "conda, python 3, jupyter, numpy, pandas, scikit-learn, matplotlib and tensorflow..."
+    #curl -sO https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
+    #sudo sh Anaconda3-5.0.1-Linux-x86_64.sh -b -p /home/vagrant/anaconda3
+    #export PATH="/home/vagrant/anaconda3/bin:$PATH"
+    #echo 'export PATH="/home/vagrant/anaconda3/bin:$PATH"' >> /home/vagrant/.bashrc
+
+    # create elekin environment
+    conda create --name elekin -f "/home/vagrant/workspace/env.yml"
+
+  SHELL
+  config.vm.provider :virtualbox do |vb|
+        # Don't boot with headless mode
+        #vb.gui = true
+        # Customize VM name
+        vb.name = "vagrant-elekin"
+
+        # Use VBoxManage to customize the VM. For example to change memory:
+        vb.customize ["modifyvm", :id, "--memory", "1024"]
+        vb.customize ["modifyvm", :id, "--cpus", 2]
+        vb.customize ["modifyvm", :id, "--vram", 16]
+        # vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+        # vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
+  end
+end
