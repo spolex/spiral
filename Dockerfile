@@ -16,7 +16,8 @@ RUN apt-get update && apt-get upgrade -y\
     && rm -rf /var/lib/apt/lists/*
 
 RUN conda env create  -f environment.yml && conda update --all
-RUN conda activate elekin
+
+RUN bash -c 'source activate elekin'
 
 EXPOSE 5000
 EXPOSE 8888 8888
