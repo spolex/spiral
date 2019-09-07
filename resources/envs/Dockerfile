@@ -7,13 +7,13 @@ COPY api.py ./
 COPY boot.sh ./
 
 RUN chmod +x boot.sh
-RUN conda create  \
+RUN conda env create  -f resources\envs\environment.yml\
     && conda update
     && sync && conda clean --all && sync \
     && bash -c "source activate elekin \
     && rm -rf ~/.cache/pip/*
 
-RUN bash -c 'source activate elekin'
+RUN bash -c 'conda activate elekin'
 
 RUN mkdir -p ~/.jupyter && echo c.NotebookApp.ip = \'0.0.0.0\' > ~/.jupyter/jupyter_notebook_config.py
 
