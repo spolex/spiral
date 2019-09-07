@@ -43,10 +43,10 @@ def analysis_ho(X, y):
     fltr = RFE(ReliefF(), n_features_to_select=5, step=0.5)
 
     # predictive model
-    clf = SVC(kernel='rbf', gamma=0.1, C=10**4)
+    clf = SVC(kernel='rbf', gamma=0.5, C=1.)
 
     # make pipeline
-    pipe = make_pipeline(norm, fltr, clf)
+    pipe = make_pipeline(norm, clf)
     pipe.fit(X_train, y_train)
 
     print("SVM scoring...")
@@ -67,7 +67,7 @@ def analysis_ho(X, y):
     clf = RandomForestClassifier(n_estimators=30)
 
     # make pipeline
-    pipe = make_pipeline(norm, fltr, clf)
+    pipe = make_pipeline(norm, clf)
     pipe.fit(X_train, y_train)
     print("Random forest scoring")
 
@@ -88,7 +88,7 @@ def analysis_ho(X, y):
     clf = KNeighborsClassifier(n_neighbors=5, algorithm='ball_tree', metric='euclidean')
 
     # make pipeline
-    pipe = make_pipeline(norm, fltr, clf)
+    pipe = make_pipeline(norm, clf)
     pipe.fit(X_train, y_train)
 
     print("Knn scoring")
@@ -110,7 +110,7 @@ def analysis_ho(X, y):
     clf = LDA()
 
     # make pipeline
-    pipe = make_pipeline(norm, fltr, clf)
+    pipe = make_pipeline(norm, clf)
     pipe.fit(X_train, y_train)
 
     # make predictions

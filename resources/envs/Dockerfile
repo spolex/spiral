@@ -1,30 +1,34 @@
-FROM debian:latest
+FROM continuumio/miniconda:latest
 
-#  $ docker build . -t elekin/spyral:latest
-#  $ docker run --rm -it elekin/spyral:latest /bin/bash
+WORKDIR /home/elekin
 
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
-ENV PATH /opt/conda/bin:$PATH
+COPY environment.yml ./
+COPY api.py ./
+COPY boot.sh ./
 
-LABEL maintainer="Inigo Sanchez <jisanchez003@ehu.es>"
+RUN chmod +x boot.sh
+RUN conda create  \
+    && conda update
+    && sync && conda clean --all && sync \
+    && bash -c "source activate elekin \
+    && rm -rf ~/.cache/pip/*
 
-RUN apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
-    libglib2.0-0 libxext6 libsm6 libxrender1 \
-    git mercurial subversion
+RUN bash -c 'source activate elekin'
 
-RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-5.3.0-Linux-x86_64.sh -O ~/anaconda.sh && \
-    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
-    rm ~/anaconda.sh && \
-    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "conda activate base" >> ~/.bashrc
+RUN mkdir -p ~/.jupyter && echo c.NotebookApp.ip = \'0.0.0.0\' > ~/.jupyter/jupyter_notebook_config.py
 
-RUN apt-get install -y curl grep sed dpkg && \
-    TINI_VERSION=`curl https://github.com/krallin/tini/releases/latest | grep -o "/v.*\"" | sed 's:^..\(.*\).$:\1:'` && \
-    curl -L "https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini_${TINI_VERSION}.deb" > tini.deb && \
-    dpkg -i tini.deb && \
-    rm tini.deb && \
-    apt-get clean
+EXPOSE 8888 8888
 
-ENTRYPOINT [ "/usr/bin/tini", "--" ]
-CMD [ "/bin/bash" ]
+#CMD ["/home/elekin/pyrestfmri/preprocess.py","-c","/home/elekin/pyrestfmri/conf/config_test.json"]
+
+CMD jupyter-notebook
+
+
+RUN conda env create -f environment.yml
+
+RUN echo "source activate your-environment-name" > ~/.bashrc
+ENV PATH /opt/conda/envs/your-environment-name/bin:$PATH
+
+EXPOSE 5000
+
+ENTRYPOINT ["./boot.sh"]

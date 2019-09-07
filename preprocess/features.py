@@ -132,7 +132,7 @@ def radio(x, y):
     return r
 
 
-def residuos(x, c=None):
+def residues(x, c=None):
     """
     # TODO https://inst.eecs.berkeley.edu/~ee123/sp16/Sections/JPEG_DCT_Demo.html
     :param x: 1-N dimensional array
@@ -142,7 +142,7 @@ def residuos(x, c=None):
     start_time = time.time()
     idct_x = idct(dct(x), c=c)
     elapsed_time = time.time() - start_time
-    logger.debug("Elapsed time to calculate residuos(x, l=17) is %s", elapsed_time)
+    logger.debug("Elapsed time to calculate residuos is %s", elapsed_time)
     return x - idct_x
 
 
@@ -176,18 +176,21 @@ def pol2cart(rho, phi):
     return (x, y)
 
 
-def samp_ent(r):
+def samp_ent(x, m=3, r=0.2):
     """
     https://sampen.readthedocs.io/en/stable/#documentation
-    :param r: time series data
+    :param r:
+    :param m:
+    :param x: time series data
     :return: sample entropy
     """
     start_time = time.time()
-    se = sampen2(r, mm=3, r=2)
+    se = sampen2(x, mm=m, r=r)
     elapsed_time = time.time() - start_time
-    logger.info("Sample Entropy")
+    rdo = se[len(se) - 1][1]
+    logger.info("Sample Entropy %s", rdo)
     logger.debug("Elapsed time to calculate sample entropy is %s", elapsed_time)
-    return se[len(se) - 1][1]
+    return rdo
 
 
 def mean_abs_val(L):
@@ -196,11 +199,11 @@ def mean_abs_val(L):
     :param L: 1-N dimensional array
     :return: scalar
     """
-    logger.info("mean absolute value")
     start_time = time.time()
     N = len(L)
-    mav = (1 / N) * L.sum()
+    mav = (1 / N) * sum(abs(L))
     elapsed_time = time.time() - start_time
+    logger.info("Mean Absolute Value (MAV) %s", mav)
     logger.debug("Elapsed time to calculate mean absolute value is %s", elapsed_time)
     return mav
 
@@ -222,6 +225,7 @@ def diff_abs_std(L):
     elapsed_time = time.time() - start_time
     logger.debug("Elapsed time to calculate Difference Absolute standard deviation (AAC) is %s", elapsed_time)
     aac = avg_diff ** (1 / 2)
+    logger.info("Difference Absolute standard deviation (AAC) %s", aac)
     return aac
 
 
@@ -236,6 +240,7 @@ def log_detector(L):
     f = (1 / N) * np.log(np.abs(L)).sum()
     ld = np.nanstd(L) ** (f)
     elapsed_time = time.time() - start
+    logger.info("Log Detector (LD) %s", ld)
     logger.debug("Elapsed time to calculateLog Detector (LD) is %s", elapsed_time)
     return ld
 
@@ -249,6 +254,7 @@ def wl(L):
     start = time.time()
     w = sum(abs(np.diff(L)))
     elapsed_time = time.time() - start
+    logger.info("Waveform length (WL) %s", w)
     logger.debug("Elapsed time to calculate Waveform length (WL) is %s", elapsed_time)
     return w
 
@@ -263,6 +269,7 @@ def root_mean_square(L):
     N = len(L)
     rme = ((1 / N) * L ** 2).sum()
     elapsed_time = time.time() - start
+    logger.info("Root Mean Square %s", rme)
     logger.debug("Elapsed time to calculate Root Mean Square is %s", elapsed_time)
     return rme
 
@@ -276,8 +283,8 @@ def higuchi(L):
     start_time = time.time()
     h = hfda.measure(L, 5)
     elapsed_time = time.time() - start_time
-    logger.info("Elapsed time to calculate higuchi fractal dimension is %s", elapsed_time)
-    logger.info("Higuchi's Fractal Dimension")
+    logger.debug("Elapsed time to calculate higuchi fractal dimension is %s", elapsed_time)
+    logger.info("Higuchi's Fractal Dimension %s", h)
     return h
 
 
@@ -288,7 +295,6 @@ def wamp(l):
     :return: scalar
     """
     start = time.time()
-    logger.info("Wilson amplitude (WAMP)")
     epsilon = l.mean()
     a = l[:-1]
     b = l[1:]
@@ -296,7 +302,9 @@ def wamp(l):
     amp = diff > epsilon
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Wilson amplitude (WAMP) value is %s", elapsed_time)
-    return amp.sum()
+    wampli = sum(amp)
+    logger.info("Wilson amplitude (WAMP) %s", wampli)
+    return wampli
 
 
 def mfl(l):
@@ -306,9 +314,9 @@ def mfl(l):
     :return: scalar
     """
     start = time.time()
-    logger.info("Maximum fractal length (MFL)")
     mxfl = log(wl(l))
     elapsed_time = time.time() - start
+    logger.info("Maximum fractal length (MFL) %s", mxfl)
     logger.debug("Elapsed time to calculate Maximum fractal length (MFL) value is %s", elapsed_time)
     return mxfl
 
@@ -321,15 +329,13 @@ def myo(L):
     :return:
     """
     start = time.time()
-    logger.info("Myopulse percentage rate (MYO)")
     N = len(L)
     dos_epsilon = 2 * L.mean()
     biggers = L[L > dos_epsilon]
-    logger.debug("Myopulse times rate (MYO) %s", len(biggers))
     my = len(biggers) / N
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Myopulse percentage rate (MYO) value is %s", elapsed_time)
-    logger.debug("Myopulse percentage rate (MYO) %s", my)
+    logger.info("Myopulse percentage rate (MYO) %s", my)
     return my
 
 
@@ -340,10 +346,10 @@ def iemg(L):
     :return:
     """
     start = time.time()
-    logger.info("Integrated EMG (IEMG)")
     mg = abs(L).sum()
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Integrated EMG (IEMG) value is %s", elapsed_time)
+    logger.info("Integrated EMG (IEMG) %s", mg)
     return mg
 
 
@@ -354,10 +360,10 @@ def ssi(L):
     :return:
     """
     start = time.time()
-    logger.info("Simple square EMG (SSI)")
     rdo = (L ** 2).sum()
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Simple square EMG (SSI) value is %s", elapsed_time)
+    logger.info("Simple square EMG (SSI) %s", rdo)
     return rdo
 
 
@@ -369,12 +375,13 @@ def zc(l, epsilon=None):
     :return: scalar Zero crossing (ZC)
     """
     start = time.time()
-    logger.info("Zero crossing (ZC)")
+
     if epsilon is None:
         epsilon = l.mean()
     c = len(l[l > epsilon])
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Zero crossing (ZC) value is %s", elapsed_time)
+    logger.info("Zero crossing (ZC) %s", c)
     return c
 
 
@@ -400,11 +407,11 @@ def ssc(l):
     :return: scalar representing Slope Sign Change (SSC)
     """
     start = time.time()
-    logger.info("Slope sign change (SSC)")
     to_vert_mask, from_vert_mask = masks(l)
     ss = sum(to_vert_mask) + sum(from_vert_mask)
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Slope sign change (SSC) value is %s", elapsed_time)
+    logger.info("Slope sign change (SSC) %s", ss)
     return ss
 
 
@@ -416,11 +423,11 @@ def p_max(psd, l):
     :return:
     """
     start = time.time()
-    logger.info("Main peak amplitude (Pmax)")
     peaks, _ = find_peaks(psd)
     pmx = max(l[peaks])
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Maximum peak of frequency (Pmax) value is %s", elapsed_time)
+    logger.info("Main peak amplitude (Pmax) %s", pmx)
     return pmx
 
 
@@ -431,11 +438,11 @@ def f_max(psd):
     :return:
     """
     start = time.time()
-    logger.info("Main peak frequency (Fmax)")
     peaks, _ = find_peaks(psd)
     fmx = max(psd[peaks])
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Main peak frequency (Fmax) value is %s", elapsed_time)
+    logger.info("Main peak frequency (Fmax) %s", fmx)
     return fmx
 
 
@@ -446,10 +453,10 @@ def mp(psd):
     :return:
     """
     start = time.time()
-    logger.info("Mean Power (MP)")
     mp = psd.mean()
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Mean Power (MP) value is %s", elapsed_time)
+    logger.info("Mean Power (MP) %s", mp)
     return mp
 
 
@@ -460,10 +467,10 @@ def tp(psd):
     :return:
     """
     start = time.time()
-    logger.info("Total Power (TP)")
     s = psd.sum()
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Total Power (TP) value is %s", elapsed_time)
+    logger.info("Total Power (TP) %s", s)
     return s
 
 
@@ -478,7 +485,6 @@ def meanfreq(x, fs=100.0, secs=4):
     :return:
     """
     start = time.time()
-    logger.info("Mean Frequency (MNF)")
     win = secs * fs
     f, pxx_den = welch(x, fs, nperseg=win)
     pxx_den = np.reshape(pxx_den, (1, -1))
@@ -488,7 +494,9 @@ def meanfreq(x, fs=100.0, secs=4):
     pwr = np.sum(P)
     mnfreq = np.dot(P, f.T) / pwr
     elapsed_time = time.time() - start
+    logger.info("Mean Frequency (MNF) %s", mnfreq[0, 0])
     logger.debug("Elapsed time to calculate Mean Frequency (MNF) value is %s", elapsed_time)
+
     return mnfreq[0, 0]
 
 
@@ -502,7 +510,6 @@ def medfreq(x, fs=100.0, secs=4):
     :return:
     """
     start = time.time()
-    logger.info("Median Frequency (MDF)")
     win = secs * fs
     f, pxx_den = welch(x, fs, nperseg=win)
     pxx_den = np.reshape(pxx_den, (1, -1))
@@ -510,6 +517,7 @@ def medfreq(x, fs=100.0, secs=4):
     P = pxx_den * width
     median = np.median(P)
     elapsed_time = time.time() - start
+    logger.info("Median Frequency (MNF) %s", median)
     logger.debug("Elapsed time to calculate Median Frequency (MDF) value is %s", elapsed_time)
     return median
 
@@ -521,10 +529,10 @@ def std_psd(pxx_den):
     :return:
     """
     start = time.time()
-    logger.info("Standard Sesviation of the power (std)")
     s = pxx_den.std()
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Standard Sesviation of the power (std) value is %s", elapsed_time)
+    logger.info("PSD Standard Desviation (std) %s", s)
     return s
 
 
@@ -536,10 +544,10 @@ def mmnt(Pxx_den, order=1):
     :return:
     """
     start = time.time()
-    logger.info("1st, 2nd, 3rd spectral moments (SM1, SM2, SM3)")
     mm = moment(Pxx_den, moment=order)
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate moment value is %s", elapsed_time)
+    logger.info("%s spectral moment (SM1, SM2, SM3) %s", order, mm)
     return mm
 
 
@@ -550,10 +558,10 @@ def kurt(Pxx_den):
     :return:
     """
     start = time.time()
-    logger.info("Kurtosis of the power spectrum")
     kt = kurtosis(Pxx_den)
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate kurtosis value is %s", elapsed_time)
+    logger.info("Kurtosis of the power spectrum %s", kt)
     return kt
 
 
@@ -564,10 +572,10 @@ def skw(Pxx_den):
     :return:
     """
     start = time.time()
-    logger.info("Skewness of the power spectrum")
     sk = skew(Pxx_den)
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate skewness value is %s", elapsed_time)
+    logger.info("Skewness of the power spectrum %s", sk)
     return sk
 
 

@@ -1,0 +1,30 @@
+{
+  "_comment": "Configuration file must be contain all parameters and file paths for the experiment",
+  "experiment": {
+    "ct_root_path": "E:/04-DATASOURCES/01-PHD/00-NEW/02-WEE/ETHW/Controles30jun14/",
+    "et_root_path": "E:/04-DATASOURCES/01-PHD/00-NEW/02-WEE/ETHW/Protocolo temblor",
+    "file_list_path" : "E:/04-DATASOURCES/01-PHD/00-NEW/02-WEE/ETHW/ETONA.txt",
+    "controls" : 27,
+    "et": 23,
+    "coefficients_from": 17,
+    "coefficients_to": 16,
+    "coefficients_step": 16,
+    "h5file": "output/archimedean-",
+    "filename_ds": "output/archimedean_ds-",
+    "extension": ".h5",
+    "r_ct": "r_ct",
+    "r_et'": "r_et" ,
+    "rd_ct": "rd_ct",
+    "rd_et": "rd_et",
+    "rd_ct_fe": "rd_ct_fe",
+    "rd_et_fe": "rd_et_fe",
+
+    "r_ct_fe": "r_ct_fe",
+    "r_et_fe": "r_et_fe",
+
+    "train_rd": "train_rd",
+    "train_r": "train_r",
+    "labels": "labels",
+    "mode": "r"
+  }
+}
