@@ -12,7 +12,7 @@ RUN apt-get update && apt-get upgrade -y\
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN conda env create  -f environment.yml
+RUN conda create  -f environment.yml
 RUN echo "conda activate $(head -1 environment.yml | cut -d' ' -f2)" > ~/.bashrc
 ENV PATH /opt/conda/envs/$(head -1 environment.yml | cut -d' ' -f2)/bin:$PATH
 
