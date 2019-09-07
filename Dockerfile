@@ -5,7 +5,6 @@ WORKDIR /home/elekin
 COPY resources/envs/environment.yml environment.yml
 
 RUN apt-get update && apt-get upgrade -y\
-# && apt-get install -f python3-dev -y\
  && apt-get install -y -q --no-install-recommends \
            gcc \
            g++ \
@@ -16,11 +15,8 @@ RUN apt-get update && apt-get upgrade -y\
     && rm -rf /var/lib/apt/lists/*
 
 RUN conda env create  -f environment.yml && conda update --all
-
-ENV CONDA_DIR="/opt/miniconda-latest"
-
-RUN echo "source activate elekin" > ~/.bashrc
-ENV PATH /opt/conda/envs/env/bin:$PATH
+RUN echo "source activate $(head -1 environment.yml | cut -d' ' -f2)" > ~/.bashrc
+ENV PATH /opt/conda/envs/$(head -1 environment.yml | cut -d' ' -f2)/bin:$PATH
 
 EXPOSE 5000
 EXPOSE 8888 8888
