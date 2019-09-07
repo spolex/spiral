@@ -17,6 +17,7 @@ RUN apt-get update && apt-get upgrade -y\
 
 RUN conda env create  -f environment.yml && conda update --all
 
+RUN test "$(getent passwd elekin)" || useradd --no-user-group --create-home --shell /bin/bash elekin
 USER elekin
 
 ENV CONDA_DIR="/opt/miniconda-latest" \
