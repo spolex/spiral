@@ -1,4 +1,5 @@
 FROM continuumio/miniconda:latest
+USER elekin
 
 WORKDIR /home/elekin
 
