@@ -2,7 +2,9 @@ FROM continuumio/miniconda:latest
 
 WORKDIR /home/elekin
 
-RUN conda env create  -f resources/envs/environment.yml && conda update --all
+COPY resources/envs/environment.yml environment.yml
+
+RUN conda env create  -f environment.yml && conda update --all
 RUN conda activate elekin
 
 EXPOSE 5000
