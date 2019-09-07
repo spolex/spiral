@@ -21,8 +21,10 @@ RUN test "$(getent passwd elekin)" || useradd --no-user-group --create-home --sh
 
 ENV CONDA_DIR="/opt/miniconda-latest" \
     PATH="/opt/miniconda-latest/bin:$PATH"
-RUN bash -c 'source activate elekin'
+RUN bash -c 'conda activate elekin'
 
 EXPOSE 5000
 EXPOSE 8888 8888
 RUN mkdir -p ~/.jupyter && echo c.NotebookApp.ip = \'0.0.0.0\' > ~/.jupyter/jupyter_notebook_config.py
+
+CMD jupyter lab --allow-root
