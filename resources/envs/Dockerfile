@@ -7,11 +7,7 @@ COPY api.py ./
 COPY boot.sh ./
 
 RUN chmod +x boot.sh
-RUN conda env create  -f resources\envs\environment.yml\
-    && conda update
-    && sync && conda clean --all && sync \
-    && bash -c "source activate elekin \
-    && rm -rf ~/.cache/pip/*
+RUN conda env create  -f resources\envs\environment.yml && conda update --all
 
 RUN bash -c 'conda activate elekin'
 
