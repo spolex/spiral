@@ -2,7 +2,6 @@ FROM continuumio/miniconda:latest
 
 WORKDIR /home/elekin
 
-COPY resources/envs/environment.yml ./
 COPY boot.sh ./
 
 RUN chmod +x boot.sh
