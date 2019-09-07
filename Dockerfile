@@ -1,7 +1,5 @@
 FROM continuumio/miniconda:latest
 
-WORKDIR /home/elekin
-
 COPY resources/envs/environment.yml environment.yml
 
 RUN apt-get update && apt-get upgrade -y\
