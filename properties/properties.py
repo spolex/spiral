@@ -46,8 +46,8 @@ class Properties:
 
     controls = 27
     et = 23
-    #coefficients = [10] + list(range(14, 26, 1)) + [30, 50]
-    coefficients = [17]
+    coefficients = [10] + list(range(14, 26, 1)) + [30, 50]
+    # coefficients = [17]
     h5file = path.join(rdo_root_path, "00-OUTPUT/archimedean-")
     filename_ds = path.join(rdo_root_path, "00-OUTPUT/archimedean_ds-")
     extension = ".h5"

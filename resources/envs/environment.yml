@@ -1,4 +1,4 @@
-name: spiral
+name: elekin
 channels:
   - anaconda
   - defaults
@@ -111,5 +111,4 @@ dependencies:
     - sampen==0.0.15
     - scikit-learn==0.21.3
     - sklearn==0.0
-prefix: C:\Users\isancmen\AppData\Local\Continuum\anaconda3\envs\spiral
-
+    - swifter
