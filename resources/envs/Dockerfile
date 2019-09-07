@@ -2,8 +2,6 @@ FROM continuumio/miniconda:latest
 
 WORKDIR /home/elekin
 
-COPY boot.sh ./
-
 RUN chmod +x boot.sh
 RUN conda env create  -f environment.yml && conda update --all
 
