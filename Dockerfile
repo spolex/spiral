@@ -17,8 +17,6 @@ RUN apt-get update && apt-get upgrade -y\
 
 RUN conda env create  -f environment.yml && conda update --all
 
-RUN test "$(getent passwd elekin)" || useradd --no-user-group --create-home --shell /bin/bash elekin
-
 ENV CONDA_DIR="/opt/miniconda-latest" \
     PATH="/opt/miniconda-latest/bin:$PATH"
 RUN bash -c 'conda activate elekin'
