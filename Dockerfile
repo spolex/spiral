@@ -1,5 +1,4 @@
 FROM continuumio/miniconda:latest
-USER elekin
 
 WORKDIR /home/elekin
 
@@ -19,9 +18,6 @@ RUN apt-get update && apt-get upgrade -y\
 RUN conda env create  -f environment.yml && conda update --all
 
 RUN test "$(getent passwd elekin)" || useradd --no-user-group --create-home --shell /bin/bash elekin
-
-RUN chown elekin -R /home/elekin
-USER elekin
 
 ENV CONDA_DIR="/opt/miniconda-latest" \
     PATH="/opt/miniconda-latest/bin:$PATH"
