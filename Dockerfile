@@ -4,8 +4,8 @@ WORKDIR /home/elekin
 
 COPY resources/envs/environment.yml environment.yml
 
-RUN apt-get update && apt-get upgrade\
- && apt-get install -f python3-dev
+RUN apt-get update && apt-get upgrade -y\
+ && apt-get install -f python3-dev -y
 
 RUN conda env create  -f environment.yml && conda update --all
 RUN conda activate elekin
