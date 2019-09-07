@@ -17,9 +17,10 @@ RUN apt-get update && apt-get upgrade -y\
 
 RUN conda env create  -f environment.yml && conda update --all
 
-ENV CONDA_DIR="/opt/miniconda-latest" \
-    PATH="/opt/miniconda-latest/bin:$PATH"
-RUN bash -c 'conda activate elekin'
+ENV CONDA_DIR="/opt/miniconda-latest"
+
+RUN echo "source activate elekin" > ~/.bashrc
+ENV PATH /opt/conda/envs/env/bin:$PATH
 
 EXPOSE 5000
 EXPOSE 8888 8888
