@@ -5,8 +5,7 @@ channels:
 dependencies:
   - h5py
   - hdf5
-  - jupyter_notebook
-  - jupyter_lab
+  - jupyterlab
   - keras=2.2.4
   - numpy=1.16.4
   - pandas=0.25.1
