@@ -23,4 +23,3 @@ EXPOSE 5000
 EXPOSE 8888 8888
 
 RUN mkdir -p ~/.jupyter && echo c.NotebookApp.ip = \'0.0.0.0\' > ~/.jupyter/jupyter_notebook_config.py
-CMD jupyter lab
