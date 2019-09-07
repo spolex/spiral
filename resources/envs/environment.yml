@@ -9,17 +9,17 @@ dependencies:
   - keras=2.2.4
   - numpy=1.16.4
   - pandas=0.25.1
-#  - pip=19.2.2
+  - pip=19.2.2
   - python=3.7.2
   - setuptools=41.0.1
   - tensorboard=1.14.0
   - tensorflow=1.14.0
   - tensorflow-base=1.14.0
   - tensorflow-estimator=1.14.0
-#  - pip:
-#    - hfda==0.1.1
-#    - joblib==0.13.2
-#    - sampen==0.0.15
-#    - scikit-learn==0.21.3
-#    - sklearn==0.0
-#    - swifter
+  - pip:
+    - hfda==0.1.1
+    - joblib==0.13.2
+    - sampen==0.0.15
+    - scikit-learn==0.21.3
+    - sklearn==0.0
+    - swifter
