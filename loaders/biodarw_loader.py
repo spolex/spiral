@@ -6,13 +6,21 @@ Created on Fri Aug 16 23:13:37 2019
 """
 import pandas as pd
 import os
+from properties.properties import Properties
 
-schema = ['x', 'y', 'timestamp', 'pen_up', 'azimuth', 'altitude', 'pressure']
+schema = Properties.schema
 
 
-def read(filename, schema=schema):
+def read(root, file, schema=schema):
+    filename = os.path.join(root, file)
+    suffix = file[-6:-4]
     if os.path.exists(filename):
-        return pd.read_csv(filename, sep="\s+", header=None, names=schema, skiprows=1)
+        df = pd.read_csv(filename, sep="\s+", header=None, names=schema, skiprows=1)
+        if "control" in file:
+            df[Properties.subject_id] = file[0:8] + "_" + suffix
+        else:
+            df[Properties.subject_id] = file[0:4] + "_" + suffix if "T" in file else file[0:3] + "_" + suffix
+        return df
 
 
 def read_filenames_from(file):
@@ -25,4 +33,5 @@ def read_filenames_from(file):
 
 def load_arquimedes_dataset(filenames_file, root):
     files = read_filenames_from(filenames_file)
-    return list(filter(lambda x: x is not None, list(map(lambda file: read(root + file), files))))
+    df = pd.concat(list(filter(lambda x: x is not None, list(map(lambda file: read(root, file), files)))))
+    return df

@@ -40,10 +40,10 @@ def analysis_loo(X, y, score='accuracy'):
     loo = LeaveOneOut()
     kf = KFold(n_splits=10, shuffle=True, random_state=4)
     # predictive model
-    clf = SVC(kernel='rbf', gamma=0.1, C=10**4)
+    clf = SVC(kernel='rbf', gamma=0.2, C=10**4)
 
     # make pipeline
-    pipe = make_pipeline(norm, fltr, clf)
+    pipe = make_pipeline(norm, clf)
     cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True)
     print("train score svm")
     print(cv['train_score'].mean())
@@ -54,7 +54,7 @@ def analysis_loo(X, y, score='accuracy'):
     clf = RandomForestClassifier(n_estimators=30)
 
     # make pipeline
-    pipe = make_pipeline(norm, fltr, clf)
+    pipe = make_pipeline(norm, clf)
 
     cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True)
     print("train score Random forest")
@@ -65,7 +65,7 @@ def analysis_loo(X, y, score='accuracy'):
     # Knn
     clf = KNeighborsClassifier(n_neighbors=5, algorithm='ball_tree', metric='euclidean')
     # make pipeline
-    pipe = make_pipeline(norm, fltr, clf)
+    pipe = make_pipeline(norm, clf)
     cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True)
 
     print("train score Knn")
@@ -77,7 +77,7 @@ def analysis_loo(X, y, score='accuracy'):
     clf = LDA()
 
     # make pipeline
-    pipe = make_pipeline(norm, fltr, clf)
+    pipe = make_pipeline(norm, clf)
     cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True)
 
     print("train score LDA")
