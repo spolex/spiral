@@ -37,12 +37,14 @@ class Properties:
     rdo_schema = ['r', 'rd']
     subject_id = 'subject_id'
 
-    rdo_root_path = "Z:/elekin/02-RESULTADOS/03-HANDWRITTING"
+    root_path = "Z:/elekin"
+    rdo_root_path = path.join(root_path,"02-RESULTADOS/03-HANDWRITTING")
     rdo_log_path = path.join(rdo_root_path, '01-LOG')
 
-    ct_root_path = "E:/04-DATASOURCES/01-PHD/00-NEW/02-WEE/ETHW/Controles30jun14/"
-    et_root_path = "E:/04-DATASOURCES/01-PHD/00-NEW/02-WEE/ETHW/Protocolo temblor"
-    file_list_path = "E:/04-DATASOURCES/01-PHD/00-NEW/02-WEE/ETHW/ETONA.txt"
+    datasources_path = "00-DATASOURCES/02-ETHW"
+    ct_root_path = path.join(root_path, datasources_path, "Controles30jun14/")
+    et_root_path = path.join(root_path, datasources_path, "Protocolo temblor")
+    file_list_path = path.join(root_path, datasources_path, "ETONA.txt")
 
     controls = 27
     et = 23
