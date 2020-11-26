@@ -13,3 +13,4 @@ output/*
 # exclude resources for now
 resources/envs/.*
 sandbox/
+/notebooks/.ipynb_checkpoints/

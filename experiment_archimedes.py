@@ -11,12 +11,11 @@ from logging.handlers import RotatingFileHandler
 from properties.properties import Properties
 import pandas as pd
 from pandas import HDFStore
-import swifter
 from loaders.biodarw_loader import load_arquimedes_dataset
 
 from preprocess.biodarw_feature_extraction import extract_radio, extract_residues, extract_features_of
 from scipy.signal import resample
-from skrebate import ReliefF, MultiSURFstar
+from skrebate import ReliefF
 from sklearn.feature_selection import RFE
 
 from analysis import svm_cv, clf_ho, clf_loo, svm_deap
