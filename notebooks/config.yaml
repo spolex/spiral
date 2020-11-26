@@ -1,0 +1,18 @@
+#loading parameters
+coefficients: 17
+root_path: "/data/elekin/data"
+hw_results_path: "results/03-HANDWRITTING"
+
+#training parameters
+seed: 42
+features: 4096
+num_epochs: 10000
+dropout: 0.25
+lr2: 1e-3
+lr: 8e-4
+mini_batch_size: 4
+main_units: 64
+secondary_units: 24
+lstm_units: 128
+num_classes: 1
+
