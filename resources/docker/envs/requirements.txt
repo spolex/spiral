@@ -1,0 +1,5 @@
+h5py
+hdf5
+numpy
+pandas
+seaborn

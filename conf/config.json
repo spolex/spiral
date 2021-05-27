@@ -1,9 +1,9 @@
 {
   "_comment": "Configuration file must be contain all parameters and file paths for the experiment",
   "experiment": {
-    "ct_root_path": "E:/04-DATASOURCES/01-PHD/00-NEW/02-WEE/ETHW/Controles30jun14/",
-    "et_root_path": "E:/04-DATASOURCES/01-PHD/00-NEW/02-WEE/ETHW/Protocolo temblor",
-    "file_list_path" : "E:/04-DATASOURCES/01-PHD/00-NEW/02-WEE/ETHW/ETONA.txt",
+    "ct_root_path": "/data/elekin/data/origin/ethw/Controles30jun14/",
+    "et_root_path": "/data/elekin/data/origin/ethw/Protocolo temblor",
+    "file_list_path" : "/data/elekin/data/origin/ethw/ETONA.txt",
     "controls" : 27,
     "et": 23,
     "coefficients_from": 17,
