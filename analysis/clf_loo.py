@@ -39,7 +39,7 @@ def analysis_loo(X, y, score='accuracy'):
 
     loo = LeaveOneOut()
     # predictive model
-    clf = SVC(kernel='rbf', gamma=0.2, C=10**4)
+    clf = SVC(kernel='rbf', gamma=0.2, C=10**3)
     
 
     # make pipeline
