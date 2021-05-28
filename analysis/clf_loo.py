@@ -17,7 +17,7 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
 from sklearn.pipeline import make_pipeline
 
-from sklearn.model_selection import cross_val_score, cross_validate
+from sklearn.model_selection import cross_validate
 from sklearn.model_selection import LeaveOneOut, KFold
 
 
@@ -30,21 +30,21 @@ def analysis_loo(X, y, score='accuracy'):
     :return:
     """
     # scale data
-    norm = preprocessing.StandardScaler()
+    # norm = preprocessing.StandardScaler()
 
     # feature selection
     # A sklearn-compatible Python implementation of ReBATE, a suite of Relief-based feature selection algorithms.
     # https://github.com/EpistasisLab/scikit-rebate
-    fltr = RFE(ReliefF(), n_features_to_select=5, step=0.5)
+    selector = RFE(ReliefF(), n_features_to_select=5, step=1)
 
     loo = LeaveOneOut()
-    kf = KFold(n_splits=10, shuffle=True, random_state=4)
     # predictive model
-    clf = SVC(kernel='rbf', gamma=0.2, C=10**4)
+    clf = SVC(kernel='rbf', gamma=0.2, C=10**3)
+    
 
     # make pipeline
-    pipe = make_pipeline(norm, clf)
-    cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True)
+    pipe = make_pipeline(selector, clf)
+    cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True, n_jobs=-1)
     print("train score svm")
     print(cv['train_score'].mean())
     print("test score svm")
@@ -54,9 +54,9 @@ def analysis_loo(X, y, score='accuracy'):
     clf = RandomForestClassifier(n_estimators=30)
 
     # make pipeline
-    pipe = make_pipeline(norm, clf)
+    pipe = make_pipeline(selector, clf)
 
-    cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True)
+    cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True, n_jobs=-1)
     print("train score Random forest")
     print(cv['train_score'].mean())
     print("test score Random forest")
@@ -65,8 +65,8 @@ def analysis_loo(X, y, score='accuracy'):
     # Knn
     clf = KNeighborsClassifier(n_neighbors=5, algorithm='ball_tree', metric='euclidean')
     # make pipeline
-    pipe = make_pipeline(norm, clf)
-    cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True)
+    pipe = make_pipeline(selector, clf)
+    cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True, n_jobs=-1)
 
     print("train score Knn")
     print(cv['train_score'].mean())
@@ -77,8 +77,8 @@ def analysis_loo(X, y, score='accuracy'):
     clf = LDA()
 
     # make pipeline
-    pipe = make_pipeline(norm, clf)
-    cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True)
+    pipe = make_pipeline(selector, clf)
+    cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True, n_jobs=-1)
 
     print("train score LDA")
     print(cv['train_score'].mean())

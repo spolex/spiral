@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  spiral:
+    build: .
+    image: deep-learning-workstation:5000/spiral
+    networks:
+      - public 
+    command: start-notebook.sh --NotebookApp.password=''sha1:283598bb9327:511f11f16e35d28ccf5569600f5ccf4c5dd86f6d 
+    ports:
+      - "8888:8888"
+      - "8887:8080"
+    volumes:
+      - /data:/data 
+      - ../..:/home/jovyan/spiral
+networks:
+  public:
+    external: true
+    name: public
