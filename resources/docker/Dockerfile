@@ -10,7 +10,7 @@ USER $NB_USER
 ADD ./envs/requirements.txt .
 #RUN pip install -r requirements.txt
 RUN conda install -c conda-forge --file requirements.txt 
-RUN pip install tables sklearn skrebate
+RUN pip install tables sklearn skrebate sacred
 
 WORKDIR /home/jovyan/spiral
 
