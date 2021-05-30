@@ -8,9 +8,7 @@ RUN apt update && apt install --yes git
 USER $NB_USER
 
 ADD ./envs/requirements.txt .
-#RUN pip install -r requirements.txt
-RUN conda install -c conda-forge --file requirements.txt 
-RUN pip install tables sklearn skrebate sacred
+RUN pip install -r requirements.txt
 
 WORKDIR /home/jovyan/spiral
 

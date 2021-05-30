@@ -5,8 +5,7 @@ Created on Sat Aug 17 19:56:46 2019
 @author: isancmen
 """
 
-import h5py
-import logging
+from loaders import h5py, logging
 
 logger = logging.getLogger('MainLogger')
 

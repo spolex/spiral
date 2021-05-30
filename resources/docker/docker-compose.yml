@@ -1,19 +1,11 @@
 version: "3.7"
 
 services:
-  spiral:
-    build: .
-    image: deep-learning-workstation:5000/spiral
-    networks:
-      - public 
-    command: start-notebook.sh --NotebookApp.password=''sha1:283598bb9327:511f11f16e35d28ccf5569600f5ccf4c5dd86f6d 
+
+  mlflow:                                             # create a MLFlow container
+    build: './mlflow'                        # construct the container along the Dockerfile in this folder
+    container_name: mlflow_container
     ports:
-      - "8888:8888"
-      - "8887:8080"
-    volumes:
-      - /data:/data 
-      - ../..:/home/jovyan/spiral
-networks:
-  public:
-    external: true
-    name: public
+        - "5001:5000"                               # expose port
+    command: 'mlflow server --backend-store-uri ./mlflow --host 0.0.0.0 --port 5000'
+    

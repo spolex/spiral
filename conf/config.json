@@ -9,6 +9,7 @@
     "coefficients_from": 17,
     "coefficients_to": 16,
     "coefficients_step": 16,
+    "resample": 4096,
     "h5file": "output/archimedean-",
     "filename_ds": "output/archimedean_ds-",
     "extension": ".h5",
@@ -25,6 +26,12 @@
     "train_rd": "train_rd",
     "train_r": "train_r",
     "labels": "labels",
-    "mode": "r"
+    "mode": "r",
+    "schema" : "['x', 'y', 'timestamp', 'pen_up', 'azimuth', 'altitude', 'pressure']",
+    "subject_id" : "subject_id",
+
+    "MONGO_INITDB_ROOT_USERNAME" : "mongo_user",
+    "MONGO_INITDB_ROOT_PASSWORD" : "mongo_password"
+
   }
 }
