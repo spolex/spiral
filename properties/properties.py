@@ -3,7 +3,7 @@ import logging
 from os import path
 from datetime import datetime
 
-def experiment_config(filename="conf/config.json"):
+def experiment_config(filename="config.json"):
     """
     Load experiment configuration file
     :param filename:
@@ -73,7 +73,6 @@ file_list_path = path.join(root_path, datasources_path, "ETONA.txt")
 controls = 27
 et = 23
 coefficients = [10] + list(range(14, 26, 1)) + [30, 50]
-# coefficients = [17]
 h5file = path.join(rdo_root_path, "00-OUTPUT/archimedean-")
 filename_ds = path.join(rdo_root_path, "00-OUTPUT/archimedean_ds-")
 extension = ".h5"
@@ -93,11 +92,13 @@ train_rd = 'train_rd'
 train_r = 'train_r'
 X = train_rd
 labels = 'labels'
+subject_id = 'subject_id'
 
 mode = 'r'
 
-log_conf_path = 'conf/logging.conf'
+log_conf_path = '../conf/logging.conf'
 log_filename = 'archimedean-{:%Y-%m-%d}.log'.format(datetime.now())
 log_file_path = path.join(rdo_log_path, log_filename)
 
-Properties = experiment_config()['experiment']
+schema = ['x', 'y', 'timestamp', 'pen_up', 'azimuth', 'altitude', 'pressure']
+

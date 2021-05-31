@@ -2,13 +2,11 @@
   "_comment": "Configuration file must be contain all parameters and file paths for the experiment",
   "experiment": {
     "ct_root_path": "/data/elekin/data/origin/ethw/Controles30jun14/",
-    "et_root_path": "/data/elekin/data/origin/ethw/Protocolo temblor",
+    "et_root_path": "/data/elekin/data/origin/ethw/protocolo_temblor",
     "file_list_path" : "/data/elekin/data/origin/ethw/ETONA.txt",
     "controls" : 27,
     "et": 23,
-    "coefficients_from": 17,
-    "coefficients_to": 16,
-    "coefficients_step": 16,
+    "coefficients": [17],
     "resample": 4096,
     "h5file": "output/archimedean-",
     "filename_ds": "output/archimedean_ds-",
@@ -28,10 +26,6 @@
     "labels": "labels",
     "mode": "r",
     "schema" : "['x', 'y', 'timestamp', 'pen_up', 'azimuth', 'altitude', 'pressure']",
-    "subject_id" : "subject_id",
-
-    "MONGO_INITDB_ROOT_USERNAME" : "mongo_user",
-    "MONGO_INITDB_ROOT_PASSWORD" : "mongo_password"
-
+    "subject_id" : "subject_id"
   }
 }
