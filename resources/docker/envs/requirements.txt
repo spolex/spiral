@@ -3,3 +3,7 @@ hdf5
 numpy
 pandas
 seaborn
+tables
+sklearn
+skrebate
+sacred
