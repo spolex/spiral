@@ -10,4 +10,5 @@ sampen
 xlrd==1.2.0
 hfda
 pyentrp
+google-cloud-storage
 
