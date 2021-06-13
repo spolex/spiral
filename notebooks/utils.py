@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-import tensorflow_docs as tfdocs
-import tensorflow_docs.modeling
-import tensorflow_docs.plots
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping
 
@@ -19,6 +16,9 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
+import tensorflow_docs as tfdocs
+import tensorflow_docs.modeling
+import tensorflow_docs.plots
 
 logdir = pathlib.Path(".spiral")/"tensorboard_logs"
 
