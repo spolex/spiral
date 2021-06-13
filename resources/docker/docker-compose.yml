@@ -13,6 +13,7 @@ services:
     volumes:
       - /data:/data
       - ../..:/home/jovyan/spiral
+      - /data/resources/cloud/gcp/keys:/tmp/keys
     deploy:
       resources:
         reservations:
