@@ -11,7 +11,7 @@ from logging.handlers import RotatingFileHandler
 from properties.properties import Properties
 import pandas as pd
 from pandas import HDFStore
-from loaders.biodarw_loader import load_arquimedes_dataset
+from loaders.biodarw import load_arquimedes_dataset
 
 from preprocess.biodarw_feature_extraction import extract_radio, extract_residues, extract_features_of
 from scipy.signal import resample
