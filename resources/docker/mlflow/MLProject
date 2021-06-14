@@ -1,0 +1,10 @@
+name: spiral
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      mini_batch_size: {type: int, default: 4}
+      test_ratio: {type: float, default: 0.33}
+      drop_out: {type: float, default: 0.25}
+    command: "python spiral_lstm_train.py --mini_batch_size={batch_size} --test_ratio={test_ratio}" --drop_out={drop_out}

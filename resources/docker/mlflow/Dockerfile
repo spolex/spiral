@@ -1,5 +1,13 @@
-FROM python:3.7.0
+# Start from a core stack version
+FROM tensorflow/tensorflow:latest-gpu-jupyter
 
-RUN pip install mlflow==1.7.0
+USER root
 
-EXPOSE 5000
+RUN apt update && apt install --yes git
+
+USER $NB_USER
+
+ADD conda.yaml .
+RUN pip install -r requirements.txt
+
+WORKDIR /home/jovyan/spiral
