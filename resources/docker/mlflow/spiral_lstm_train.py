@@ -1,5 +1,6 @@
 import argparse
 from os import path
+import sys
 
 # data and processing
 import pandas as pd
@@ -10,15 +11,14 @@ from scipy.signal import resample
 from tensorflow.keras.callbacks import EarlyStopping
 import tensorflow as tf
 import tensorflow_docs as tfdocs
+from tensorflow_docs import modeling
+
 
 # mlops
 import mlflow
 import mlflow.tensorflow
 
 FEATURES = ['x', 'y', 'pen_up', 'pressure']
-
-# Enable auto-logging to MLflow to capture TensorBoard metrics.
-mlflow.tensorflow.autolog()
 
 
 def load_data(doc_path, filename):
@@ -80,7 +80,7 @@ def get_model(n_features, n_timesteps, n_outputs, n_units, n_layers=1, drop_out=
     model = tf.keras.models.Sequential()
     model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1,
                                    input_shape=(n_timesteps, n_features)))
-    for n_layer in n_layers:
+    for n_layer in range(n_layers-1):
         model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layer != n_layers,
                                        name='lstm_hidden_layer'))
         model.add(tf.keras.layers.Droput(drop_out))
@@ -105,37 +105,42 @@ parser.add_argument("--n_layers", default=1, type=int, help="number of hidden la
 parser.add_argument("--n_units", default=32, type=int, help="number of units for hidden layers")
 parser.add_argument("--max_epoch", default=500, type=int, help="number of maximum epochs for training")
 
+# Enable auto-logging to MLflow to capture TensorBoard metrics.
+# export MLFLOW_TRACKING_URI=http://192.168.1.12:5001
+# export GOOGLE_APPLICATION_CREDENTIALS: "/tmp/keys/eastonlab-b37c04a8f1a5.json"
 
 def main(argv):
     args = parser.parse_args(argv[1:])
-
-    mlflow.set_tracking_uri(args.tracking_uri)
-    mlflow.set_experiment('/archimedes-dl')
-
-    AUTOTUNE = tf.data.experimental.AUTOTUNE
-
-    seed = args.seed
-    n_outputs = args.n_classes
-    mini_batch_size = args.mini_batch_size
-
-    x_train, y_train = load_data(args.doc_path, args.metadata_file)
-    n_timesteps = np.array(x_train).shape[1]
-    n_features = np.array(x_train).shape[2]
-    data_size = np.array(x_train).shape[0]
-    shuffle_buffer = data_size
-    steps_per_epoch = round(data_size / mini_batch_size)
-
-    train_test_split = eval(args.train_test_split)
-    train_split = 1.0 - args.test_ratio
-    test_split = train_test_split[1]
-    train_size = int(train_split * data_size)
-    # test_size = int(test_split * data_size)
-    dataset = tf.data.Dataset.from_tensor_slices((x_train, tf.one_hot(y_train, n_outputs)))
-    full_dataset = dataset.shuffle(shuffle_buffer, seed=seed)
-    train_dataset = full_dataset.take(train_size).batch(mini_batch_size).prefetch(AUTOTUNE).cache()
-    test_dataset = full_dataset.skip(train_size).batch(mini_batch_size).prefetch(AUTOTUNE).cache()
-
+    # mlflow.set_tracking_uri("http://192.168.1.12:5001")
+    # mlflow.set_experiment('/archimedes-dl')
+    mlflow.tensorflow.autolog()
     with mlflow.start_run(run_name=args.run_name):
+
+        # mlflow.set_tracking_uri(args.tracking_uri)
+        # mlflow.set_experiment('/archimedes-dl')
+
+        AUTOTUNE = tf.data.experimental.AUTOTUNE
+
+        seed = args.seed
+        n_outputs = args.n_classes
+        mini_batch_size = args.mini_batch_size
+
+        x_train, y_train = load_data(args.doc_path, args.metadata_file)
+        n_timesteps = np.array(x_train).shape[1]
+        n_features = np.array(x_train).shape[2]
+        data_size = np.array(x_train).shape[0]
+        shuffle_buffer = data_size
+        steps_per_epoch = round(data_size / mini_batch_size)
+
+        train_split = 1.0 - args.test_ratio
+        test_split = args.test_ratio
+        train_size = int(train_split * data_size)
+        # test_size = int(test_split * data_size)
+        dataset = tf.data.Dataset.from_tensor_slices((x_train, tf.one_hot(y_train, n_outputs)))
+        full_dataset = dataset.shuffle(shuffle_buffer, seed=seed)
+        train_dataset = full_dataset.take(train_size).batch(mini_batch_size).prefetch(AUTOTUNE).cache()
+        test_dataset = full_dataset.skip(train_size).batch(mini_batch_size).prefetch(AUTOTUNE).cache()
+
         mlflow.log_param("seed", seed)
         mlflow.log_param("drop_out", args.drop_out)
         mlflow.log_param("mini_batch_size", mini_batch_size)
@@ -144,9 +149,10 @@ def main(argv):
         mlflow.log_param("lstm_units", args.n_units)
         mlflow.log_param("features", FEATURES)
 
-        clf = get_model(n_features, n_timesteps, n_outputs, args.n_units, args.drop_out)
+        clf = get_model(n_features, n_timesteps, n_outputs, args.n_units, args.n_layers, args.drop_out)
         history = compile_and_fit(clf, train_dataset, test_dataset,
                                   args.run_name,
+                                  args.seed,
                                   optimizer=get_optimizer(steps_per_epoch, 1e-3),
                                   max_epochs=1000)
 
@@ -154,3 +160,7 @@ def main(argv):
         # Evaluate the model on the test data using `evaluate`
         print('train acc:', max(history.history["accuracy"]))
         print('test acc:', max(history.history["val_accuracy"]))
+
+
+if __name__ == "__main__":
+    main(sys.argv)
