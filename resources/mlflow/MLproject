@@ -1,6 +1,6 @@
 name: spiral
 
-conda_env: conda.yaml
+# conda_env: conda.yaml
 # Can have a docker_env instead of a conda_env, e.g.
 # docker_env:
 #  image:  deep-learning-workstation:5000/spiral

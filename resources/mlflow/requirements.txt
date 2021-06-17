@@ -1,0 +1,13 @@
+pyyaml===5.4.1
+pandas
+tables==3.6.1
+sklearn
+skrebate==0.62
+git+https://github.com/tensorflow/docs
+sampen
+xlrd==1.2.0
+hfda
+pyentrp
+mlflow==1.17.0
+google-cloud-storage
+

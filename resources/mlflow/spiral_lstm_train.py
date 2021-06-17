@@ -1,6 +1,7 @@
 import argparse
 from os import path
 import sys
+import logging
 
 # data and processing
 import pandas as pd
@@ -44,16 +45,15 @@ training_earlystop_callback = EarlyStopping(
     patience=200)
 
 
-def get_callbacks(name):
+def get_callbacks():
     return [
         tfdocs.modeling.EpochDots(),
         earlystop_callback,
         tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2e2, min_delta=1e-5),
-        # tf.keras.callbacks.TensorBoard(logdir/name),
     ]
 
 
-def compile_and_fit(model, train_dataset, test_dataset, name, seed, optimizer=None, max_epochs=1e3):
+def compile_and_fit(model, train_dataset, test_dataset, seed, optimizer=None, max_epochs=1e3):
     tf.keras.backend.clear_session()  # avoid clutter from old models and layers, especially when memory is limited
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
     model.summary()
@@ -61,8 +61,8 @@ def compile_and_fit(model, train_dataset, test_dataset, name, seed, optimizer=No
     history = model.fit(train_dataset,
                         use_multiprocessing=True,
                         validation_data=test_dataset, epochs=max_epochs,
-                        callbacks=get_callbacks(name),
-                        verbose=0, shuffle=True)
+                        callbacks=get_callbacks(),
+                        verbose=1, shuffle=True)
     return history
 
 
@@ -78,12 +78,14 @@ def get_optimizer(steps_per_epoch=1, lr=1e-4, multiplier=1e3):
 
 def get_model(n_features, n_timesteps, n_outputs, n_units, n_layers=1, drop_out=0.5):
     model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1,
+    logging.info("Return sequences is {}".format(n_layers > 1))
+    model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=True,
                                    input_shape=(n_timesteps, n_features)))
-    for n_layer in range(n_layers-1):
+    for n_layer in range(1, n_layers):
         model.add(tf.keras.layers.Dropout(drop_out))
-        model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layer != n_layers,
+        model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=False,
                                        name='lstm_hidden_layer'))
+
     model.add(tf.keras.layers.Dropout(drop_out))
     model.add(tf.keras.layers.Dense(100, activation=tf.nn.relu, name='dense_hidden_layer'))
     model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.sigmoid, name='output'))
@@ -155,10 +157,9 @@ def main(argv):
 
         clf = get_model(n_features, n_timesteps, n_outputs, args.n_units, args.n_layers, args.drop_out)
         history = compile_and_fit(clf, train_dataset, test_dataset,
-                                  args.run_name,
-                                  args.seed,
+                                  seed=args.seed,
                                   optimizer=get_optimizer(steps_per_epoch, 1e-3),
-                                  max_epochs=1000)
+                                  max_epochs=args.max_epoch)
 
         print("\n#######################Evaluation###########################")
         # Evaluate the model on the test data using `evaluate`

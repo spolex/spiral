@@ -1,0 +1,1 @@
+docker build -t deep-learning-workstation:5000/spiral .
