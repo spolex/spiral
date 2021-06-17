@@ -81,9 +81,10 @@ def get_model(n_features, n_timesteps, n_outputs, n_units, n_layers=1, drop_out=
     model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1,
                                    input_shape=(n_timesteps, n_features)))
     for n_layer in range(n_layers-1):
+        model.add(tf.keras.layers.Dropout(drop_out))
         model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layer != n_layers,
                                        name='lstm_hidden_layer'))
-        model.add(tf.keras.layers.Droput(drop_out))
+    model.add(tf.keras.layers.Dropout(drop_out))
     model.add(tf.keras.layers.Dense(100, activation=tf.nn.relu, name='dense_hidden_layer'))
     model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.sigmoid, name='output'))
     return model
@@ -115,6 +116,9 @@ def main(argv):
     # mlflow.set_experiment('/archimedes-dl')
     mlflow.tensorflow.autolog()
     with mlflow.start_run(run_name=args.run_name):
+        if not tf.config.list_physical_devices('GPU'):
+            raise SystemError('GPU device not found')
+        print('Found GPU at: {}'.format(tf.config.list_physical_devices('GPU')))
 
         # mlflow.set_tracking_uri(args.tracking_uri)
         # mlflow.set_experiment('/archimedes-dl')
