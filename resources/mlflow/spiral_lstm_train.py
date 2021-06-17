@@ -78,8 +78,7 @@ def get_optimizer(steps_per_epoch=1, lr=1e-4, multiplier=1e3):
 
 def get_model(n_features, n_timesteps, n_outputs, n_units, n_layers=1, drop_out=0.5):
     model = tf.keras.models.Sequential()
-    logging.info("Return sequences is {}".format(n_layers > 1))
-    model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=True,
+    model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1,
                                    input_shape=(n_timesteps, n_features)))
     for n_layer in range(1, n_layers):
         model.add(tf.keras.layers.Dropout(drop_out))
