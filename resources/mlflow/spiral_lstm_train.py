@@ -113,16 +113,11 @@ parser.add_argument("--max_epoch", default=500, type=int, help="number of maximu
 
 def main(argv):
     args = parser.parse_args(argv[1:])
-    # mlflow.set_tracking_uri("http://192.168.1.12:5001")
-    # mlflow.set_experiment('/archimedes-dl')
     mlflow.tensorflow.autolog()
     with mlflow.start_run(run_name=args.run_name):
         if not tf.config.list_physical_devices('GPU'):
             raise SystemError('GPU device not found')
         print('Found GPU at: {}'.format(tf.config.list_physical_devices('GPU')))
-
-        # mlflow.set_tracking_uri(args.tracking_uri)
-        # mlflow.set_experiment('/archimedes-dl')
 
         AUTOTUNE = tf.data.experimental.AUTOTUNE
 
@@ -131,6 +126,7 @@ def main(argv):
         mini_batch_size = args.mini_batch_size
 
         x_train, y_train = load_data(args.doc_path, args.metadata_file)
+        print(x_train.head())
         n_timesteps = np.array(x_train).shape[1]
         n_features = np.array(x_train).shape[2]
         data_size = np.array(x_train).shape[0]

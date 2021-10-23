@@ -30,7 +30,7 @@ def analysis_loo(X, y, score='accuracy'):
     :return:
     """
     # scale data
-    # norm = preprocessing.StandardScaler()
+    norm = preprocessing.StandardScaler()
 
     # feature selection
     # A sklearn-compatible Python implementation of ReBATE, a suite of Relief-based feature selection algorithms.
@@ -43,7 +43,7 @@ def analysis_loo(X, y, score='accuracy'):
     
 
     # make pipeline
-    pipe = make_pipeline(selector, clf)
+    pipe = make_pipeline(norm, selector, clf)
     cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True, n_jobs=-1)
     print("train score svm")
     print(cv['train_score'].mean())
@@ -54,7 +54,7 @@ def analysis_loo(X, y, score='accuracy'):
     clf = RandomForestClassifier(n_estimators=30)
 
     # make pipeline
-    pipe = make_pipeline(selector, clf)
+    pipe = make_pipeline(norm, selector, clf)
 
     cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True, n_jobs=-1)
     print("train score Random forest")
@@ -65,7 +65,7 @@ def analysis_loo(X, y, score='accuracy'):
     # Knn
     clf = KNeighborsClassifier(n_neighbors=5, algorithm='ball_tree', metric='euclidean')
     # make pipeline
-    pipe = make_pipeline(selector, clf)
+    make_pipeline(norm, selector, clf)
     cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True, n_jobs=-1)
 
     print("train score Knn")
@@ -77,7 +77,7 @@ def analysis_loo(X, y, score='accuracy'):
     clf = LDA()
 
     # make pipeline
-    pipe = make_pipeline(selector, clf)
+    make_pipeline(norm, selector, clf)
     cv = cross_validate(pipe, X, y, cv=loo, scoring=score, return_train_score=True, n_jobs=-1)
 
     print("train score LDA")

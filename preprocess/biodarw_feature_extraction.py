@@ -28,8 +28,7 @@ def extract_radio(L, n=None):
     """
     x = L['x'].values if n is None else resample(L['x'].values, n)
     y = L['y'].values if n is None else resample(L['y'].values, n)
-    rho, phi = cart2pol(x, y)
-    return radio(rho, phi)
+    return radio(x, y)
 
 
 def extract_residues(L, n=None, c=None):

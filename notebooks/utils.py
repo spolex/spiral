@@ -13,6 +13,7 @@ from pandas import HDFStore
 import pandas as pd
 import math
 import numpy as np
+from scipy.signal import resample
 
 import matplotlib.pyplot as plt
 
@@ -21,6 +22,8 @@ import tensorflow_docs.modeling
 import tensorflow_docs.plots
 
 logdir = pathlib.Path(".spiral")/"tensorboard_logs"
+features = ['x', 'y', 'timestamp', 'pen_up', 'azimuth', 'altitude', 'pressure']
+
 
 #Early stop configuration
 earlystop_callback = EarlyStopping(
@@ -185,3 +188,18 @@ def split_train_test(full_dataset, ratio=0.67, seed=42):
     test_dataset = full_dataset.skip(size).batch(1).prefetch(4).cache()
     
     return (train_dataset, test_dataset)
+
+def get_abs_path(df, registro_tableta, idx=0):
+    return df[(df.index == registro_tableta)].abs_path
+
+def read(filename):
+    df = pd.read_csv(filename, sep="\s+", header=None, names=features, skiprows=1)
+    return df
+
+def load_biodarw(index, abs_paths):
+    dataset = None
+    for i, filename in zip(index, abs_paths) :
+        tmp_df = read(filename)
+        tmp_df['subject_id'] = i
+        dataset = pd.concat([tmp_df,dataset])
+    return dataset

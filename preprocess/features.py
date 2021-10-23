@@ -11,7 +11,7 @@ import hfda
 import numpy as np
 from scipy.signal import find_peaks, welch
 from scipy.stats import moment, kurtosis, skew
-from math import log, pi
+from math import log, pi, degrees
 from functools import partial
 import time
 from pyentrp import entropy as e
@@ -125,8 +125,11 @@ def radio(x, y):
     :param y: y coordinate
     :return:
     """
+    xc = x[0]
+    yc = y[0]
+
     start_time = time.time()
-    r = (x ** 2 + y ** 2) ** (1 / 2)
+    r = np.sqrt((x-xc)**2+(y-yc)** 2)
     elapsed_time = time.time() - start_time
     logger.debug("Elapsed time to calculate radius(x,y) is %s", elapsed_time)
     return r
@@ -154,11 +157,11 @@ def cart2pol(x, y):
     :return: polar coordinates (rho, phi)
     """
     start_time = time.time()
-    rho = np.sqrt(x ** 2 + y ** 2)
+    rho = radio(x, y)
     phi = np.arctan2(y, x)
     elapsed_time = time.time() - start_time
     logger.debug("Elapsed time to transform from cartesian coordinates to polar coordinates is %s", elapsed_time)
-    return rho, phi
+    return rho, np.array(list(map(degrees,phi)))
 
 
 def pol2cart(rho, phi):
@@ -296,9 +299,7 @@ def wamp(l):
     """
     start = time.time()
     epsilon = l.mean()
-    a = l[:-1]
-    b = l[1:]
-    diff = abs(a - b)
+    diff = abs ( l.diff().dropna().values )
     amp = diff > epsilon
     elapsed_time = time.time() - start
     logger.debug("Elapsed time to calculate Wilson amplitude (WAMP) value is %s", elapsed_time)

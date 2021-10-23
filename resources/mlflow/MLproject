@@ -5,7 +5,7 @@ name: spiral
 docker_env:
  image:  deep-learning-workstation:5000/spiral
  volumes: ["/data/resources/cloud/gcp/keys:/tmp/keys", "/data:/data"]
- environment: [["GOOGLE_APPLICATION_CREDENTIALS", "/tmp/keys/eastonlab-b37c04a8f1a5.json", "MLFLOW_TRACKING_URI", "http://192.168.1.12:5001"]]
+ environment: [["GOOGLE_APPLICATION_CREDENTIALS", "/tmp/keys/eastonlab-b37c04a8f1a5.json", "MLFLOW_TRACKING_URI", "http://mlflow_server:5000"]]
 
 entry_points:
   main:

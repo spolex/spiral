@@ -15,3 +15,9 @@ resources/envs/.*
 sandbox/
 /notebooks/.ipynb_checkpoints/
 venv/
+notebooks/*.npy
+notebooks/*.csv
+notebooks/*.json
+notebooks/*.h5
+notebooks/ethw.*
+notebooks/logs/
