@@ -50,11 +50,11 @@ def extract_features_of(L):
     f, Pxx = periodogram(L, fs=1.0)
     return [
         # Time features
-        # samp_ent(L)
-        # , shannon_entrp(L)
-         mean_abs_val(L)
-        , np.var(L)
-        , root_mean_square(L)
+        # samp_ent(L), 
+        # shannon_entrp(L), 
+        mean_abs_val(L),
+        np.var(L),
+        root_mean_square(L)
         , log_detector(L)
         , wl(L)
         , np.nanstd(L)
@@ -67,7 +67,7 @@ def extract_features_of(L):
         , zc(L)
         , ssc(L)
         , wamp(L)
-        # Frequency features
+        # # Frequency features
         , p_max(Pxx, L)
         , f_max(Pxx)
         , mp(Pxx)

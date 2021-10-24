@@ -21,3 +21,4 @@ notebooks/*.json
 notebooks/*.h5
 notebooks/ethw.*
 notebooks/logs/
+notebooks/tensorflow_log/

@@ -1,5 +1,5 @@
 # Start from a core stack version
-FROM tensorflow/tensorflow:latest-gpu-jupyter
+FROM tensorflow/tensorflow:2.5.0-gpu-jupyter
 
 USER root
 

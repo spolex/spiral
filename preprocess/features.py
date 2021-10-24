@@ -392,8 +392,8 @@ def masks(l):
     :param l: 1-N dimensional array
     :return:
     """
-    d = np.diff(l)
-    dd = np.diff(d)
+    d = np.diff(l).round()
+    dd = np.diff(d).round()
     # Mask of locations where graph goes to vertical or horizontal, depending on vec
     to_mask = ((d[:-1] != 0) & (d[:-1] == -dd))
     # Mask of locations where graph comes from vertical or horizontal, depending on vec

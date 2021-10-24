@@ -9,6 +9,6 @@ sampen
 xlrd==1.2.0
 hfda
 pyentrp
-mlflow==1.17.0
+mlflow==1.20.2
 google-cloud-storage
 
