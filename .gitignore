@@ -1,14 +1,8 @@
-# spyder and python local directories
-.spyproject/
+# python local directories
 __pycache__/
+**/__pycache__/
 .pytest_cache/
-.vagrant/
 
-.idea/
-
-# exclude everything
-log/*
-output/*
 
 # exclude resources for now
 resources/envs/.*
