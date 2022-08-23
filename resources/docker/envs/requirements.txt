@@ -3,3 +3,4 @@ hdf5
 numpy
 pandas
 seaborn
+openpyxl
