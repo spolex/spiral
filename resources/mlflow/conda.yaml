@@ -2,21 +2,20 @@ name: spiral
 channels:
   - conda-forge
 dependencies:
-  - python=3.7
+  - python=3.8
   - pip
   - pip:
-    - mlflow==1.17.0
-    - tensorflow==2.5.0
-    - pyyaml===5.4.1
+    - mlflow
+    - tensorflow
+    - pyyaml
     - pandas
-    - seaborn==0.11.1
-    - tables==3.6.1
+    - seaborn
+    - tables
     - sklearn
-    - skrebate==0.62
-    - git+https://github.com/tensorflow/docs
+    - skrebate
     - sampen
-    - xlrd==1.2.0
+    - xlrd
     - hfda
     - pyentrp
-    - mlflow==1.17.0
     - google-cloud-storage
+    - pytz  

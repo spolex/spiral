@@ -1,5 +1,5 @@
 # Start from a core stack version
-FROM tensorflow/tensorflow:latest-gpu
+FROM tensorflow/tensorflow:2.9.1-gpu
 
 USER root
 

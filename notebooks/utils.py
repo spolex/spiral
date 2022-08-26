@@ -15,11 +15,8 @@ import math
 import numpy as np
 from scipy.signal import resample
 
+import matplotlib as mpl
 import matplotlib.pyplot as plt
-
-import tensorflow_docs as tfdocs
-import tensorflow_docs.modeling
-import tensorflow_docs.plots
 
 logdir = pathlib.Path(".spiral")/"tensorboard_logs"
 features = ['x', 'y', 'timestamp', 'pen_up', 'azimuth', 'altitude', 'pressure']
@@ -58,25 +55,20 @@ def load_residues_dataset(root_path, num_coefficients):
 
 """Plot accuracy for train and val datasets and also loss function vs number of epoch
 """
-def plot_report(history):
-    # Plot training & validation accuracy values
-    fig, ax = plt.subplots(1,2, figsize=(12,6))
-    ax[0].plot(history.history['accuracy'])
-    ax[0].plot(history.history['val_accuracy'])
-    ax[0].title('Model accuracy')
-    ax[0].ylabel('Accuracy')
-    ax[0].xlabel('Epoch')
-    ax[0].legend(['Train', 'Val'], loc='upper left')
-    plt.show()
+def plot_report(histories, metric='accuracy'):
+    legend_pairs = [['Train_{}'.format(key), 'Val_{}'.format(key)] for key in histories]
+    legend = [item for sublist in legend_pairs for item in sublist]
 
-    # Plot training & validation loss values
-    ax[1].plot(history.history['loss'])
-    ax[1].plot(history.history['val_loss'])
-    ax[1].title('Model loss')
-    ax[1].ylabel('Loss')
-    ax[1].xlabel('Epoch')
-    ax[1].legend(['Train', 'Val'], loc='upper left')
-    ax[1].show()
+    for key in histories:
+        history=histories[key]
+        # Plot training & validation loss values
+        plt.plot(history.history[metric])
+        plt.plot(history.history['val_{}'.format(metric)][1:])
+
+    plt.title('Model {}'.format(metric))
+    plt.ylabel(metric)
+    plt.xlabel('epoch')
+    plt.legend(legend, loc='upper left')
     
 def plot_report_t(history):
     # Plot training & validation accuracy values

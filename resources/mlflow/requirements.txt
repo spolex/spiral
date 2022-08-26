@@ -3,11 +3,12 @@ pandas
 tables==3.6.1
 sklearn
 skrebate==0.62
-git+https://github.com/tensorflow/docs
+#git+https://github.com/tensorflow/docs
 sampen
 xlrd==1.2.0
 hfda
 pyentrp
-mlflow==1.17.0
+mlflow
 google-cloud-storage
-
+openpyxl
+#git+https://github.com/shazow/urllib3 
