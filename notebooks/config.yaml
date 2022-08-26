@@ -1,7 +1,7 @@
 #loading parameters
 coefficients: 17
 root_path: "/data/elekin/data"
-hw_results_path: "results/03-HANDWRITTING"
+hw_results_path: "results/handwriting"
 
 #training parameters
 seed: 42

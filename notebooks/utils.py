@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-import tensorflow_docs as tfdocs
-import tensorflow_docs.modeling
-import tensorflow_docs.plots
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping
 
