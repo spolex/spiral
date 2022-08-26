@@ -67,7 +67,8 @@ def main():
             if args.radius:
                 r = dataset.groupby(Properties.subject_id).apply(extract_radio)\
                     .swifter.apply(resample, num=Properties.resample)
-                r_df = pd.DataFrame.from_items(zip(r.index, r.values))
+                r_df = pd.DataFrame.from_records(zip(r.index, r.values))
+                print(r.head())
                 hdf.put('results/radius/r', r_df, data_columns=True)
 
             if args.residues:

@@ -6,7 +6,6 @@
     "file_list_path" : "/data/elekin/data/origin/ethw/ETONA.txt",
     "controls" : 27,
     "et": 23,
-    "coefficients": [17],
     "resample": 4096,
     "h5file": "output/archimedean-",
     "filename_ds": "output/archimedean_ds-",
