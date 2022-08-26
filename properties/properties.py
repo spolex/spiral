@@ -61,20 +61,20 @@ features_names = ["mean_abs_val(L)"
     , "skw(Pxx)"]
 rdo_schema = ['r', 'rd']
 
-root_path = "Z:/elekin"
-rdo_root_path = path.join(root_path,"02-RESULTADOS/03-HANDWRITTING")
-rdo_log_path = path.join(rdo_root_path, '01-LOG')
+root_path = "/data/elekin/data"
+rdo_root_path = path.join(root_path,"results/handwriting")
+rdo_log_path = path.join(rdo_root_path, 'log')
 
-datasources_path = "00-DATASOURCES/02-ETHW"
+datasources_path = "origin/ethw"
 ct_root_path = path.join(root_path, datasources_path, "Controles30jun14/")
-et_root_path = path.join(root_path, datasources_path, "Protocolo temblor")
+et_root_path = path.join(root_path, datasources_path, "protocolo_temblor")
 file_list_path = path.join(root_path, datasources_path, "ETONA.txt")
 
 controls = 27
 et = 23
 coefficients = [10] + list(range(14, 26, 1)) + [30, 50]
-h5file = path.join(rdo_root_path, "00-OUTPUT/archimedean-")
-filename_ds = path.join(rdo_root_path, "00-OUTPUT/archimedean_ds-")
+h5file = path.join(rdo_root_path, "archimedean-")
+filename_ds = path.join(rdo_root_path, "archimedean_ds-")
 extension = ".h5"
 
 r_ct = 'r_ct'  # radius
@@ -96,9 +96,10 @@ subject_id = 'subject_id'
 
 mode = 'r'
 
-log_conf_path = '../conf/logging.conf'
+log_conf_path = './conf/logging.conf'
 log_filename = 'archimedean-{:%Y-%m-%d}.log'.format(datetime.now())
 log_file_path = path.join(rdo_log_path, log_filename)
 
 schema = ['x', 'y', 'timestamp', 'pen_up', 'azimuth', 'altitude', 'pressure']
+resample = 4096
 

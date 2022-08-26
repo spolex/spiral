@@ -4,11 +4,12 @@ Created on Sun Aug 18 18:58:30 2019
 
 @author: isancmen
 """
+import swifter
 import time
 import argparse
 import logging.config
 from logging.handlers import RotatingFileHandler
-from properties.properties import Properties
+from properties import properties as Properties
 import pandas as pd
 from pandas import HDFStore
 from loaders.biodarw import load_arquimedes_dataset
