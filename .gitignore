@@ -16,3 +16,4 @@ notebooks/*.h5
 notebooks/ethw.*
 notebooks/logs/
 notebooks/tensorflow_log/
+resources/mlflow/cuda_11.2.2_460.32.03_linux.run
