@@ -19,6 +19,10 @@ import mlflow.tensorflow
 FEATURES = ['x', 'y', 'pen_up', 'pressure']
 COLS = [0, 1, 3, 6]
 
+FEATURES = ['x', 'y']
+COLS = [0, 1]
+
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--seed", default=42, type=int, help="seed for random")
