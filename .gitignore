@@ -14,3 +14,7 @@ output/*
 resources/envs/.*
 sandbox/
 /notebooks/.ipynb_checkpoints/
+notebooks/*.csv
+tensorflow_log
+*tfdata
+*npy
