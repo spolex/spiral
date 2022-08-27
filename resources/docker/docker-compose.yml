@@ -17,11 +17,11 @@ services:
       - /data/resources/cloud/gcp/keys:/tmp/keys
     networks:
       - public
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - capabilities: [ gpu ]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]
 
 networks:
   public:

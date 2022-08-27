@@ -58,12 +58,12 @@ def load_residues_dataset(root_path, num_coefficients):
 def plot_report(histories, metric='accuracy'):
     legend_pairs = [['Train_{}'.format(key), 'Val_{}'.format(key)] for key in histories]
     legend = [item for sublist in legend_pairs for item in sublist]
-
+    
     for key in histories:
         history=histories[key]
         # Plot training & validation loss values
         plt.plot(history.history[metric])
-        plt.plot(history.history['val_{}'.format(metric)][1:])
+        plt.plot(history.history['val_{}'.format(metric)][1:], '--')
 
     plt.title('Model {}'.format(metric))
     plt.ylabel(metric)

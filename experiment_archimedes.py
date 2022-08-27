@@ -74,7 +74,7 @@ def main():
             if args.residues:
                 rd = dataset.groupby(Properties.subject_id).apply(extract_residues, c=coefficient)\
                     .swifter.apply(resample, num=Properties.resample)
-                rd_df = pd.DataFrame.from_items(zip(rd.index, rd.values))
+                rd_df = pd.DataFrame.from_records(zip(rd.index, rd.values))
                 hdf.put('results/residues/rd', rd_df, data_columns=True)
 
         # feature engineering
@@ -82,7 +82,7 @@ def main():
             if args.radius:
                 r = r if args.transform else hdf.get('results/radius/r').T
                 r_fe = r.swifter.apply(extract_features_of, axis='columns')
-                r_fe_df = pd.DataFrame.from_items(zip(r_fe.index, r_fe.values)).T
+                r_fe_df = pd.DataFrame.from_records(zip(r_fe.index, r_fe.values)).T
                 r_fe_df.columns = Properties.features_names
                 hdf.put('results/radius/features', r_fe_df, data_columns=True)
                 if args.relief:
@@ -94,7 +94,7 @@ def main():
             if args.residues:
                 rd = rd if args.transform else hdf.get('results/residues/rd')
                 rd_fe = rd.swifter.apply(extract_features_of, axis='columns')
-                rd_fe_df = pd.DataFrame.from_items(zip(rd_fe.index, rd_fe.values)).T
+                rd_fe_df = pd.DataFrame.from_records(zip(rd_fe.index, rd_fe.values)).T
                 rd_fe_df.columns = Properties.features_names
                 hdf.put('results/residues/features', rd_fe_df, data_columns=True)
                 if args.relief:
