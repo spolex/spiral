@@ -61,14 +61,16 @@ features_names = ["mean_abs_val(L)"
     , "skw(Pxx)"]
 rdo_schema = ['r', 'rd']
 
-root_path = "/data/elekin/data"
-rdo_root_path = path.join(root_path,"results/handwriting")
+root_path = "/data/elekin"
+doc_path = path.join(root_path, "doc/")
+rdo_root_path = path.join(root_path,"data/results/handwriting")
 rdo_log_path = path.join(rdo_root_path, 'log')
 
-datasources_path = "origin/ethw"
+datasources_path = "data/origin/ethw"
 ct_root_path = path.join(root_path, datasources_path, "Controles30jun14/")
 et_root_path = path.join(root_path, datasources_path, "protocolo_temblor")
-file_list_path = path.join(root_path, datasources_path, "ETONA.txt")
+file_list_path = path.join(doc_path, "ETONA.txt")
+metadata_path = path.join(doc_path, "metadata-202106-v1.csv")
 
 controls = 27
 et = 23

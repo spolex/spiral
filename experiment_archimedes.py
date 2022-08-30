@@ -44,14 +44,22 @@ def main():
         logger.info("File relative path " + h5filename)
         hdf = HDFStore(h5filename)
 
+        logger.debug("Loading metadata...")
+        metadf=pd.read_csv(Properties.metadata_path,index_col=0)
+        logger.debug(metadf.level.head(10))
+
         if args.load:
             logger.info("Loading Controls files")
             ct = load_arquimedes_dataset(Properties.file_list_path, Properties.ct_root_path)
+            logger.debug(ct.head(10))
             ct[Properties.labels] = 'ct'
             logger.info("Loading ET files")
             et = load_arquimedes_dataset(Properties.file_list_path, Properties.et_root_path)
+            logger.debug(et.head(10))
             et[Properties.labels] = 'et'
             dataset = pd.concat([ct, et])
+            logger.info("Joining dataset...")
+            logger.debug(dataset.head(10))
             hdf.put('source/dataset', dataset, data_columns=True)
             labels = dataset[['subject_id', 'labels']].drop_duplicates().set_index('subject_id')['labels']
             y = labels.reset_index()['labels']
