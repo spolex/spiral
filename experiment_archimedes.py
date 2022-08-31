@@ -4,6 +4,7 @@ Created on Sun Aug 18 18:58:30 2019
 
 @author: isancmen
 """
+from os import path
 import swifter
 import time
 import argparse
@@ -12,14 +13,16 @@ from logging.handlers import RotatingFileHandler
 from properties import properties as Properties
 import pandas as pd
 from pandas import HDFStore
-from loaders.biodarw import load_arquimedes_dataset
-
+from loaders.biodarw import load_biodarw
 from preprocess.biodarw_feature_extraction import extract_radio, extract_residues, extract_features_of
 from scipy.signal import resample
 from skrebate import ReliefF
 from sklearn.feature_selection import RFE
+import numpy as np
 
 from analysis import svm_cv, clf_ho, clf_loo, svm_deap
+
+from datetime import date
 
 logger = logging.getLogger('MainLogger')
 logging.config.fileConfig(Properties.log_conf_path)
@@ -37,92 +40,86 @@ def main():
     args = parser.parse_args()
 
     start_time = time.time()
+    today=date.today().strftime("%Y%m%d")
+
 
     for coefficient in Properties.coefficients:
-        # load data
-        h5filename = Properties.h5file + str(coefficient) + Properties.extension
-        logger.info("File relative path " + h5filename)
-        hdf = HDFStore(h5filename)
+        filename = Properties.file + str(today) + Properties.extension
 
         logger.debug("Loading metadata...")
         metadf=pd.read_csv(Properties.metadata_path,index_col=0)
         logger.debug(metadf.level.head(10))
 
         if args.load:
-            logger.info("Loading Controls files")
-            ct = load_arquimedes_dataset(Properties.file_list_path, Properties.ct_root_path)
-            logger.debug(ct.head(10))
-            ct[Properties.labels] = 'ct'
-            logger.info("Loading ET files")
-            et = load_arquimedes_dataset(Properties.file_list_path, Properties.et_root_path)
-            logger.debug(et.head(10))
-            et[Properties.labels] = 'et'
-            dataset = pd.concat([ct, et])
-            logger.info("Joining dataset...")
+            logger.info("Loading data files")
+            dataset=load_biodarw(metadf.index, metadf['abs_path'])
             logger.debug(dataset.head(10))
-            hdf.put('source/dataset', dataset, data_columns=True)
-            labels = dataset[['subject_id', 'labels']].drop_duplicates().set_index('subject_id')['labels']
-            y = labels.reset_index()['labels']
-            hdf.put('source/labels', labels, data_columns=True)
-        else:
-            logger.info("Reading dataset from %s", h5filename)
-            dataset = hdf.get('source/dataset')
-            labels = hdf.get('source/labels')
-            y = labels.reset_index()['labels']
+            logger.debug(metadf.temblor)
+            dataset.to_csv(filename)
+            metadf.level.to_csv(Properties.level_filename.format(today))
+            metadf.temblor.to_csv(Properties.label_filename.format(today))
+        elif path.exists(filename):
+            logger.info("Reading dataset from %s", filename)
+            dataset = pd.read_csv(filename,index_col=0)
+        logger.debug("Loading labels")
+        y = metadf.level
 
         # transform data
         if args.transform:
             if args.radius:
-                r = dataset.groupby(Properties.subject_id).apply(extract_radio)\
+                r = dataset.groupby('subject_id').apply(extract_radio)\
                     .swifter.apply(resample, num=Properties.resample)
-                r_df = pd.DataFrame.from_records(zip(r.index, r.values))
-                print(r.head())
-                hdf.put('results/radius/r', r_df, data_columns=True)
+                r_df = pd.DataFrame(r.tolist(), index=r.index)
+                r_df.to_csv(Properties.r_filename.format(today))
 
             if args.residues:
-                rd = dataset.groupby(Properties.subject_id).apply(extract_residues, c=coefficient)\
+                rd = dataset.groupby('subject_id').apply(extract_residues, c= coefficient)\
                     .swifter.apply(resample, num=Properties.resample)
-                rd_df = pd.DataFrame.from_records(zip(rd.index, rd.values))
-                hdf.put('results/residues/rd', rd_df, data_columns=True)
+                rd_df = pd.DataFrame(rd.tolist(), index=rd.index)
+                print(rd_df.head())
+                rd_df.to_csv(Properties.rd_filename.format(coefficient , today))
 
         # feature engineering
         if args.preprocess:
             if args.radius:
-                r = r if args.transform else hdf.get('results/radius/r').T
+                r = r_df if args.transform else pd.read_csv(Properties.r_filename.format(today), index_col=0)
                 r_fe = r.swifter.apply(extract_features_of, axis='columns')
-                r_fe_df = pd.DataFrame.from_records(zip(r_fe.index, r_fe.values)).T
+                r_fe_df = pd.DataFrame(r_fe.to_list(), index=r_fe.index)
                 r_fe_df.columns = Properties.features_names
-                hdf.put('results/radius/features', r_fe_df, data_columns=True)
+                r_fe_df.to_csv(Properties.r_feat_filename.format(today))
                 if args.relief:
                     # feature selection
-                    fltr = RFE(ReliefF(), n_features_to_select=5, step=1)
-                    fltr_r_fe_df = fltr.fit_transform(r_fe_df, y)
-                    hdf.put('results/radius/relief_features', fltr_r_fe_df, data_columns=True)
+                    selector = RFE(ReliefF(), n_features_to_select=5, step=1)
+                    selector_r = selector.fit(r_fe_df, y)
+                    idx_r = np.where(selector_r.ranking_ == 1)
+                    r_fe_df_relief_cols = r_fe_df.columns[idx_r]
+                    r_fe_df[r_fe_df_relief_cols].to_csv(Properties.r_feat_relief_filename.format(today))
 
             if args.residues:
-                rd = rd if args.transform else hdf.get('results/residues/rd')
+                rd = rd_df if args.transform else pd.read_csv(Properties.rd_filename.format(coefficient, today), index_col=0)
                 rd_fe = rd.swifter.apply(extract_features_of, axis='columns')
-                rd_fe_df = pd.DataFrame.from_records(zip(rd_fe.index, rd_fe.values)).T
+                rd_fe_df = pd.DataFrame(rd_fe.to_list(), rd_fe.index)
                 rd_fe_df.columns = Properties.features_names
-                hdf.put('results/residues/features', rd_fe_df, data_columns=True)
+                rd_fe_df.to_csv(Properties.rd_feat_filename.format(coefficient, today))
                 if args.relief:
                     # feature selection
-                    fltr = RFE(ReliefF(), n_features_to_select=5, step=1)
-                    fltr_rd_fe_df = fltr.fit_transform(rd_fe_df, y)
-                    hdf.put('results/residues/relief_features', fltr_rd_fe_df, data_columns=True)
+                    selector = RFE(ReliefF(), n_features_to_select=5, step=1)
+                    selector_rd = selector.fit(rd_fe_df, y)
+                    idx_rd = np.where(selector_rd.ranking_ == 1)
+                    rd_fe_df_relief_cols = rd_fe_df.columns[idx_rd]
+                    rd_fe_df[rd_fe_df_relief_cols].to_csv(Properties.rd_feat_relief_filename.format(coefficient,today))
 
         # analysis
         if args.analysis:
             if args.relief:
-                X = hdf.get('results/residues/relief_features') if args.residues else hdf.get('results/radius/features')
+                X = pd.read_csv(Properties.rd_feat_relief_filename.format(coefficient, today), index_col=0) if args.residues else pd.read_csv(Properties.r_feat_relief_filename.format(today), index_col=0)
             else:
-                X = hdf.get('results/residues/features') if args.residues else hdf.get('results/radius/features')
+                X = pd.read_csv(Properties.rd_feat_filename.format(coefficient, today), index_col=0) if args.residues else pd.read_csv(Properties.r_feat_filename.format(today), index_col=0)
             svm_cv.svm_cv(X, y) if args.svm_cv else True
             svm_deap.svm_ga(X, y) if args.svm_deap else True
             clf_loo.analysis_loo(X, y) if args.alo else True
             clf_ho.analysis_ho(X, y) if args.aho else True
 
-    hdf.close()
     elapsed_time = time.time() - start_time
     logger.info("Total elapsed time is %s", elapsed_time)
 
@@ -149,6 +146,7 @@ if __name__ == "__main__":
 
     parser.add_argument("-v", "--svm_cv", help='If present SVM CV grid search is being executed evaluation strategy',
                         action='store_true')
+                        
     parser.add_argument("-d", "--svm_deap", help='If present SVM GA search is being executed evaluation strategy',
                         action='store_true')
 

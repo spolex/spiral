@@ -1,7 +1,7 @@
 import json
 import logging
 from os import path
-from datetime import datetime
+from datetime import datetime, date
 
 def experiment_config(filename="config.json"):
     """
@@ -66,38 +66,29 @@ doc_path = path.join(root_path, "doc/")
 rdo_root_path = path.join(root_path,"data/results/handwriting")
 rdo_log_path = path.join(rdo_root_path, 'log')
 
-datasources_path = "data/origin/ethw"
-ct_root_path = path.join(root_path, datasources_path, "Controles30jun14/")
-et_root_path = path.join(root_path, datasources_path, "protocolo_temblor")
-file_list_path = path.join(doc_path, "ETONA.txt")
 metadata_path = path.join(doc_path, "metadata-202106-v1.csv")
 
-controls = 27
-et = 23
-coefficients = [10] + list(range(14, 26, 1)) + [30, 50]
-coefficients = [10]
-h5file = path.join(rdo_root_path, "archimedean-")
-filename_ds = path.join(rdo_root_path, "archimedean_ds-")
-extension = ".h5"
+coefficients = [17] + list(range(14, 26, 1)) + [30, 50]
+coefficients = [17]
 
-r_ct = 'r_ct'  # radius
-r_et = 'r_et'  # radius
-rd_ct = 'rd_ct'  # residues
-rd_et = 'rd_et'  # residues
+file = path.join(rdo_root_path, "biodarw-")
+filename_ds = path.join(rdo_root_path, "biodarw_ds-")
+extension = ".csv"
 
-rd_ct_fe = 'rd_ct_fe'  # residues based features ct_rd
-rd_et_fe = 'rd_et_fe'  # et_rd
+rd_filename= path.join(rdo_root_path, 'residues_{}_{}.csv')
+rd_feat_filename=path.join(rdo_root_path, 'residues_feat_{}_{}.csv')
+rd_feat_norm_filename=path.join(rdo_root_path, 'residues_feat_norm_{}_{}.csv')
+rd_feat_relief_filename = path.join(rdo_root_path, 'residues_feat_relief_{}_{}.csv')
 
-r_ct_fe = 'r_ct_fe'  # radius based features ct_r
-r_et_fe = 'r_et_fe'  # et_r
 
-train_rd = 'train_rd'
-train_r = 'train_r'
-X = train_rd
-labels = 'labels'
-subject_id = 'subject_id'
+r_filename = path.join(rdo_root_path, 'radius_{}.csv')
+r_feat_filename = path.join(rdo_root_path, path.join(rdo_root_path, 'radius_feat_{}.csv'))
+r_feat_norm_filename = path.join(rdo_root_path, 'radius_feat_norm_{}.csv')
+r_feat_relief_filename = path.join(rdo_root_path, 'radius_feat_relief_{}.csv')
 
-mode = 'r'
+label_filename =path.join(rdo_root_path,'binary_labels_{}.csv')
+level_filename =path.join(rdo_root_path, 'level_{}.csv')
+
 
 log_conf_path = './conf/logging.conf'
 log_filename = 'archimedean-{:%Y-%m-%d}.log'.format(datetime.now())
@@ -105,4 +96,6 @@ log_file_path = path.join(rdo_log_path, log_filename)
 
 schema = ['x', 'y', 'timestamp', 'pen_up', 'azimuth', 'altitude', 'pressure']
 resample = 4096
+
+seed = 38
 

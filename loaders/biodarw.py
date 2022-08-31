@@ -33,3 +33,17 @@ def load_arquimedes_dataset(filenames_file, root):
     df = pd.concat(list(filter(lambda x: x is not None, list(map(lambda file: read(root, file), files)))))
     return df
 
+def read_biodarw(filename):
+    df = pd.read_csv(filename, sep="\s+", header=None, names=Properties.schema, skiprows=1)
+    return df
+
+def load_biodarw(index, abs_paths):
+    dataset = None
+    for i, filename in zip(index, abs_paths) :
+        tmp_df = read_biodarw(filename)
+        tmp_df['subject_id'] = i
+        dataset = pd.concat([tmp_df,dataset])
+    return dataset
+
+    
+

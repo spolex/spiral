@@ -299,6 +299,7 @@ def wamp(l):
     """
     start = time.time()
     epsilon = l.mean()
+    logger.debug(l)
     diff = abs ( l.diff().dropna().values )
     amp = diff > epsilon
     elapsed_time = time.time() - start
