@@ -58,7 +58,7 @@ def get_model(n_features, n_timesteps, n_outputs, n_units, n_layers=1, drop_out=
         model.add(tf.keras.layers.Dropout(drop_out))
 
     model.add(tf.keras.layers.Dense(100, activation=tf.nn.softmax, name='dense_hidden_layer'))
-    model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.softmax, name='output'))
+    model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.sigmoid, name='output'))
     return model
 
 def get_model_rd(num_features, n_outputs, n_units, n_layers=1, drop_out=0.5):
@@ -73,7 +73,7 @@ def get_model_rd(num_features, n_outputs, n_units, n_layers=1, drop_out=0.5):
                                        name='lstm_hidden_layer_{}'.format(n_layer)))
         model.add(tf.keras.layers.Dropout(drop_out))
 
-    model.add(tf.keras.layers.Dense(100, activation=tf.nn.softmax, name='dense_hidden_layer'))
+    model.add(tf.keras.layers.Dense(100, activation=tf.nn.relu, name='dense_hidden_layer'))
     model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.softmax, name='output'))
     return model
 
