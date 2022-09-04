@@ -66,7 +66,7 @@ doc_path = path.join(root_path, "doc/")
 rdo_root_path = path.join(root_path,"data/results/handwriting")
 rdo_log_path = path.join(rdo_root_path, 'log')
 
-metadata_path = path.join(doc_path, "metadata-202106-v1.csv")
+metadata_path = path.join(doc_path, "metadata-202208-v1.csv")
 
 coefficients = [17] + list(range(14, 26, 1)) + [30, 50]
 coefficients = [17]

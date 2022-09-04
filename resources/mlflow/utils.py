@@ -18,20 +18,10 @@ def load_raw_data(doc_path, filename, features, cols):
     return x_train, y_train
 
 # #Early stop configuration
-earlystop_callback = EarlyStopping(
-  monitor='val_accuracy', min_delta=1e-3,
-  patience=200)
-
-training_earlystop_callback = EarlyStopping(
-    monitor='accuracy', min_delta=1e-4,
-    patience=200)
-
-
 def get_callbacks():
     return [
-        #tfdocs.modeling.EpochDots(),
-        earlystop_callback,
-        EarlyStopping(monitor='val_loss', patience=2e2, min_delta=1e-5),
+        #EarlyStopping(monitor='val_accuracy', min_delta=1e-3, patience=20),
+        EarlyStopping(monitor='val_loss', patience=100, min_delta=1e-4, mode='min'),
     ]
 
 def compile_and_fit(model, train_dataset, test_dataset, seed, optimizer=None, max_epochs=1e3):
@@ -43,7 +33,7 @@ def compile_and_fit(model, train_dataset, test_dataset, seed, optimizer=None, ma
                         use_multiprocessing=True,
                         validation_data=test_dataset, epochs=max_epochs,
                         callbacks=get_callbacks(),
-                        verbose=1, shuffle=True)
+                        verbose=1)
     return history
 
 # Many models train better if you gradually reduce the learning rate during training.
@@ -60,12 +50,32 @@ def get_model(n_features, n_timesteps, n_outputs, n_units, n_layers=1, drop_out=
     model = tf.keras.models.Sequential()
     model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1,
                                    input_shape=(n_timesteps, n_features)))
-
+    model.add(tf.keras.layers.Dropout(drop_out))
+    
     for n_layer in range(1, n_layers):
         model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layer!=n_layers-1,
                                        name='lstm_hidden_layer_{}'.format(n_layer)))
         model.add(tf.keras.layers.Dropout(drop_out))
 
-    model.add(tf.keras.layers.Dense(100, activation=tf.nn.relu, name='dense_hidden_layer'))
-    model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.sigmoid, name='output'))
+    model.add(tf.keras.layers.Dense(100, activation=tf.nn.softmax, name='dense_hidden_layer'))
+    model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.softmax, name='output'))
     return model
+
+def get_model_rd(num_features, n_outputs, n_units, n_layers=1, drop_out=0.5):
+
+    model = tf.keras.models.Sequential()
+    model.add(tf.keras.layers.Lambda(lambda x: tf.expand_dims(x, axis=1),# expand the dimension form (50, 4096) to (50, 4096, 1)
+                      input_shape=[num_features,]))
+    model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1))
+    model.add(tf.keras.layers.Dropout(drop_out))
+    for n_layer in range(1, n_layers):
+        model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layer!=n_layers-1,
+                                       name='lstm_hidden_layer_{}'.format(n_layer)))
+        model.add(tf.keras.layers.Dropout(drop_out))
+
+    model.add(tf.keras.layers.Dense(100, activation=tf.nn.softmax, name='dense_hidden_layer'))
+    model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.softmax, name='output'))
+    return model
+
+    
+

@@ -19,8 +19,8 @@ import mlflow.tensorflow
 FEATURES = ['x', 'y', 'pen_up', 'pressure']
 COLS = [0, 1, 3, 6]
 
-FEATURES = ['x', 'y']
-COLS = [0, 1]
+# FEATURES = ['x', 'y']
+# COLS = [0, 1]
 
 
 
@@ -29,7 +29,7 @@ parser.add_argument("--seed", default=42, type=int, help="seed for random")
 parser.add_argument("--n_classes", default=3, type=int, help="number of classes")
 parser.add_argument("--mini_batch_size", default=4, type=int, help="size of mini batch")
 parser.add_argument("--doc_path", default="/data/elekin/doc", type=str, help="metadata root directory")
-parser.add_argument("--metadata_file", default="metadata-202106-v1.csv", type=str,
+parser.add_argument("--metadata_file", default="metadata-202208-v1.csv", type=str,
                     help="metadata file containing list of files to be loaded")
 parser.add_argument("--test_ratio", default=0.33, type=float, help="train and test split ratio")
 parser.add_argument("--run_name", default="lstm/tiny", type=str, help="name of run in MLOps system; mlflow")
@@ -83,7 +83,6 @@ def main(argv):
         mlflow.log_param("train_split", train_split)
         mlflow.log_param("test_split", test_split)
         mlflow.log_param("lstm_units", args.n_units)
-        mlflow.log_param("features", FEATURES)
 
         clf = get_model(n_features, n_timesteps, n_outputs, args.n_units, args.n_layers, args.drop_out)
     

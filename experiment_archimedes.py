@@ -132,7 +132,7 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--radius", help='If present radius of the signals', action='store_true')
     parser.add_argument("-u", "--residues", help='If present residues of the signals', action='store_true')
 
-    parser.add_argument("-l", "--load", help='If present dataset is loaded from source origin and saved into hdf5 '
+    parser.add_argument("-l", "--load", help='If present dataset is loaded from source origin and saved into csv '
                         , action='store_true')
 
     parser.add_argument("-t", "--transform", help='If present radius or residues feature is being executed '
