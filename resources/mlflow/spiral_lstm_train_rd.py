@@ -54,7 +54,12 @@ def main(argv):
         X=residues.values.astype(np.float64)
         print(X.shape)
 
-        labels = pd.read_csv("/data/elekin/data/results/handwriting/level_20220901.csv", index_col=0).sort_index()
+        labels = None
+        if args.n_classes > 1:
+            labels = pd.read_csv("/data/elekin/data/results/handwriting/level_20220903.csv", index_col=0).sort_index()
+        else:
+            labels = pd.read_csv("/data/elekin/data/results/handwriting/binary_labels_20220903.csv", index_col=0).sort_index()
+            
         lb = preprocessing.LabelBinarizer()
         y = lb.fit_transform(labels).astype(np.int16)
 

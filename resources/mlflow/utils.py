@@ -3,15 +3,21 @@ from scipy.signal import resample
 from pandas import pandas as pd
 from tensorflow.keras.callbacks import EarlyStopping
 import tensorflow as tf
+import numpy as np
 
-
-def load_raw_data(doc_path, filename, features, cols):
+def load_raw_data(doc_path, filename, features, cols, n_classes=3):
     """ """
     meta_df = pd.read_csv(path.join(doc_path, filename), index_col=0)
     x_train = []
     y_train = []
 
-    for file_path, level in zip(meta_df.abs_path, meta_df.level):
+    labels = None
+    if n_classes > 1:
+        labels = meta_df.level
+    else:
+        labels = meta_df.temblor.astype(np.int16)
+
+    for file_path, level in zip(meta_df.abs_path, labels):
         df = pd.read_csv(file_path, sep="\s+", header=None, names=features, skiprows=1, usecols=cols)
         x_train.append(resample(df.values.astype('int16'), 4096))
         y_train.append(level)

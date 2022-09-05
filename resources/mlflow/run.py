@@ -1,6 +1,6 @@
 import mlflow
 
-experiment_name = "/archimedes-lstm-rd"
+experiment_name = "/archimedes-lstm-xy-bi"
 
 # Run MLflow project and create a reproducible conda environment
 # on a local host
@@ -11,5 +11,5 @@ for mini_batch_size in [53]:#Fails with the whole dataset size 53 and 512 units
                 params = {"test_ratio": 0.33, "n_units": n_units,
                             "n_layers": n_layers, "drop_out": drop_out,
                             "mini_batch_size": mini_batch_size, "seed": 42,
-                            "max_epoch": 5000}
+                            "max_epoch": 5000, "n_classes": 1}
                 mlflow.run(".", parameters=params, experiment_name=experiment_name)
