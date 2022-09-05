@@ -145,7 +145,7 @@ def residues(x, c=None):
     start_time = time.time()
     idct_x = idct(dct(x), c=c)
     elapsed_time = time.time() - start_time
-    logger.debug("Elapsed time to calculate residuos is %s", elapsed_time)
+    logger.debug("Elapsed time to calculate residues is %s", elapsed_time)
     return x - idct_x
 
 

@@ -67,14 +67,12 @@ def main():
         # transform data
         if args.transform:
             if args.radius:
-                r = dataset.groupby('subject_id').apply(extract_radio)\
-                    .swifter.apply(resample, num=Properties.resample)
+                r = dataset.groupby('subject_id').apply(extract_radio,n=Properties.resample)
                 r_df = pd.DataFrame(r.tolist(), index=r.index)
                 r_df.to_csv(Properties.r_filename.format(today))
 
             if args.residues:
-                rd = dataset.groupby('subject_id').apply(extract_residues, c= coefficient)\
-                    .swifter.apply(resample, num=Properties.resample)
+                rd = dataset.groupby('subject_id').apply(extract_residues, c= coefficient, n=Properties.resample)
                 rd_df = pd.DataFrame(rd.tolist(), index=rd.index)
                 print(rd_df.head())
                 rd_df.to_csv(Properties.rd_filename.format(coefficient , today))
