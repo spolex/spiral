@@ -13,4 +13,5 @@ entry_points:
       test_ratio: {type: float, default: 0.33}
       drop_out: {type: float, default: 0.25}
       n_classes: {type: int, default: 3}
-    command: "python spiral_lstm_train_xy.py --mini_batch_size={mini_batch_size} --test_ratio={test_ratio} --drop_out={drop_out} --n_classes={n_classes}"
+      day: {type: str, default: '20220906'}
+    command: "python spiral_lstm_train_xy.py --mini_batch_size={mini_batch_size} --test_ratio={test_ratio} --drop_out={drop_out} --n_classes={n_classes} --day={day}"

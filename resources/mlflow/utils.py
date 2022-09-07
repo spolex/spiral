@@ -1,9 +1,12 @@
+from datetime import date
 from os import path
 from scipy.signal import resample
 from pandas import pandas as pd
 from tensorflow.keras.callbacks import EarlyStopping
 import tensorflow as tf
 import numpy as np
+
+results_path = "/data/elekin/data/results/handwriting"
 
 def load_raw_data(doc_path, filename, features, cols, n_classes=3):
     """ """
@@ -23,16 +26,44 @@ def load_raw_data(doc_path, filename, features, cols, n_classes=3):
         y_train.append(level)
     return x_train, y_train
 
-# #Early stop configuration
+def load_from_csv(columns, today=date.today().strftime("%Y%m%d"), level=False, n=4096):
+
+    features = pd.read_csv(path.join(results_path,"biodarw_{}.csv".format(today))).set_index('subject_id')
+    labels = []
+    y = []
+    if level:
+        levels = pd.read_csv(path.join(results_path,"level_{}.csv".format(today))).set_index('subject_id')
+        y = levels.values.astype(np.int16).ravel()
+    else:
+        labels = pd.read_csv(path.join(results_path,"binary_labels_{}.csv".format(today))).set_index('subject_id')
+        y = (labels == 'si').values.astype(np.int16).ravel()
+
+    df_rs = features[columns].groupby('subject_id').apply(resample, n)
+    X = np.array(df_rs.values.tolist())
+    
+    return X, y
+
+## Early stop configuration
 def get_callbacks():
     return [
-        #EarlyStopping(monitor='val_accuracy', min_delta=1e-3, patience=20),
         EarlyStopping(monitor='val_loss', patience=100, min_delta=1e-4, mode='min'),
     ]
 
-def compile_and_fit(model, train_dataset, test_dataset, seed, optimizer=None, max_epochs=1e3):
+def compile_and_fit(model, train_dataset, test_dataset, seed, optimizer=None, max_epochs=1e3, p_metrics=['accuracy','Precision', 'Recall', 'TruePositives', 'FalsePositives', 'TrueNegatives', 'FalseNegatives']):
     tf.keras.backend.clear_session()  # avoid clutter from old models and layers, especially when memory is limited
-    model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=p_metrics)
+    model.summary()
+    tf.random.set_seed(seed)  # establecemos la semilla para tensorflow
+    history = model.fit(train_dataset,
+                        use_multiprocessing=True,
+                        validation_data=test_dataset, epochs=max_epochs,
+                        callbacks=get_callbacks(),
+                        verbose=1)
+    return history
+
+def binary_compile_and_fit(model, train_dataset, test_dataset, seed, optimizer=None, max_epochs=1e3, p_metrics=['accuracy','Precision', 'Recall', 'TruePositives', 'FalsePositives', 'TrueNegatives', 'FalseNegatives']):
+    tf.keras.backend.clear_session()  # avoid clutter from old models and layers, especially when memory is limited
+    model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=p_metrics)
     model.summary()
     tf.random.set_seed(seed)  # establecemos la semilla para tensorflow
     history = model.fit(train_dataset,
@@ -66,6 +97,7 @@ def get_model(n_features, n_timesteps, n_outputs, n_units, n_layers=1, drop_out=
     model.add(tf.keras.layers.Dense(100, activation=tf.nn.softmax, name='dense_hidden_layer'))
     model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.sigmoid, name='output'))
     return model
+    
 
 def get_model_rd(num_features, n_outputs, n_units, n_layers=1, drop_out=0.5):
 

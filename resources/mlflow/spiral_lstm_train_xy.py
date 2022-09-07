@@ -1,11 +1,19 @@
 import argparse
+from asyncio.log import logger
+from datetime import date
 import sys
 
 
 # data and processing
 import numpy as np
-from utils import load_raw_data, compile_and_fit, get_model, get_optimizer
+import pandas as pd
+from utils import load_from_csv, load_raw_data, compile_and_fit, get_model, get_optimizer, binary_compile_and_fit
 
+import logging
+logger = logging.getLogger('Spiral MLFLow logging')
+formatter = logging.Formatter("%(asctime)s - %(threadName)s - %(name)s - %(levelname)s - %(message)s"
+                              , '%Y-%m-%d %H:%M:%S')
+logger.setLevel("INFO")
 
 # ml
 import tensorflow as tf
@@ -16,8 +24,9 @@ import mlflow
 import mlflow.tensorflow
 
 # variables
+# FEATURES = ['x', 'y', 'pen_up', 'pressure']
+
 FEATURES = ['x', 'y']
-COLS = [0, 1]
 
 
 
@@ -36,6 +45,8 @@ parser.add_argument("--drop_out", default=0.5, type=float, help="seed for random
 parser.add_argument("--n_layers", default=1, type=int, help="number of hidden layers")
 parser.add_argument("--n_units", default=32, type=int, help="number of units for hidden layers")
 parser.add_argument("--max_epoch", default=500, type=int, help="number of maximum epochs for training")
+parser.add_argument("--day", default=date.today().strftime("%Y%m%d"), type=str, help="%Y%m%d string where the files to be loaded where procesed ")
+
 
 # Enable auto-logging to MLflow to capture TensorBoard metrics.
 # export MLFLOW_TRACKING_URI=http://192.168.1.153:5001
@@ -53,10 +64,11 @@ def main(argv):
         n_outputs = args.n_classes
         mini_batch_size = args.mini_batch_size
 
-        x_train, y_train = load_raw_data(args.doc_path, args.metadata_file, FEATURES, COLS)
+        x_train, y_train = load_from_csv(FEATURES, args.day, level= args.n_classes > 1)
+        print(x_train.shape, y_train.shape)
 
-        n_timesteps = np.array(x_train).shape[1]
-        n_features = np.array(x_train).shape[2]
+        n_timesteps = x_train.shape[1]
+        n_features = x_train.shape[2]
 
         data_size = np.array(x_train).shape[0]
         shuffle_buffer = data_size
@@ -84,16 +96,25 @@ def main(argv):
 
         clf = get_model(n_features, n_timesteps, n_outputs, args.n_units, args.n_layers, args.drop_out)
     
-        history = compile_and_fit(clf, train_dataset, test_dataset,
+        max_acc = 0
+        max_val_acc = 0
+
+        if args.n_classes > 1:
+            history = compile_and_fit(clf, train_dataset, test_dataset,
                                   seed=args.seed,
                                   optimizer=get_optimizer(steps_per_epoch, 1e-3),
                                   max_epochs=args.max_epoch)
 
-        print("\n#######################Evaluation###########################")
-        # Evaluate the model on the test data using `evaluate`
-        print('train acc:', max(history.history["accuracy"]))
-        print('test acc:', max(history.history["val_accuracy"]))
+        else:
+            history = binary_compile_and_fit(clf, train_dataset, test_dataset,
+                                  seed=args.seed,
+                                  optimizer=get_optimizer(steps_per_epoch, 1e-3),
+                                  max_epochs=args.max_epoch)
 
+        max_acc = max(history.history["accuracy"])
+        max_val_acc = max(history.history["val_accuracy"])
+        mlflow.log_metric("max_acc", max_acc)
+        mlflow.log_metric("max_val_acc", max_val_acc)
 
 if __name__ == "__main__":
     main(sys.argv)

@@ -8,8 +8,6 @@ from os import path
 import swifter
 import time
 import argparse
-import logging.config
-from logging.handlers import RotatingFileHandler
 from properties import properties as Properties
 import pandas as pd
 from pandas import HDFStore
@@ -23,6 +21,9 @@ import numpy as np
 from analysis import svm_cv, clf_ho, clf_loo, svm_deap
 
 from datetime import date
+
+import logging.config
+from logging.handlers import RotatingFileHandler
 
 logger = logging.getLogger('MainLogger')
 logging.config.fileConfig(Properties.log_conf_path)
@@ -44,7 +45,7 @@ def main():
 
 
     for coefficient in Properties.coefficients:
-        filename = Properties.file + str(today) + Properties.extension
+        filename = Properties.file.format(str(today))
 
         logger.debug("Loading metadata...")
         metadf=pd.read_csv(Properties.metadata_path,index_col=0)
@@ -55,12 +56,12 @@ def main():
             dataset=load_biodarw(metadf.index, metadf['abs_path'])
             logger.debug(dataset.head(10))
             logger.debug(metadf.temblor)
-            dataset.to_csv(filename)
-            metadf.level.to_csv(Properties.level_filename.format(today))
-            metadf.temblor.to_csv(Properties.label_filename.format(today))
+            dataset.to_csv(filename, index=False)
+            metadf.level.to_csv(Properties.level_filename.format(today), index_label='subject_id')
+            metadf.temblor.to_csv(Properties.label_filename.format(today), index_label='subject_id')
         elif path.exists(filename):
             logger.info("Reading dataset from %s", filename)
-            dataset = pd.read_csv(filename,index_col=0)
+            dataset = pd.read_csv(filename).set_index('subject_id')
         logger.debug("Loading labels")
         y = metadf.level
 

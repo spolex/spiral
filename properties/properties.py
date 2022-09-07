@@ -71,9 +71,8 @@ metadata_path = path.join(doc_path, "metadata-202208-v1.csv")
 coefficients = [17] + list(range(14, 26, 1)) + [30, 50]
 coefficients = [17]
 
-file = path.join(rdo_root_path, "biodarw-")
+file = path.join(rdo_root_path, "biodarw_{}.csv")
 filename_ds = path.join(rdo_root_path, "biodarw_ds-")
-extension = ".csv"
 
 rd_filename= path.join(rdo_root_path, 'residues_{}_{}.csv')
 rd_feat_filename=path.join(rdo_root_path, 'residues_feat_{}_{}.csv')
