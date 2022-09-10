@@ -17,6 +17,8 @@ from scipy.signal import resample
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from functools import reduce
+
 
 logdir = pathlib.Path(".spiral")/"tensorboard_logs"
 features = ['x', 'y', 'timestamp', 'pen_up', 'azimuth', 'altitude', 'pressure']
@@ -195,3 +197,15 @@ def load_biodarw(index, abs_paths):
         tmp_df['subject_id'] = i
         dataset = pd.concat([tmp_df,dataset])
     return dataset
+
+
+def make_sliding(df, N, s=1):
+    """
+    Each variable is represented for each column of the dataframe df
+    :param df: contains multivariate timeseries dataframe represented by each column
+    :param N: Window size. Since it is a classification problem it won't contain the label.
+    :param s: Sliding step
+    :return: Each column containg obtained window per value
+    """
+    dfs = [df.shift(-i).dropna().applymap(lambda x: [x]) for i in range(0, N, s)]
+    return reduce(lambda x, y: x.add(y), dfs).dropna()
