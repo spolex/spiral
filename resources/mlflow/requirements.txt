@@ -5,9 +5,7 @@ sklearn
 skrebate==0.62
 #git+https://github.com/tensorflow/docs
 sampen
-xlrd==1.2.0
-hfda
-pyentrp
+xlrd==1.2.0pyentrp
 mlflow
 google-cloud-storage
 openpyxl

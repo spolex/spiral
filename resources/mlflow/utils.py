@@ -81,38 +81,22 @@ def get_optimizer(steps_per_epoch=1, lr=1e-4, multiplier=1e3):
                                                                  decay_rate=1,
                                                                  staircase=False)
     return tf.keras.optimizers.Adam(lr_schedule)
+        
 
+def get_lstm_model(num_features, n_outputs, n_units, n_layers=1, drop_out=0.5, fcnn_units=8):
 
-def get_model(n_features, n_timesteps, n_outputs, n_units, n_layers=1, drop_out=0.5):
     model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1,
-                                   input_shape=(n_timesteps, n_features)))
-    model.add(tf.keras.layers.Dropout(drop_out))
     
+    model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1), input_shape=[num_features,])
+    model.add(tf.keras.layers.Dropout(drop_out))
+
     for n_layer in range(1, n_layers):
         model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layer!=n_layers-1,
                                        name='lstm_hidden_layer_{}'.format(n_layer)))
         model.add(tf.keras.layers.Dropout(drop_out))
 
-    model.add(tf.keras.layers.Dense(100, activation=tf.nn.softmax, name='dense_hidden_layer'))
-    model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.sigmoid, name='output'))
-    return model
-    
-
-def get_model_rd(num_features, n_outputs, n_units, n_layers=1, drop_out=0.5):
-
-    model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.Lambda(lambda x: tf.expand_dims(x, axis=1),# expand the dimension form (50, 4096) to (50, 4096, 1)
-                      input_shape=[num_features,]))
-    model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1))
-    model.add(tf.keras.layers.Dropout(drop_out))
-    for n_layer in range(1, n_layers):
-        model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layer!=n_layers-1,
-                                       name='lstm_hidden_layer_{}'.format(n_layer)))
-        model.add(tf.keras.layers.Dropout(drop_out))
-
-    model.add(tf.keras.layers.Dense(100, activation=tf.nn.relu, name='dense_hidden_layer'))
-    model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.softmax, name='output'))
+    model.add(tf.keras.layers.Dense(fcnn_units, activation=tf.nn.relu, name='dense_hidden_layer'))
+    model.add(tf.keras.layers.Dense(n_outputs, activation=tf.nn.softmax if n_outputs > 1 else tf.nn.sigmoid, name='output'))
     return model
 
     

@@ -5,7 +5,7 @@ import sys
 # data and processing
 import numpy as np
 import pandas as pd
-from utils import compile_and_fit, get_model_rd, get_optimizer
+from utils import compile_and_fit, get_lstm_model, binary_compile_and_fit
 
 
 # ml
@@ -32,6 +32,8 @@ parser.add_argument("--drop_out", default=0.5, type=float, help="seed for random
 parser.add_argument("--n_layers", default=1, type=int, help="number of hidden layers")
 parser.add_argument("--n_units", default=32, type=int, help="number of units for hidden layers")
 parser.add_argument("--max_epoch", default=500, type=int, help="number of maximum epochs for training")
+parser.add_argument("--dataset_filepath", default="/data/elekin/data/results/handwriting/residues_17_20220911.csv", type=str, help="location of the file with dataset for training")
+
 
 # Enable auto-logging to MLflow to capture TensorBoard metrics.
 # export MLFLOW_TRACKING_URI=http://192.168.1.153:5001
@@ -49,21 +51,25 @@ def main(argv):
         n_outputs = args.n_classes
         mini_batch_size = args.mini_batch_size
 
-        residues = pd.read_csv("/data/elekin/data/results/handwriting/residues_17_20220901.csv")
-        residues = residues.set_index(residues.columns[0]).sort_index()
-        X=residues.values.astype(np.float64)
+        residues = pd.read_csv(args.dataset_filepath, index_col=0).T.sort_index()
+        X=residues.values.astype(np.float32)
         print(X.shape)
 
         labels = None
+        y = None
         if args.n_classes > 1:
             labels = pd.read_csv("/data/elekin/data/results/handwriting/level_20220903.csv", index_col=0).sort_index()
+            lb = preprocessing.LabelBinarizer()
+            y = lb.fit_transform(labels).astype(np.int16)
         else:
             labels = pd.read_csv("/data/elekin/data/results/handwriting/binary_labels_20220903.csv", index_col=0).sort_index()
-            
-        lb = preprocessing.LabelBinarizer()
-        y = lb.fit_transform(labels).astype(np.int16)
+            lb = preprocessing.LabelBinarizer()
+            y = lb.fit_transform(labels).astype(np.int16)            
 
-        x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=38)
+        if X.ndim < 3:
+            X = np.expand_dims(X, axis=2).shape # expand the dimension form (53, 4096) to (53, 4096, 1)
+
+        x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=args.test_ratio, random_state=args.seed)
         print(x_train.shape, y_train.shape)
 
         n_features = x_train.shape[1]
@@ -78,18 +84,26 @@ def main(argv):
                                                                               mini_batch_size,
                                                                                 steps_per_epoch))
 
+        clf = get_lstm_model(n_features, n_outputs, args.n_units, args.n_layers, drop_out=args.drop_out)
+    
+        history = None
+        
+        if args.n_classes > 1:
+            compile_and_fit(clf, train_dataset, test_dataset,
+                                  seed=args.seed,
+                                  optimizer=tf.keras.optimizers.Adam(1e-4),
+                                  max_epochs=args.max_epoch)
+        else:
+            binary_compile_and_fit(clf, train_dataset, test_dataset,
+                                  seed=args.seed,
+                                  optimizer=tf.keras.optimizers.Adam(1e-4),
+                                  max_epochs=args.max_epoch)
+
         mlflow.log_param("seed", seed)
         mlflow.log_param("drop_out", args.drop_out)
         mlflow.log_param("mini_batch_size", mini_batch_size)
         mlflow.log_param("lstm_units", args.n_units)
         mlflow.log_param("n_outputs", args.n_classes)
-
-        clf = get_model_rd(n_features, n_outputs, args.n_units, args.n_layers, drop_out=args.drop_out)
-    
-        history = compile_and_fit(clf, train_dataset, test_dataset,
-                                  seed=args.seed,
-                                  optimizer=tf.keras.optimizers.Adam(1e-4),
-                                  max_epochs=args.max_epoch)
 
         print("\n#######################Evaluation###########################")
         # Evaluate the model on the test data using `evaluate`
