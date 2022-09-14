@@ -1,9 +1,9 @@
-name: spiral
+name: spiral-project
 
 # conda_env: conda.yaml
 # Can have a docker_env instead of a conda_env, e.g.
 docker_env:
-  image:  deep-learning-workstation:5000/spiral
+  image:  spiral:latest
   volumes: ["/data/resources/cloud/gcp/keys:/tmp/keys", "'/data:/data'"]
 
 entry_points:
@@ -14,4 +14,6 @@ entry_points:
       drop_out: {type: float, default: 0.25}
       n_classes: {type: int, default: 3}
       day: {type: str, default: '20220906'}
-    command: "python spiral_lstm_train_xy.py --mini_batch_size={mini_batch_size} --test_ratio={test_ratio} --drop_out={drop_out} --n_classes={n_classes} --day={day}"
+      filepath: {type: str}
+      model: {type: str}
+    command: "python spiral_fcnn_train.py --mini_batch_size={mini_batch_size} --test_ratio={test_ratio} --drop_out={drop_out} --n_classes={n_classes} --day={day} --filepath={filepath} --model={model}"

@@ -7,7 +7,7 @@ import sys
 # data and processing
 import numpy as np
 import pandas as pd
-from utils import load_from_csv, load_raw_data, compile_and_fit, get_model, get_optimizer, binary_compile_and_fit
+from resources.mlflow.lstm.utils import load_from_csv, load_raw_data, compile_and_fit, get_model, get_optimizer, binary_compile_and_fit
 
 import logging
 logger = logging.getLogger('Spiral MLFLow logging')

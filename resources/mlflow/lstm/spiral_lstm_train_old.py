@@ -4,7 +4,7 @@ import sys
 
 # data and processing
 import numpy as np
-from utils import load_raw_data, compile_and_fit, get_model, get_optimizer
+from resources.mlflow.lstm.utils import load_raw_data, compile_and_fit, get_model, get_optimizer
 
 
 # ml

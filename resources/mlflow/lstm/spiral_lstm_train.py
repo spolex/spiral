@@ -5,7 +5,7 @@ import sys
 # data and processing
 import numpy as np
 import pandas as pd
-from utils import compile_and_fit, get_lstm_model, binary_compile_and_fit
+from resources.mlflow.lstm.utils import compile_and_fit, get_lstm_model, binary_compile_and_fit
 
 
 # ml
@@ -15,6 +15,7 @@ from sklearn import preprocessing
 
 # mlops
 import mlflow
+from datetime import date
 
 
 parser = argparse.ArgumentParser()
@@ -32,7 +33,8 @@ parser.add_argument("--drop_out", default=0.5, type=float, help="seed for random
 parser.add_argument("--n_layers", default=1, type=int, help="number of hidden layers")
 parser.add_argument("--n_units", default=32, type=int, help="number of units for hidden layers")
 parser.add_argument("--max_epoch", default=500, type=int, help="number of maximum epochs for training")
-parser.add_argument("--dataset_filepath", default="/data/elekin/data/results/handwriting/residues_17_20220911.csv", type=str, help="location of the file with dataset for training")
+parser.add_argument("--day", default=date.today().strftime("%Y%m%d"), type=str, help="%Y%m%d string where the files to be loaded where procesed ")
+parser.add_argument("--filepath", default="/data/elekin/data/results/handwriting/residues_17_20220911.csv", type=str, help="location of the file with dataset for training")
 
 
 # Enable auto-logging to MLflow to capture TensorBoard metrics.
@@ -51,40 +53,47 @@ def main(argv):
         n_outputs = args.n_classes
         mini_batch_size = args.mini_batch_size
 
-        residues = pd.read_csv(args.dataset_filepath, index_col=0).T.sort_index()
-        X=residues.values.astype(np.float32)
-        print(X.shape)
+        df = pd.read_csv(args.filepath, index_col=0)
+        if "window" not in args.filepath:
+            df = df.T.sort_index()
+        else:
+            df = df.sort_index()
 
         labels = None
         y = None
         if args.n_classes > 1:
             labels = pd.read_csv("/data/elekin/data/results/handwriting/level_20220903.csv", index_col=0).sort_index()
+            labels.columns = ['labels']
+            labels = df.join(labels).labels
             lb = preprocessing.LabelBinarizer()
-            y = lb.fit_transform(labels).astype(np.int16)
+            y = lb.fit_transform(labels.values.ravel()).astype(np.int16)
         else:
             labels = pd.read_csv("/data/elekin/data/results/handwriting/binary_labels_20220903.csv", index_col=0).sort_index()
-            lb = preprocessing.LabelBinarizer()
-            y = lb.fit_transform(labels).astype(np.int16)            
-
-        if X.ndim < 3:
-            X = np.expand_dims(X, axis=2).shape # expand the dimension form (53, 4096) to (53, 4096, 1)
+            labels.columns = ['labels']
+            labels = df.join(labels).labels
+            le = preprocessing.LabelEncoder().fit(labels.values.ravel())
+            y = le.fit_transform(labels.values.ravel()).astype(np.int16)
+        print(y.shape)
+        
+        X=df.values.astype(np.float32)
+        print(X.shape)
 
         x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=args.test_ratio, random_state=args.seed)
-        print(x_train.shape, y_train.shape)
 
-        n_features = x_train.shape[1]
+        n_timesteps = x_train.shape[1]
 
         AUTOTUNE = tf.data.experimental.AUTOTUNE
 
         train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).take(len(x_train)).batch(mini_batch_size).prefetch(AUTOTUNE).cache()
         test_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test)).take(len(x_test)).batch(mini_batch_size).prefetch(AUTOTUNE).cache()
         steps_per_epoch = round(len(train_dataset)/mini_batch_size)
+        
         print("{0} train batches and {1} test batches of {2} mini batch size and {3} steps per epoch".format(len(train_dataset), 
                                                                               len(test_dataset),
                                                                               mini_batch_size,
                                                                                 steps_per_epoch))
 
-        clf = get_lstm_model(n_features, n_outputs, args.n_units, args.n_layers, drop_out=args.drop_out)
+        clf = get_lstm_model(n_timesteps, n_outputs, args.n_units, args.n_layers, drop_out=args.drop_out)
     
         history = None
         
@@ -104,12 +113,6 @@ def main(argv):
         mlflow.log_param("mini_batch_size", mini_batch_size)
         mlflow.log_param("lstm_units", args.n_units)
         mlflow.log_param("n_outputs", args.n_classes)
-
-        print("\n#######################Evaluation###########################")
-        # Evaluate the model on the test data using `evaluate`
-        print('train acc:', max(history.history["accuracy"]))
-        print('test acc:', max(history.history["val_accuracy"]))
-
 
 if __name__ == "__main__":
     main(sys.argv)

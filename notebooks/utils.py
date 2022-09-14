@@ -70,7 +70,8 @@ def plot_report(histories, metric='accuracy'):
     plt.title('Model {}'.format(metric))
     plt.ylabel(metric)
     plt.xlabel('epoch')
-    plt.legend(legend, loc='upper left')
+    
+    plt.legend(legend, loc="upper left", bbox_to_anchor=(1.04, 1))
     
 def plot_report_t(history):
     # Plot training & validation accuracy values

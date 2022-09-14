@@ -83,11 +83,12 @@ def get_optimizer(steps_per_epoch=1, lr=1e-4, multiplier=1e3):
     return tf.keras.optimizers.Adam(lr_schedule)
         
 
-def get_lstm_model(num_features, n_outputs, n_units, n_layers=1, drop_out=0.5, fcnn_units=8):
+def get_lstm_model(n_timesteps, n_outputs, n_units, n_layers=1, drop_out=0.5, fcnn_units=8):
 
     model = tf.keras.models.Sequential()
-    
-    model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1), input_shape=[num_features,])
+    model.add(tf.keras.layers.Lambda(lambda x: tf.expand_dims(x, axis=-1),# expand the dimension form (50, 4096) to (50, 4096, 1)
+                      input_shape=[n_timesteps,]))
+    model.add(tf.keras.layers.LSTM(n_units, activation=tf.nn.tanh, return_sequences=n_layers > 1))
     model.add(tf.keras.layers.Dropout(drop_out))
 
     for n_layer in range(1, n_layers):
