@@ -1,0 +1,1598 @@
+2022/09/21 08:46:41 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:46:41 INFO mlflow.projects.utils: === Created directory /tmp/tmpu_sixm8s for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:46:41 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=cf4f6f9a90b141dd9a14b53158295876 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.0 --labels_table=labels_20220918 --day=20220906 --features_table=radius_20220918 --model=tiny --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'cf4f6f9a90b141dd9a14b53158295876' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:46:43.883472: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:46:43.889949: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:43.894841: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:43.895341: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:44.365556: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:44.366081: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:44.366479: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:44.366843: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5683 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:46:44.367321: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:44.367731: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:44.368116: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:45.374399: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:45.375050: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:45.375551: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:45.376195: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:45.376753: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:46:45.377246: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5683 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense (Dense)               (None, 64)                262208    
+                                                                 
+ dropout (Dropout)           (None, 64)                0         
+                                                                 
+ dense_1 (Dense)             (None, 1)                 65        
+                                                                 
+=================================================================
+Total params: 262,273
+Trainable params: 262,273
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:46:56 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:47:02 INFO mlflow.projects: === Run (ID 'cf4f6f9a90b141dd9a14b53158295876') succeeded ===
+2022/09/21 08:47:02 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:47:02 INFO mlflow.projects.utils: === Created directory /tmp/tmpjogvfiz2 for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:47:02 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=ea01641d772a4d6890c7d9496ea2386a -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.25 --labels_table=labels_20220918 --day=20220906 --features_table=radius_20220918 --model=tiny --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'ea01641d772a4d6890c7d9496ea2386a' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:47:05.287806: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:47:05.315477: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:05.320429: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:05.320869: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:05.744732: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:05.745157: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:05.745532: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:05.745884: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5715 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:47:05.746270: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:05.746653: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:05.747016: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:06.696750: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:06.697828: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:06.698293: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:06.698819: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:06.699277: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:06.699686: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5715 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense (Dense)               (None, 64)                262208    
+                                                                 
+ dropout (Dropout)           (None, 64)                0         
+                                                                 
+ dense_1 (Dense)             (None, 1)                 65        
+                                                                 
+=================================================================
+Total params: 262,273
+Trainable params: 262,273
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:47:18 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:47:24 INFO mlflow.projects: === Run (ID 'ea01641d772a4d6890c7d9496ea2386a') succeeded ===
+2022/09/21 08:47:24 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:47:24 INFO mlflow.projects.utils: === Created directory /tmp/tmplsetzxgs for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:47:24 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=0c19488cd1604c5f96e9211c6d6abb8f -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.0 --labels_table=labels_20220918 --day=20220906 --features_table=radius_20220918 --model=small --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '0c19488cd1604c5f96e9211c6d6abb8f' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:47:27.394034: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:47:27.419332: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:27.424327: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:27.424834: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:27.846751: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:27.847218: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:27.847618: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:27.848047: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5719 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:47:27.848456: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:27.848871: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:27.849284: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:28.805309: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:28.805976: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:28.806502: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:28.807338: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:28.808001: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:28.808572: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5719 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_1"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense_2 (Dense)             (None, 64)                262208    
+                                                                 
+ dropout_1 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_3 (Dense)             (None, 8)                 520       
+                                                                 
+ dropout_2 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_4 (Dense)             (None, 1)                 9         
+                                                                 
+=================================================================
+Total params: 262,737
+Trainable params: 262,737
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:47:40 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:47:46 INFO mlflow.projects: === Run (ID '0c19488cd1604c5f96e9211c6d6abb8f') succeeded ===
+2022/09/21 08:47:46 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:47:46 INFO mlflow.projects.utils: === Created directory /tmp/tmpdir9pmck for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:47:46 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=287d987189464b14aeec1a1afdf28a1f -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.25 --labels_table=labels_20220918 --day=20220906 --features_table=radius_20220918 --model=small --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '287d987189464b14aeec1a1afdf28a1f' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:47:49.479712: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:47:49.506822: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:49.511788: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:49.512261: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:49.946491: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:49.946960: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:49.947401: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:49.947781: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5711 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:47:49.948190: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:49.948615: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:49.949022: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:50.906997: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:50.907885: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:50.908497: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:50.909171: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:50.909794: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:47:50.910347: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5711 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_1"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense_2 (Dense)             (None, 64)                262208    
+                                                                 
+ dropout_1 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_3 (Dense)             (None, 8)                 520       
+                                                                 
+ dropout_2 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_4 (Dense)             (None, 1)                 9         
+                                                                 
+=================================================================
+Total params: 262,737
+Trainable params: 262,737
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:48:04 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:48:10 INFO mlflow.projects: === Run (ID '287d987189464b14aeec1a1afdf28a1f') succeeded ===
+2022/09/21 08:48:10 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:48:11 INFO mlflow.projects.utils: === Created directory /tmp/tmp9iiv6iiv for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:48:11 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=e4634c0611994964908e64aa1912d0e2 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.0 --labels_table=labels_20220918 --day=20220906 --features_table=radius_20220918 --model=large --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'e4634c0611994964908e64aa1912d0e2' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:48:13.747263: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:48:13.775894: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:13.781011: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:13.781559: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:14.237199: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:14.237631: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:14.238020: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:14.238371: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5719 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:48:14.238810: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:14.239211: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:14.239596: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:15.215301: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:15.216014: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:15.216564: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:15.217242: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:15.217886: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:15.218462: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5719 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_2"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense_5 (Dense)             (None, 64)                262208    
+                                                                 
+ dropout_3 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_6 (Dense)             (None, 16)                1040      
+                                                                 
+ dropout_4 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_7 (Dense)             (None, 16)                272       
+                                                                 
+ dropout_5 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_8 (Dense)             (None, 8)                 136       
+                                                                 
+ dropout_6 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_9 (Dense)             (None, 1)                 9         
+                                                                 
+=================================================================
+Total params: 263,665
+Trainable params: 263,665
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:48:27 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:48:33 INFO mlflow.projects: === Run (ID 'e4634c0611994964908e64aa1912d0e2') succeeded ===
+2022/09/21 08:48:33 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:48:33 INFO mlflow.projects.utils: === Created directory /tmp/tmpm39rmwza for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:48:33 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=44c5f5151159464ca63f7822221bd96d -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.25 --labels_table=labels_20220918 --day=20220906 --features_table=radius_20220918 --model=large --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '44c5f5151159464ca63f7822221bd96d' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:48:36.333264: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:48:36.359190: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:36.364376: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:36.364901: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:36.797117: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:36.797584: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:36.797998: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:36.798395: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5719 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:48:36.798867: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:36.799303: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:36.799720: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:37.801998: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:37.803702: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:37.810358: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:37.811516: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:37.812284: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:48:37.812991: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5719 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_2"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense_5 (Dense)             (None, 64)                262208    
+                                                                 
+ dropout_3 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_6 (Dense)             (None, 16)                1040      
+                                                                 
+ dropout_4 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_7 (Dense)             (None, 16)                272       
+                                                                 
+ dropout_5 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_8 (Dense)             (None, 8)                 136       
+                                                                 
+ dropout_6 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_9 (Dense)             (None, 1)                 9         
+                                                                 
+=================================================================
+Total params: 263,665
+Trainable params: 263,665
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:48:56 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:49:02 INFO mlflow.projects: === Run (ID '44c5f5151159464ca63f7822221bd96d') succeeded ===
+2022/09/21 08:49:02 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:49:02 INFO mlflow.projects.utils: === Created directory /tmp/tmp24uz_uaj for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:49:02 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=dcf13d636ca549aaaddee07908ad88e1 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.0 --labels_table=levels_20220918 --day=20220906 --features_table=radius_20220918 --model=tiny --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'dcf13d636ca549aaaddee07908ad88e1' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:49:05.298483: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:49:05.322972: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:05.328061: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:05.328584: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:05.758857: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:05.759281: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:05.759655: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:05.759998: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5728 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:49:05.760369: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:05.760753: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:05.761115: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:06.712632: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:06.713187: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:06.713642: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:06.714164: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:06.714624: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:06.715030: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5728 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense (Dense)               (None, 64)                262208    
+                                                                 
+ dropout (Dropout)           (None, 64)                0         
+                                                                 
+ dense_1 (Dense)             (None, 3)                 195       
+                                                                 
+=================================================================
+Total params: 262,403
+Trainable params: 262,403
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:49:17 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:49:23 INFO mlflow.projects: === Run (ID 'dcf13d636ca549aaaddee07908ad88e1') succeeded ===
+2022/09/21 08:49:23 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:49:23 INFO mlflow.projects.utils: === Created directory /tmp/tmpybhe6fz0 for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:49:23 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=893dafe04247413dbfbc23c9a4b394ff -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.25 --labels_table=levels_20220918 --day=20220906 --features_table=radius_20220918 --model=tiny --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '893dafe04247413dbfbc23c9a4b394ff' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:49:26.342138: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:49:26.366858: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:26.371774: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:26.372219: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:26.797064: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:26.797491: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:26.797872: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:26.798226: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5724 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:49:26.798596: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:26.798980: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:26.799370: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:27.770440: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:27.771339: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:27.772120: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:27.772850: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:27.773532: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:49:27.774142: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5724 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense (Dense)               (None, 64)                262208    
+                                                                 
+ dropout (Dropout)           (None, 64)                0         
+                                                                 
+ dense_1 (Dense)             (None, 3)                 195       
+                                                                 
+=================================================================
+Total params: 262,403
+Trainable params: 262,403
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:50:09 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:50:14 INFO mlflow.projects: === Run (ID '893dafe04247413dbfbc23c9a4b394ff') succeeded ===
+2022/09/21 08:50:14 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:50:15 INFO mlflow.projects.utils: === Created directory /tmp/tmpzh6rd1kr for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:50:15 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=3335c42995854dba8c513762f2f2ffba -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.0 --labels_table=levels_20220918 --day=20220906 --features_table=radius_20220918 --model=small --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '3335c42995854dba8c513762f2f2ffba' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:50:17.751552: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:50:17.779021: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:17.784051: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:17.784509: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:18.205721: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:18.206147: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:18.206521: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:18.206870: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5728 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:50:18.207267: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:18.207657: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:18.208031: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:19.177340: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:19.177919: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:19.178374: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:19.178886: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:19.179345: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:19.179751: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5728 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_1"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense_2 (Dense)             (None, 64)                262208    
+                                                                 
+ dropout_1 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_3 (Dense)             (None, 8)                 520       
+                                                                 
+ dropout_2 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_4 (Dense)             (None, 3)                 27        
+                                                                 
+=================================================================
+Total params: 262,755
+Trainable params: 262,755
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:50:31 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:50:36 INFO mlflow.projects: === Run (ID '3335c42995854dba8c513762f2f2ffba') succeeded ===
+2022/09/21 08:50:36 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:50:37 INFO mlflow.projects.utils: === Created directory /tmp/tmp7j_l54o9 for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:50:37 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=a8892400826d4defa45609dacefe8f72 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.25 --labels_table=levels_20220918 --day=20220906 --features_table=radius_20220918 --model=small --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'a8892400826d4defa45609dacefe8f72' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:50:39.663212: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:50:39.686922: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:39.692026: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:39.692500: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:40.131923: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:40.132361: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:40.132749: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:40.133103: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5724 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:50:40.133497: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:40.133901: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:40.134297: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:41.103727: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:41.104287: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:41.104740: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:41.105255: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:41.105731: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:50:41.106193: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5724 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_1"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense_2 (Dense)             (None, 64)                262208    
+                                                                 
+ dropout_1 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_3 (Dense)             (None, 8)                 520       
+                                                                 
+ dropout_2 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_4 (Dense)             (None, 3)                 27        
+                                                                 
+=================================================================
+Total params: 262,755
+Trainable params: 262,755
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:50:53 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:50:59 INFO mlflow.projects: === Run (ID 'a8892400826d4defa45609dacefe8f72') succeeded ===
+2022/09/21 08:50:59 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:50:59 INFO mlflow.projects.utils: === Created directory /tmp/tmp0aifc63d for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:50:59 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=3629db56382e46008ab12b71d6872418 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.0 --labels_table=levels_20220918 --day=20220906 --features_table=radius_20220918 --model=large --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '3629db56382e46008ab12b71d6872418' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:51:02.310459: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:51:02.335511: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:02.340691: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:02.341167: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:02.767461: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:02.767891: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:02.768267: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:02.768614: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5724 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:51:02.768990: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:02.769372: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:02.769755: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:03.727504: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:03.728054: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:03.728519: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:03.729046: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:03.729511: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:03.729933: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5724 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_2"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense_5 (Dense)             (None, 64)                262208    
+                                                                 
+ dropout_3 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_6 (Dense)             (None, 16)                1040      
+                                                                 
+ dropout_4 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_7 (Dense)             (None, 16)                272       
+                                                                 
+ dropout_5 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_8 (Dense)             (None, 8)                 136       
+                                                                 
+ dropout_6 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_9 (Dense)             (None, 3)                 27        
+                                                                 
+=================================================================
+Total params: 263,683
+Trainable params: 263,683
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:51:16 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:51:22 INFO mlflow.projects: === Run (ID '3629db56382e46008ab12b71d6872418') succeeded ===
+2022/09/21 08:51:22 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:51:22 INFO mlflow.projects.utils: === Created directory /tmp/tmpv4yy882y for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:51:22 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=f7a67d06b5504e9ab7bdcb1850f9701f -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.25 --labels_table=levels_20220918 --day=20220906 --features_table=radius_20220918 --model=large --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'f7a67d06b5504e9ab7bdcb1850f9701f' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:51:25.433965: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:51:25.459194: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:25.464386: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:25.464892: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:25.906209: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:25.906692: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:25.907111: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:25.907482: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5728 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:51:25.907913: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:25.908322: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:25.908712: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:26.899287: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:26.900067: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:26.900659: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:26.901299: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:26.902101: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:26.902684: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5728 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 4096)
+(35, 4096) (18, 4096)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_2"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 4096)]            0         
+                                                                 
+ dense_5 (Dense)             (None, 64)                262208    
+                                                                 
+ dropout_3 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_6 (Dense)             (None, 16)                1040      
+                                                                 
+ dropout_4 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_7 (Dense)             (None, 16)                272       
+                                                                 
+ dropout_5 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_8 (Dense)             (None, 8)                 136       
+                                                                 
+ dropout_6 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_9 (Dense)             (None, 3)                 27        
+                                                                 
+=================================================================
+Total params: 263,683
+Trainable params: 263,683
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:51:48 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:51:53 INFO mlflow.projects: === Run (ID 'f7a67d06b5504e9ab7bdcb1850f9701f') succeeded ===
+2022/09/21 08:51:54 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:51:54 INFO mlflow.projects.utils: === Created directory /tmp/tmp_3ag7ft_ for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:51:54 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=4638fecc51a94f7489fe9fb472670b1d -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.0 --labels_table=labels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=tiny --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '4638fecc51a94f7489fe9fb472670b1d' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:51:57.126353: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:51:57.133491: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:57.138621: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:57.139132: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:57.631374: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:57.631833: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:57.632228: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:57.632588: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5728 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:51:57.633013: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:57.633412: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:57.633840: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:58.583291: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:58.584188: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:58.584819: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:58.585507: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:58.586146: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:51:58.586714: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5728 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense (Dense)               (None, 64)                245888    
+                                                                 
+ dropout (Dropout)           (None, 64)                0         
+                                                                 
+ dense_1 (Dense)             (None, 1)                 65        
+                                                                 
+=================================================================
+Total params: 245,953
+Trainable params: 245,953
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:52:11 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:52:16 INFO mlflow.projects: === Run (ID '4638fecc51a94f7489fe9fb472670b1d') succeeded ===
+2022/09/21 08:52:17 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:52:17 INFO mlflow.projects.utils: === Created directory /tmp/tmp3u1v8y5v for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:52:17 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=abbc2d209d9d4d26a854c425d88683cd -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.25 --labels_table=labels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=tiny --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'abbc2d209d9d4d26a854c425d88683cd' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:52:19.879321: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:52:19.888241: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:19.894885: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:19.895516: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:20.346830: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:20.347289: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:20.347688: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:20.348048: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5742 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:52:20.348460: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:20.348861: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:20.349244: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:21.287960: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:21.288583: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:21.289268: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:21.289961: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:21.290615: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:21.291196: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5742 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense (Dense)               (None, 64)                245888    
+                                                                 
+ dropout (Dropout)           (None, 64)                0         
+                                                                 
+ dense_1 (Dense)             (None, 1)                 65        
+                                                                 
+=================================================================
+Total params: 245,953
+Trainable params: 245,953
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:52:35 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:52:41 INFO mlflow.projects: === Run (ID 'abbc2d209d9d4d26a854c425d88683cd') succeeded ===
+2022/09/21 08:52:41 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:52:41 INFO mlflow.projects.utils: === Created directory /tmp/tmp3_iiolih for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:52:41 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=f8114ceabba243b5be463d071f46f3d4 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.0 --labels_table=labels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=small --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'f8114ceabba243b5be463d071f46f3d4' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:52:44.083321: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:52:44.110923: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:44.115864: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:44.116321: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:44.539240: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:44.539667: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:44.540042: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:44.540393: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5747 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:52:44.540763: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:44.541150: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:44.541516: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:45.475730: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:45.476553: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:45.477159: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:45.477819: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:45.478360: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:52:45.478847: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5747 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_1"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense_2 (Dense)             (None, 64)                245888    
+                                                                 
+ dropout_1 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_3 (Dense)             (None, 8)                 520       
+                                                                 
+ dropout_2 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_4 (Dense)             (None, 1)                 9         
+                                                                 
+=================================================================
+Total params: 246,417
+Trainable params: 246,417
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:52:58 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:53:04 INFO mlflow.projects: === Run (ID 'f8114ceabba243b5be463d071f46f3d4') succeeded ===
+2022/09/21 08:53:04 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:53:04 INFO mlflow.projects.utils: === Created directory /tmp/tmplca2zmxn for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:53:04 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=0d4c33e549cb454fb251503c3c3b7970 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.25 --labels_table=labels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=small --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '0d4c33e549cb454fb251503c3c3b7970' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:53:07.316755: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:53:07.342824: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:07.347730: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:07.348209: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:07.776120: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:07.776592: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:07.776974: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:07.777329: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5741 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:53:07.777745: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:07.778144: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:07.778524: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:08.726112: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:08.727001: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:08.727640: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:08.728337: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:08.728993: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:08.729575: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5741 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_1"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense_2 (Dense)             (None, 64)                245888    
+                                                                 
+ dropout_1 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_3 (Dense)             (None, 8)                 520       
+                                                                 
+ dropout_2 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_4 (Dense)             (None, 1)                 9         
+                                                                 
+=================================================================
+Total params: 246,417
+Trainable params: 246,417
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:53:25 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:53:31 INFO mlflow.projects: === Run (ID '0d4c33e549cb454fb251503c3c3b7970') succeeded ===
+2022/09/21 08:53:31 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:53:31 INFO mlflow.projects.utils: === Created directory /tmp/tmpslupopyv for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:53:31 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=c24ba9fd7ac14d13873c7c15f9e8c875 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.0 --labels_table=labels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=large --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'c24ba9fd7ac14d13873c7c15f9e8c875' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:53:34.197086: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:53:34.226856: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:34.231782: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:34.232253: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:34.661269: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:34.661746: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:34.662137: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:34.662489: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5743 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:53:34.662900: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:34.663293: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:34.663667: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:35.604006: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:35.604885: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:35.605518: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:35.606196: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:35.606817: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:35.607370: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5743 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_2"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense_5 (Dense)             (None, 64)                245888    
+                                                                 
+ dropout_3 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_6 (Dense)             (None, 16)                1040      
+                                                                 
+ dropout_4 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_7 (Dense)             (None, 16)                272       
+                                                                 
+ dropout_5 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_8 (Dense)             (None, 8)                 136       
+                                                                 
+ dropout_6 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_9 (Dense)             (None, 1)                 9         
+                                                                 
+=================================================================
+Total params: 247,345
+Trainable params: 247,345
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:53:50 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:53:56 INFO mlflow.projects: === Run (ID 'c24ba9fd7ac14d13873c7c15f9e8c875') succeeded ===
+2022/09/21 08:53:56 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:53:57 INFO mlflow.projects.utils: === Created directory /tmp/tmp0ozc642r for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:53:57 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=45e4b05f99714b95aa7b8e695248ec07 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.25 --labels_table=labels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=large --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '45e4b05f99714b95aa7b8e695248ec07' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:53:59.529842: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:53:59.536452: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:59.541356: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:59.541889: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:59.988553: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:59.988990: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:59.989389: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:59.989840: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5741 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:53:59.990286: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:59.990712: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:53:59.991166: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:00.984221: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:00.985047: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:00.985732: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:00.986446: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:00.987066: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:00.987532: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5741 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(53,)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_2"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense_5 (Dense)             (None, 64)                245888    
+                                                                 
+ dropout_3 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_6 (Dense)             (None, 16)                1040      
+                                                                 
+ dropout_4 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_7 (Dense)             (None, 16)                272       
+                                                                 
+ dropout_5 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_8 (Dense)             (None, 8)                 136       
+                                                                 
+ dropout_6 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_9 (Dense)             (None, 1)                 9         
+                                                                 
+=================================================================
+Total params: 247,345
+Trainable params: 247,345
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:54:23 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:54:28 INFO mlflow.projects: === Run (ID '45e4b05f99714b95aa7b8e695248ec07') succeeded ===
+2022/09/21 08:54:28 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:54:29 INFO mlflow.projects.utils: === Created directory /tmp/tmp37ukxojj for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:54:29 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=ef87d1b2cffd479a9567fe174d28aa04 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.0 --labels_table=levels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=tiny --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'ef87d1b2cffd479a9567fe174d28aa04' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:54:31.601226: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:54:31.626834: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:31.631875: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:31.632338: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:32.069966: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:32.070428: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:32.070822: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:32.071177: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5726 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:54:32.071576: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:32.071972: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:32.072339: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:33.035784: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:33.036441: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:33.036968: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:33.037629: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:33.038182: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:33.038653: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5726 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense (Dense)               (None, 64)                245888    
+                                                                 
+ dropout (Dropout)           (None, 64)                0         
+                                                                 
+ dense_1 (Dense)             (None, 3)                 195       
+                                                                 
+=================================================================
+Total params: 246,083
+Trainable params: 246,083
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:54:44 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:54:50 INFO mlflow.projects: === Run (ID 'ef87d1b2cffd479a9567fe174d28aa04') succeeded ===
+2022/09/21 08:54:50 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:54:50 INFO mlflow.projects.utils: === Created directory /tmp/tmph2vuth_z for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:54:50 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=2c4e3e79fc0845f2952c8f78e8f3b3bd -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.25 --labels_table=levels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=tiny --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '2c4e3e79fc0845f2952c8f78e8f3b3bd' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:54:52.952330: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:54:52.978887: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:52.983827: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:52.984295: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:53.404313: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:53.404745: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:53.405124: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:53.405475: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5727 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:54:53.405879: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:53.406264: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:53.406632: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:54.355652: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:54.356414: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:54.356937: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:54.357521: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:54.358055: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:54:54.358519: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5727 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense (Dense)               (None, 64)                245888    
+                                                                 
+ dropout (Dropout)           (None, 64)                0         
+                                                                 
+ dense_1 (Dense)             (None, 3)                 195       
+                                                                 
+=================================================================
+Total params: 246,083
+Trainable params: 246,083
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:55:05 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:55:11 INFO mlflow.projects: === Run (ID '2c4e3e79fc0845f2952c8f78e8f3b3bd') succeeded ===
+2022/09/21 08:55:11 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:55:11 INFO mlflow.projects.utils: === Created directory /tmp/tmpf0sufeb0 for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:55:11 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=63c4263d97ef468699cbf22fcb2771cc -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.0 --labels_table=levels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=small --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '63c4263d97ef468699cbf22fcb2771cc' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:55:14.077213: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:55:14.102784: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:14.107670: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:14.108147: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:14.528991: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:14.529411: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:14.529794: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:14.530143: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5744 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:55:14.530514: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:14.530899: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:14.531262: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:15.469409: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:15.470267: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:15.470882: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:15.471532: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:15.472206: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:15.472805: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5744 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_1"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense_2 (Dense)             (None, 64)                245888    
+                                                                 
+ dropout_1 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_3 (Dense)             (None, 8)                 520       
+                                                                 
+ dropout_2 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_4 (Dense)             (None, 3)                 27        
+                                                                 
+=================================================================
+Total params: 246,435
+Trainable params: 246,435
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:55:27 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:55:32 INFO mlflow.projects: === Run (ID '63c4263d97ef468699cbf22fcb2771cc') succeeded ===
+2022/09/21 08:55:32 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:55:32 INFO mlflow.projects.utils: === Created directory /tmp/tmpwxwkk4yh for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:55:32 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=d74b66b32c49405681583391b949ffcd -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.25 --labels_table=levels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=small --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'd74b66b32c49405681583391b949ffcd' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:55:35.480717: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:55:35.510870: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:35.515822: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:35.516286: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:35.942160: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:35.942680: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:35.943066: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:35.943420: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5738 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:55:35.943870: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:35.944277: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:35.944649: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:36.911585: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:36.912236: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:36.912888: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:36.913475: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:36.914013: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:36.914581: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5738 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_1"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense_2 (Dense)             (None, 64)                245888    
+                                                                 
+ dropout_1 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_3 (Dense)             (None, 8)                 520       
+                                                                 
+ dropout_2 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_4 (Dense)             (None, 3)                 27        
+                                                                 
+=================================================================
+Total params: 246,435
+Trainable params: 246,435
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:55:50 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:55:55 INFO mlflow.projects: === Run (ID 'd74b66b32c49405681583391b949ffcd') succeeded ===
+2022/09/21 08:55:55 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:55:55 INFO mlflow.projects.utils: === Created directory /tmp/tmpnway1qce for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:55:55 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=11a8add777d1462897c3eb13c391460f -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.0 --labels_table=levels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=large --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID '11a8add777d1462897c3eb13c391460f' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:55:58.450420: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:55:58.474908: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:58.479846: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:58.480327: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:58.899036: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:58.899466: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:58.899845: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:58.900199: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5740 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:55:58.900580: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:58.900966: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:58.901332: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:59.848455: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:59.849082: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:59.849586: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:59.850155: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:59.850668: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:55:59.851110: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5740 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_2"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense_5 (Dense)             (None, 64)                245888    
+                                                                 
+ dropout_3 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_6 (Dense)             (None, 16)                1040      
+                                                                 
+ dropout_4 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_7 (Dense)             (None, 16)                272       
+                                                                 
+ dropout_5 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_8 (Dense)             (None, 8)                 136       
+                                                                 
+ dropout_6 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_9 (Dense)             (None, 3)                 27        
+                                                                 
+=================================================================
+Total params: 247,363
+Trainable params: 247,363
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:56:13 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:56:19 INFO mlflow.projects: === Run (ID '11a8add777d1462897c3eb13c391460f') succeeded ===
+2022/09/21 08:56:19 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:56:20 INFO mlflow.projects.utils: === Created directory /tmp/tmpitdclwkh for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:56:20 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=a7b21ff560504f7dbc9903bf769eedb6 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=3 --test_ratio=0.33 --drop_out=0.25 --labels_table=levels_20220918 --day=20220906 --features_table=radius_rolling_20220918 --model=large --mini_batch_size=4  --seed 38 --max_epoch 15000' in run with ID 'a7b21ff560504f7dbc9903bf769eedb6' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:56:22.581956: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:56:22.606755: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:22.611604: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:22.612085: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.030164: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.030599: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.030977: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.031328: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5748 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:56:23.031715: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.032100: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.032466: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.967596: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.968159: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.968615: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.969132: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.969592: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:23.970018: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5748 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+level
+0        32
+2        12
+1         9
+dtype: int64
+0    32
+2    12
+1     9
+Name: labels, dtype: int64
+(53, 3)
+(53, 3841)
+(35, 3841) (18, 3841)
+9 train batches and 5 test batches of 4 mini batch size and 2 steps per epoch
+Model: "model_2"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 3841)]            0         
+                                                                 
+ dense_5 (Dense)             (None, 64)                245888    
+                                                                 
+ dropout_3 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_6 (Dense)             (None, 16)                1040      
+                                                                 
+ dropout_4 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_7 (Dense)             (None, 16)                272       
+                                                                 
+ dropout_5 (Dropout)         (None, 16)                0         
+                                                                 
+ dense_8 (Dense)             (None, 8)                 136       
+                                                                 
+ dropout_6 (Dropout)         (None, 8)                 0         
+                                                                 
+ dense_9 (Dense)             (None, 3)                 27        
+                                                                 
+=================================================================
+Total params: 247,363
+Trainable params: 247,363
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 12:56:46 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 08:56:52 INFO mlflow.projects: === Run (ID 'a7b21ff560504f7dbc9903bf769eedb6') succeeded ===
+2022/09/21 08:56:52 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 08:56:52 INFO mlflow.projects.utils: === Created directory /tmp/tmpjdwjibv6 for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 08:56:52 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=83963fe1cfce4dbb9e158cc049040574 -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.0 --labels_table=labels_20220918 --day=20220906 --features_table=radius_windowing_20220918 --model=tiny --mini_batch_size=128  --seed 38 --max_epoch 15000' in run with ID '83963fe1cfce4dbb9e158cc049040574' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 12:56:55.025449: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 12:56:55.050813: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:55.055781: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:55.056256: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:55.481765: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:55.482225: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:55.482620: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:55.482977: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5743 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 12:56:55.483363: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:55.483752: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:56:55.484118: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:57:12.329320: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:57:12.329857: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:57:12.330241: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:57:12.330675: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:57:12.331057: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 12:57:12.331397: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5743 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(200976,)
+(200976, 50)
+(134653, 50) (66323, 50)
+1052 train batches and 519 test batches of 128 mini batch size and 8 steps per epoch
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 50)]              0         
+                                                                 
+ dense (Dense)               (None, 64)                3264      
+                                                                 
+ dropout (Dropout)           (None, 64)                0         
+                                                                 
+ dense_1 (Dense)             (None, 1)                 65        
+                                                                 
+=================================================================
+Total params: 3,329
+Trainable params: 3,329
+Non-trainable params: 0
+_________________________________________________________________
+2022/09/21 14:32:50 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/usr/local/lib/python3.8/dist-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils."
+2022/09/21 10:32:56 INFO mlflow.projects: === Run (ID '83963fe1cfce4dbb9e158cc049040574') succeeded ===
+2022/09/21 10:32:57 INFO mlflow.projects.docker: === Building docker image spiral-project:fd17656 ===
+2022/09/21 10:32:57 INFO mlflow.projects.utils: === Created directory /tmp/tmpbcsbcwao for downloading remote URIs passed to arguments of type 'path' ===
+2022/09/21 10:32:57 INFO mlflow.projects.backend.local: === Running command 'docker run --rm -v /data/resources/cloud/gcp/keys/eastonlab-b37c04a8f1a5.json:/.gcs -v /data/resources/cloud/gcp/keys:/tmp/keys -v '/data:/data' -e MLFLOW_RUN_ID=4564c3236ffc4646ade54121eea50e4b -e MLFLOW_TRACKING_URI=http://192.168.1.154:5001 -e MLFLOW_EXPERIMENT_ID=15 -e GOOGLE_APPLICATION_CREDENTIALS=/.gcs spiral-project:fd17656 python spiral_fcnn_train.py --n_classes=1 --test_ratio=0.33 --drop_out=0.25 --labels_table=labels_20220918 --day=20220906 --features_table=radius_windowing_20220918 --model=tiny --mini_batch_size=128  --seed 38 --max_epoch 15000' in run with ID '4564c3236ffc4646ade54121eea50e4b' === 
+/usr/lib/python3/dist-packages/requests/__init__.py:89: RequestsDependencyWarning: urllib3 (1.26.12) or chardet (3.0.4) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+WARNING:tensorflow:From spiral_fcnn_train.py:60: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2022-09-21 14:32:59.765552: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-21 14:32:59.795329: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:32:59.800547: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:32:59.801083: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:00.263325: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:00.263795: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:00.264194: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:00.264559: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /device:GPU:0 with 5847 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+2022-09-21 14:33:00.265000: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:00.265416: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:00.265826: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:17.009365: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:17.009890: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:17.010287: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:17.010737: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:17.011133: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:975] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2022-09-21 14:33:17.011490: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1532] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5847 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2070 SUPER, pci bus id: 0000:0b:00.0, compute capability: 7.5
+Found GPU at: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+temblor
+no         32
+si         21
+dtype: int64
+(200976,)
+(200976, 50)
+(134653, 50) (66323, 50)
+1052 train batches and 519 test batches of 128 mini batch size and 8 steps per epoch
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_1 (InputLayer)        [(None, 50)]              0         
+                                                                 
+ dense (Dense)               (None, 64)                3264      
+                                                                 
+ dropout (Dropout)           (None, 64)                0         
+                                                                 
+ dense_1 (Dense)             (None, 1)                 65        
+                                                                 
+=================================================================
+Total params: 3,329
+Trainable params: 3,329
+Non-trainable params: 0
+_________________________________________________________________
+Traceback (most recent call last):
+  File "run.py", line 22, in <module>
+    mlflow.run(".", parameters=params, experiment_name=experiment_name)
+  File "/home/spolex/anaconda3/lib/python3.7/site-packages/mlflow/projects/__init__.py", line 346, in run
+    _wait_for(submitted_run_obj)
+  File "/home/spolex/anaconda3/lib/python3.7/site-packages/mlflow/projects/__init__.py", line 363, in _wait_for
+    raise ExecutionException("Run (ID '%s') failed" % run_id)
+mlflow.exceptions.ExecutionException: Run (ID '4564c3236ffc4646ade54121eea50e4b') failed

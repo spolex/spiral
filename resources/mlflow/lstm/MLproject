@@ -1,0 +1,23 @@
+name: spiral-lstm-project
+
+# conda_env: conda.yaml
+# Can have a docker_env instead of a conda_env, e.g.
+docker_env:
+  image:  spiral:latest
+  volumes: ["/data/resources/cloud/gcp/keys:/tmp/keys", "'/data:/data'"]
+
+entry_points:
+  main:
+    parameters:
+      mini_batch_size: {type: int, default: 4}
+      test_ratio: {type: float, default: 0.33}
+      drop_out: {type: float, default: 0.25}
+      n_layers: {type: int, default: 1}
+      n_units: {type: int, default: 16}
+      day: {type: str, default: '20220906'}
+      features_table: {type: str}
+      labels_table: {type: str}
+      max_epoch: {type: int, default: 50}
+      seed: {type: int, default: 38}
+
+    command: "python spiral_lstm_train.py --max_epoch={max_epoch} --seed={seed} --n_layers={n_layers} --n_units={n_units} --test_ratio={test_ratio} --drop_out={drop_out} --labels_table={labels_table} --day={day} --features_table={features_table} --mini_batch_size={mini_batch_size} "

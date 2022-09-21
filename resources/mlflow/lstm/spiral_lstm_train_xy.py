@@ -69,14 +69,7 @@ def main(argv):
 
         n_timesteps = x_train.shape[1]
         n_features = x_train.shape[2]
-
-        data_size = np.array(x_train).shape[0]
-        shuffle_buffer = data_size
-        steps_per_epoch = round(data_size / mini_batch_size)
-
-        AUTOTUNE = tf.data.experimental.AUTOTUNE
-
-        train_split = 1.0 - args.test_ratio
+n_outputs
         test_split = args.test_ratio
         train_size = int(train_split * data_size)
         # test_size = int(test_split * data_size)

@@ -3,7 +3,7 @@ version: "3.7"
 services:
   spiral:
     build: .
-    image: spiral-jupyter
+    image: spiral
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: "/tmp/keys/eastonlab-b37c04a8f1a5.json"
     command: jupyter notebook --allow-root --ip=0.0.0.0

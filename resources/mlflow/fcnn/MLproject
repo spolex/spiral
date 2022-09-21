@@ -1,4 +1,4 @@
-name: spiral-project
+name: spiral-fcnn-project
 
 # conda_env: conda.yaml
 # Can have a docker_env instead of a conda_env, e.g.
@@ -13,7 +13,9 @@ entry_points:
       test_ratio: {type: float, default: 0.33}
       drop_out: {type: float, default: 0.25}
       n_classes: {type: int, default: 3}
+      seed: {type: int, default: 38}
       day: {type: str, default: '20220906'}
-      filepath: {type: str}
+      features_table: {type: str}
+      labels_table: {type: str}
       model: {type: str}
-    command: "python spiral_fcnn_train.py --mini_batch_size={mini_batch_size} --test_ratio={test_ratio} --drop_out={drop_out} --n_classes={n_classes} --day={day} --filepath={filepath} --model={model}"
+    command: "python spiral_fcnn_train.py --seed={seed} --n_classes={n_classes} --test_ratio={test_ratio} --drop_out={drop_out} --labels_table={labels_table} --day={day} --features_table={features_table} --model={model} --mini_batch_size={mini_batch_size} "

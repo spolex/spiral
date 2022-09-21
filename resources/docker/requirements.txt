@@ -13,3 +13,4 @@ mlflow
 google-cloud-storage
 openpyxl
 h5py
+pymysql

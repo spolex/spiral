@@ -2,28 +2,21 @@ from os import path
 import numpy as np
 import mlflow
 
-experiment_name = "/archimedes-fcnn"
+experiment_name = "/archimedes-dl-fcnn"
 
-source_dir = "/data/elekin/data/results/handwriting/tmp"
+input_tables = ["radius_20220918","radius_rolling_20220918", "radius_windowing_20220918", "radius_windowing__1_20220918", "residues_20220918","residues_rolling_20220918", "residues_windowing_20220918", "residues_windowing__1_20220918"]
+label_tables = ["levels_20220918", "labels_20220918"]
 
-files = [
-    path.join(source_dir, "residues_17_20220912.csv"),
-    path.join(source_dir, "radius_20220912.csv"),
-    path.join(source_dir, "rolling_radius_std__20220912.csv"),
-    path.join(source_dir, "rolling_residues_std_17_20220912.csv"),
-    path.join(source_dir,'windowed_data_augmentation_rolling_residues_17_20220912.csv'),
-    path.join(source_dir,'windowed_data_augmentation_residues_17_20220912.csv'),
-    path.join(source_dir,'windowed_data_augmentation_radius__20220912.csv'),
-    path.join(source_dir,'windowed_data_augmentation_rolling_radius__20220912.csv')]
+#input_tables = ["BIODARW_20220918"]
+#label_tables = ["labels_20220918"]
 
 models = ["tiny", "small", "large"]
 
-for file in sorted(files):
-    for n_classes in [3, 1]:
+for features_table in sorted(input_tables):
+    for labels_table in sorted(label_tables):
         for model in models: 
                     for drop_out in np.arange(0, 0.5, 0.25):
-                        params = {"test_ratio": 0.33, "drop_out": drop_out,
-                                    "mini_batch_size": 4 if "window" not in file else 128, "seed": 38,
-                                    "max_epoch": 15000, "n_classes": n_classes,
-                                    "filepath": file, "model":model}
+                        params = {"test_ratio": 0.33, "drop_out": drop_out, "n_classes":3 if "level" in labels_table else 1, 
+                                    "mini_batch_size": 4 if "window" not in features_table else 128, "seed": 38,
+                                    "max_epoch": 15000, "features_table": features_table, "labels_table": labels_table,"model":model}
                         mlflow.run(".", parameters=params, experiment_name=experiment_name)
