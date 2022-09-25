@@ -10,3 +10,4 @@ mlflow
 google-cloud-storage
 openpyxl
 #git+https://github.com/shazow/urllib3 
+pymysql

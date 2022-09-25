@@ -69,7 +69,7 @@ def main(argv):
 
         n_timesteps = x_train.shape[1]
         n_features = x_train.shape[2]
-n_outputs
+
         test_split = args.test_ratio
         train_size = int(train_split * data_size)
         # test_size = int(test_split * data_size)

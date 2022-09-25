@@ -71,14 +71,17 @@ def main(argv):
         # PyMySQL
     engine = create_engine(f'mysql+pymysql://{args.db_user}:{args.db_password}@{args.db_host}:{args.db_port}/{args.db_name}')
     df = pd.read_sql(features_table ,engine)
-    
+    labels = get_labels(labels_table, engine)
+
     if "window" not in features_table:
         df = df.T.sort_index()
     else:
         df.set_index("subject_id", inplace=True)
         df = df.sort_index()
+    if "BIODARW" not in labels_table:
+        labels.columns = ['labels']
+        labels = df.join(labels).labels
 
-    labels = get_labels(labels_table, engine)
     print(labels.value_counts())
     if "level" in labels_table:
         counts =  labels.value_counts()
@@ -126,19 +129,19 @@ def main(argv):
     with mlflow.start_run(run_name=args.run_name):
 
         mlflow.tensorflow.autolog(every_n_iter=1)
-
-        compile_and_fit(clf, train_dataset, test_dataset,
-                                seed=args.seed,
-                                optimizer = tf.keras.optimizers.SGD(learning_rate=8e-4, momentum=0.9),
-                                max_epochs=args.max_epoch, p_loss=loss)
-            
-    
-
         mlflow.log_param("seed", args.seed)
         mlflow.log_param("drop_out", args.drop_out)
         mlflow.log_param("mini_batch_size", mini_batch_size)
         mlflow.log_param("lstm_units", args.n_units)
         mlflow.log_param("n_outputs", args.n_classes)
+        mlflow.set_tag("model", 'fcnn')
+        mlflow.set_tag("class", labels_table[:5])
+        mlflow.set_tag("features", features_table)
+
+        compile_and_fit(clf, train_dataset, test_dataset,
+                                seed=args.seed,
+                                optimizer = tf.keras.optimizers.SGD(learning_rate=8e-4, momentum=0.9),
+                                max_epochs=args.max_epoch, p_loss=loss)
 
 if __name__ == "__main__":
     main(sys.argv)

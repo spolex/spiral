@@ -128,13 +128,21 @@ def main(argv):
         
         mlflow.log_figure(ax.figure, "labels.png")
         mlflow.tensorflow.autolog(every_n_iter=1)
+        mlflow.log_param("seed", args.seed)
+        mlflow.log_param("drop_out", args.drop_out)
+        mlflow.log_param("mini_batch_size", mini_batch_size)
+        mlflow.log_param("lstm_units", args.n_units)
+        mlflow.log_param("n_outputs", args.n_classes)
+        mlflow.set_tag("model", 'fcnn')
+        mlflow.set_tag("class", labels_table[:5])
+        mlflow.set_tag("features", features_table)
 
         compile_and_fit(models[args.model], train_dataset, test_dataset,
                                 seed=args.seed,
                                  optimizer = tf.keras.optimizers.SGD(learning_rate=8e-4, momentum=0.9),
                                 max_epochs=args.max_epoch, p_loss=loss)
 
-        mlflow.end_run()
+    mlflow.end_run()
             
 
 if __name__ == "__main__":
